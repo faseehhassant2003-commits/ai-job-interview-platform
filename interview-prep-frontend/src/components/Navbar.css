@@ -1,119 +1,287 @@
-/* ================================
-   NAVBAR
-================================ */
+/* =========================================
+   PREPAI TOP NAVBAR
+========================================= */
 
-.navbar {
-    width: 100%;
-    height: 70px;
+.top-navbar {
+    position: sticky;
+    top: 0;
 
-    box-sizing: border-box;
+    z-index: 1000;
+
+    height: 72px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 32px;
 
     background: #ffffff;
 
     border-bottom: 1px solid #e5e7eb;
 
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-
-    padding: 0 32px;
-
-    position: relative;
-
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 
-/* Brand */
+/* =========================================
+   BRAND
+========================================= */
 
 .navbar-brand {
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: center !important;
 
-    gap: 12px;
+    display: flex;
+    align-items: center;
 
-    margin: 0;
+    gap: 10px;
+
+    text-decoration: none;
+
+    margin-right: 45px;
 }
 
-.navbar-logo {
-    width: 40px;
-    height: 40px;
+.brand-icon {
+
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 8px;
 
     background: #198754;
+
     color: white;
-
-    border-radius: 10px;
-
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
 
     font-size: 14px;
     font-weight: 700;
 }
 
-.navbar-brand h2 {
-    margin: 0 !important;
+.brand-name {
 
-    color: #17202a !important;
+    font-size: 25px;
+    font-weight: 800;
 
-    font-size: 19px !important;
-    font-weight: 700 !important;
+    color: #172033;
+}
 
-    white-space: nowrap;
+.brand-name span {
+    color: #198754;
 }
 
 
-/* User section */
+/* =========================================
+   NAV LINKS
+========================================= */
 
-.navbar-user {
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: center !important;
+.navbar-links {
 
-    gap: 12px;
+    display: flex;
+    align-items: center;
 
-    margin: 0;
+    gap: 5px;
+
+    flex: 1;
 }
 
-.navbar-user-info {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: flex-end !important;
+.nav-link {
 
-    margin: 0;
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 10px 14px;
+
+    border-radius: 8px;
+
+    text-decoration: none;
+
+    color: #64748b;
+
+    font-size: 15px;
+    font-weight: 500;
+
+    transition:
+        background 0.2s,
+        color 0.2s;
 }
 
-.navbar-user-info strong {
-    color: #17202a !important;
+.nav-icon {
+    font-size: 17px;
+}
 
-    font-size: 14px;
+.nav-link:hover {
+
+    color: #198754;
+
+    background: #f0fdf4;
+}
+
+.nav-link.active {
+
+    color: #198754;
+
+    background: #ecfdf3;
 
     font-weight: 600;
 }
 
-.navbar-user-info span {
-    margin-top: 3px;
 
-    color: #6b7280 !important;
+/* FUTURE LINKS */
 
-    font-size: 11px;
+.disabled-link {
+
+    cursor: default;
+
+    opacity: 0.9;
 }
 
-.navbar-avatar {
+.disabled-link:hover {
+
+    color: #64748b;
+
+    background: transparent;
+}
+
+
+/* =========================================
+   USER
+========================================= */
+
+.navbar-user {
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+}
+
+.user-avatar {
+
     width: 40px;
     height: 40px;
 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     border-radius: 50%;
 
-    background: #e8f5ee;
+    background: #e9f7ef;
+
     color: #198754;
 
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-
-    font-size: 15px;
+    font-size: 17px;
     font-weight: 700;
+}
+
+.user-details {
+
+    display: flex;
+    flex-direction: column;
+
+    line-height: 1.2;
+}
+
+.user-details strong {
+
+    color: #172033;
+
+    font-size: 14px;
+}
+
+.user-details span {
+
+    margin-top: 3px;
+
+    color: #64748b;
+
+    font-size: 12px;
+}
+
+
+/* =========================================
+   LOGOUT
+========================================= */
+
+.logout-button {
+
+    margin-left: 4px;
+
+    border: none;
+
+    background: transparent;
+
+    color: #64748b;
+
+    font-size: 22px;
+
+    cursor: pointer;
+
+    padding: 5px;
+}
+
+.logout-button:hover {
+    color: #dc3545;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 950px) {
+
+    .top-navbar {
+        padding: 0 18px;
+    }
+
+    .navbar-brand {
+        margin-right: 15px;
+    }
+
+    .nav-link {
+        padding: 9px;
+    }
+
+    .nav-link {
+        font-size: 14px;
+    }
+
+    .user-details {
+        display: none;
+    }
+}
+
+
+@media (max-width: 700px) {
+
+    .brand-name {
+        font-size: 20px;
+    }
+
+    .brand-icon {
+        width: 30px;
+        height: 30px;
+    }
+
+    .navbar-links {
+        gap: 0;
+    }
+
+    .nav-link {
+        font-size: 12px;
+        padding: 7px;
+    }
+
+    .nav-icon {
+        display: none;
+    }
+
+    .navbar-user {
+        margin-left: 5px;
+    }
 }

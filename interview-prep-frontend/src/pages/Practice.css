@@ -1,0 +1,424 @@
+/* =========================================
+   PREPAI PRACTICE PAGE
+========================================= */
+
+.practice-page {
+    min-height: calc(100vh - 80px);
+    padding: 40px;
+    background: #f4f7fb;
+    color: #172033;
+}
+
+
+/* =========================================
+   SETUP SCREEN
+========================================= */
+
+.practice-setup {
+    max-width: 650px;
+    margin: 50px auto;
+    background: white;
+    padding: 45px;
+    border-radius: 18px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+.practice-setup h1 {
+    margin: 0;
+    font-size: 36px;
+    color: #172033;
+}
+
+.practice-setup p {
+    color: #64748b;
+    font-size: 17px;
+    margin-top: 10px;
+}
+
+
+/* =========================================
+   FORM
+========================================= */
+
+.practice-field {
+    margin-top: 25px;
+}
+
+.practice-field label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #172033;
+}
+
+.practice-field select {
+    width: 100%;
+    padding: 13px 15px;
+    border: 1px solid #d5dce5;
+    border-radius: 9px;
+    background: white;
+    color: #172033;
+    font-size: 16px;
+    outline: none;
+}
+
+.practice-field select:focus {
+    border-color: #198754;
+}
+
+
+/* =========================================
+   START BUTTON
+========================================= */
+
+.start-practice-btn {
+    width: 100%;
+    margin-top: 30px;
+    padding: 14px;
+    border: none;
+    border-radius: 9px;
+    background: #198754;
+    color: white;
+    font-size: 17px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.start-practice-btn:hover {
+    background: #157347;
+}
+
+.start-practice-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+
+/* =========================================
+   ERROR
+========================================= */
+
+.practice-error {
+    margin-top: 20px;
+    padding: 12px 15px;
+    border-radius: 8px;
+    background: #fff1f2;
+    color: #dc2626;
+    font-size: 14px;
+}
+
+
+/* =========================================
+   QUESTION CONTAINER
+========================================= */
+
+.practice-container {
+    max-width: 1050px;
+    margin: 30px auto;
+}
+
+
+/* =========================================
+   QUESTION CARD
+========================================= */
+
+.question-card {
+    background: white;
+    padding: 35px 40px;
+    border-radius: 18px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+
+/* =========================================
+   TOP INFORMATION
+========================================= */
+
+.question-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.category-badge {
+    padding: 7px 15px;
+    border-radius: 7px;
+    background: #198754;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.difficulty-badge {
+    padding: 7px 15px;
+    border-radius: 7px;
+    background: #dcfce7;
+    color: #15803d;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.question-number {
+    font-size: 18px;
+    font-weight: 700;
+    color: #198754;
+}
+
+
+/* =========================================
+   PROGRESS BAR
+========================================= */
+
+.progress-track {
+    width: 100%;
+    height: 7px;
+    background: #e5e7eb;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 100%;
+    background: #198754;
+    border-radius: 20px;
+    transition: width 0.3s ease;
+}
+
+
+/* =========================================
+   QUESTION TEXT
+========================================= */
+
+.question-text {
+    margin: 0 0 25px;
+    font-size: 25px;
+    line-height: 1.5;
+    font-weight: 700;
+    color: #172033;
+}
+
+
+/* =========================================
+   OPTIONS
+========================================= */
+
+.options-container {
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+}
+
+.answer-option {
+    width: 100%;
+    min-height: 65px;
+    padding: 15px 20px;
+
+    display: flex;
+    align-items: center;
+
+    border: 1px solid #d9e0e8;
+    border-radius: 10px;
+
+    background: white;
+    color: #172033;
+
+    font-size: 17px;
+    text-align: left;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.answer-option:hover {
+    border-color: #198754;
+    background: #f5fbf7;
+}
+
+.answer-option.selected {
+    border: 2px solid #198754;
+    background: #e9f7ef;
+}
+
+
+/* OPTION LETTER */
+
+.option-letter {
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-right: 15px;
+
+    border-radius: 50%;
+
+    background: #eef1f5;
+    color: #172033;
+
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.answer-option.selected .option-letter {
+    background: #198754;
+    color: white;
+}
+
+
+/* OPTION TEXT */
+
+.option-text {
+    color: #172033;
+    font-weight: 500;
+}
+
+
+/* =========================================
+   SUBMIT BUTTON
+========================================= */
+
+.submit-answer-btn {
+    display: block;
+
+    margin: 30px auto 0;
+
+    padding: 13px 30px;
+
+    border: none;
+    border-radius: 8px;
+
+    background: #198754;
+    color: white;
+
+    font-size: 16px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.submit-answer-btn:hover {
+    background: #157347;
+}
+
+.submit-answer-btn:disabled {
+    background: #94a3b8;
+    cursor: not-allowed;
+}
+
+
+/* =========================================
+   RESULT CARD
+========================================= */
+
+.result-card {
+    margin-top: 22px;
+
+    padding: 25px 30px;
+
+    border-radius: 14px;
+
+    background: white;
+
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+}
+
+.result-card.correct {
+    border-left: 5px solid #198754;
+    background: #f0fdf4;
+}
+
+.result-card.incorrect {
+    border-left: 5px solid #dc3545;
+    background: #fff5f5;
+}
+
+.result-title {
+    margin: 0 0 12px;
+
+    font-size: 23px;
+    font-weight: 700;
+}
+
+.result-card.correct .result-title {
+    color: #15803d;
+}
+
+.result-card.incorrect .result-title {
+    color: #dc2626;
+}
+
+.result-card p {
+    color: #334155;
+    line-height: 1.6;
+}
+
+
+/* =========================================
+   NEXT / FINISH
+========================================= */
+
+.next-question-btn {
+    display: block;
+
+    margin: 20px auto 0;
+
+    padding: 12px 30px;
+
+    border: 1px solid #198754;
+    border-radius: 8px;
+
+    background: white;
+    color: #198754;
+
+    font-size: 16px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.next-question-btn:hover {
+    background: #198754;
+    color: white;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+
+    .practice-page {
+        padding: 20px;
+    }
+
+    .practice-setup {
+        margin: 20px auto;
+        padding: 25px;
+    }
+
+    .question-card {
+        padding: 25px 20px;
+    }
+
+    .question-text {
+        font-size: 21px;
+    }
+
+    .question-top {
+        gap: 10px;
+    }
+
+    .answer-option {
+        font-size: 15px;
+    }
+}

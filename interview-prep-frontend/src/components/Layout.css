@@ -1,0 +1,9 @@
+.app-layout {
+    min-height: 100vh;
+    background: #f4f7fb;
+}
+
+.page-content {
+    min-height: calc(100vh - 72px);
+    background: #f4f7fb;
+}

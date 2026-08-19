@@ -3,8 +3,9 @@ import { useState } from "react";
 function AdminQuestions() {
 
     const [activeSection, setActiveSection] = useState(null);
+    const [editingQuestion, setEditingQuestion] = useState(null);
 
-    const [formData, setFormData] = useState({
+    const emptyForm = {
         questionText: "",
         category: "",
         difficulty: "EASY",
@@ -15,12 +16,15 @@ function AdminQuestions() {
         optionD: "",
         correctAnswer: "",
         explanation: ""
-    });
+    };
+
+    const [formData, setFormData] = useState(emptyForm);
 
     const [questions, setQuestions] = useState([]);
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
     const [questionsLoading, setQuestionsLoading] = useState(false);
+
 
     // =========================
     // HANDLE FORM CHANGES
@@ -38,7 +42,7 @@ function AdminQuestions() {
 
 
     // =========================
-    // FETCH QUESTIONS
+    // FETCH ADMIN QUESTIONS
     // =========================
 
     const fetchQuestions = async () => {
@@ -51,8 +55,10 @@ function AdminQuestions() {
             const token = localStorage.getItem("token");
 
             const response = await fetch(
-                "http://localhost:8080/api/questions",
+                "http://localhost:8080/api/admin/questions",
                 {
+                    method: "GET",
+
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
@@ -85,25 +91,53 @@ function AdminQuestions() {
     const handleViewQuestions = () => {
 
         setActiveSection("view");
+        setEditingQuestion(null);
 
         fetchQuestions();
     };
 
 
     // =========================
-    // ADD QUESTION SECTION
+    // OPEN ADD FORM
     // =========================
 
     const handleAddQuestion = () => {
 
         setActiveSection("add");
-
+        setEditingQuestion(null);
+        setFormData(emptyForm);
         setMessage("");
     };
 
 
     // =========================
-    // ADD QUESTION
+    // OPEN EDIT FORM
+    // =========================
+
+    const handleEdit = (question) => {
+
+        setEditingQuestion(question);
+
+        setFormData({
+            questionText: question.questionText || "",
+            category: question.category || "",
+            difficulty: question.difficulty || "EASY",
+            type: question.type || "MCQ",
+            optionA: question.optionA || "",
+            optionB: question.optionB || "",
+            optionC: question.optionC || "",
+            optionD: question.optionD || "",
+            correctAnswer: question.correctAnswer || "",
+            explanation: question.explanation || ""
+        });
+
+        setActiveSection("edit");
+        setMessage("");
+    };
+
+
+    // =========================
+    // ADD / EDIT QUESTION
     // =========================
 
     const handleSubmit = async (e) => {
@@ -117,10 +151,30 @@ function AdminQuestions() {
 
             const token = localStorage.getItem("token");
 
+            let url;
+            let method;
+
+            if (editingQuestion) {
+
+                // EDIT
+                url =
+                    `http://localhost:8080/api/admin/questions/${editingQuestion.id}`;
+
+                method = "PUT";
+
+            } else {
+
+                // ADD
+                url =
+                    "http://localhost:8080/api/admin/questions";
+
+                method = "POST";
+            }
+
             const response = await fetch(
-                "http://localhost:8080/api/admin/questions",
+                url,
                 {
-                    method: "POST",
+                    method: method,
 
                     headers: {
                         "Content-Type": "application/json",
@@ -136,26 +190,47 @@ function AdminQuestions() {
             if (!response.ok) {
 
                 throw new Error(
-                    data.message || "Failed to add question"
+                    data.message ||
+                    (
+                        editingQuestion
+                            ? "Failed to update question"
+                            : "Failed to add question"
+                    )
                 );
             }
 
-            setMessage("Question added successfully!");
+
+            // =========================
+            // SUCCESS MESSAGE
+            // =========================
+
+            if (editingQuestion) {
+
+                setMessage(
+                    "Question updated successfully!"
+                );
+
+            } else {
+
+                setMessage(
+                    "Question added successfully!"
+                );
+            }
+
 
             // Clear form
 
-            setFormData({
-                questionText: "",
-                category: "",
-                difficulty: "EASY",
-                type: "MCQ",
-                optionA: "",
-                optionB: "",
-                optionC: "",
-                optionD: "",
-                correctAnswer: "",
-                explanation: ""
-            });
+            setFormData(emptyForm);
+
+            setEditingQuestion(null);
+
+            // Go back to question list
+
+            setActiveSection("view");
+
+            // Refresh list
+
+            fetchQuestions();
 
         } catch (error) {
 
@@ -204,8 +279,6 @@ function AdminQuestions() {
                 );
             }
 
-            // Remove question from screen
-
             setQuestions(
                 questions.filter(
                     (question) => question.id !== id
@@ -220,6 +293,20 @@ function AdminQuestions() {
 
             setMessage(error.message);
         }
+    };
+
+
+    // =========================
+    // CANCEL EDIT
+    // =========================
+
+    const handleCancelEdit = () => {
+
+        setEditingQuestion(null);
+        setFormData(emptyForm);
+        setActiveSection("view");
+
+        fetchQuestions();
     };
 
 
@@ -264,7 +351,6 @@ function AdminQuestions() {
                 >
                     📋 View Questions
                 </button>
-
 
                 <button
                     onClick={handleAddQuestion}
@@ -376,13 +462,42 @@ function AdminQuestions() {
                                 </p>
 
 
-                                {/* DELETE BUTTON */}
+                                {/* ADMIN ANSWER */}
+
+                                <p>
+                                    <strong>
+                                        Correct Answer:
+                                    </strong>{" "}
+                                    {question.correctAnswer}
+                                </p>
+
+
+                                <p>
+                                    <strong>
+                                        Explanation:
+                                    </strong>{" "}
+                                    {question.explanation}
+                                </p>
+
+
+                                {/* ACTION BUTTONS */}
 
                                 <div
                                     style={{
-                                        marginTop: "15px"
+                                        marginTop: "15px",
+                                        display: "flex",
+                                        gap: "10px"
                                     }}
                                 >
+
+                                    <button
+                                        onClick={() =>
+                                            handleEdit(question)
+                                        }
+                                    >
+                                        ✏️ Edit
+                                    </button>
+
 
                                     <button
                                         onClick={() =>
@@ -408,15 +523,20 @@ function AdminQuestions() {
 
 
             {/* =========================
-                ADD QUESTION
+                ADD / EDIT FORM
             ========================= */}
 
-            {activeSection === "add" && (
+            {(activeSection === "add" ||
+                activeSection === "edit") && (
 
                 <div>
 
                     <h2>
-                        Add New Question
+
+                        {editingQuestion
+                            ? "Edit Question"
+                            : "Add New Question"}
+
                     </h2>
 
 
@@ -715,7 +835,7 @@ function AdminQuestions() {
                         <br />
 
 
-                        {/* SUBMIT */}
+                        {/* FORM BUTTONS */}
 
                         <button
                             type="submit"
@@ -723,10 +843,38 @@ function AdminQuestions() {
                         >
 
                             {loading
-                                ? "Adding..."
-                                : "Add Question"}
+
+                                ? (
+                                    editingQuestion
+                                        ? "Saving..."
+                                        : "Adding..."
+                                )
+
+                                : (
+                                    editingQuestion
+                                        ? "💾 Save Changes"
+                                        : "➕ Add Question"
+                                )
+                            }
 
                         </button>
+
+
+                        {editingQuestion && (
+
+                            <button
+                                type="button"
+                                onClick={
+                                    handleCancelEdit
+                                }
+                                style={{
+                                    marginLeft: "10px"
+                                }}
+                            >
+                                Cancel
+                            </button>
+
+                        )}
 
                     </form>
 

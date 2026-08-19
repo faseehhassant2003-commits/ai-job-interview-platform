@@ -1,84 +1,202 @@
-import { useEffect, useState } from "react";
+import {
+    Link,
+    useLocation,
+    useNavigate
+} from "react-router-dom";
+
 import "./Navbar.css";
 
 function Navbar() {
 
-    const [user, setUser] = useState(null);
+    const location = useLocation();
+    const navigate = useNavigate();
 
-    useEffect(() => {
-        fetchUser();
-    }, []);
+    const name =
+        localStorage.getItem("name") || "User";
 
-    const fetchUser = async () => {
+    const role =
+        localStorage.getItem("role") || "MEMBER";
 
-        const token = localStorage.getItem("token");
+    const isAdmin = role === "ADMIN";
 
-        try {
 
-            const response = await fetch(
-                "http://localhost:8080/api/auth/me",
-                {
-                    method: "GET",
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
+    const isActive = (path) => {
 
-            if (!response.ok) {
-                throw new Error("Unable to get user");
-            }
-
-            const data = await response.json();
-
-            setUser(data);
-
-        } catch (error) {
-
-            console.error(error);
-
-        }
+        return location.pathname === path;
     };
 
+
+    const handleLogout = () => {
+
+        localStorage.removeItem("token");
+        localStorage.removeItem("name");
+        localStorage.removeItem("email");
+        localStorage.removeItem("role");
+        localStorage.removeItem("user");
+
+        navigate("/login");
+    };
+
+
     return (
-        <nav className="navbar">
 
-            <div className="navbar-brand">
+        <header className="top-navbar">
 
-                <div className="navbar-logo">
-                    IP
+            {/* =================================
+                BRAND
+            ================================= */}
+
+            <Link
+                to="/dashboard"
+                className="navbar-brand"
+            >
+
+                <div className="brand-icon">
+                    &lt;/&gt;
                 </div>
 
-                <h2>
-                    Interview Prep
-                </h2>
+                <span className="brand-name">
+                    Prep<span>AI</span>
+                </span>
+
+            </Link>
+
+
+            {/* =================================
+                NAVIGATION
+            ================================= */}
+
+            <nav className="navbar-links">
+
+                <Link
+                    to="/dashboard"
+                    className={
+                        isActive("/dashboard")
+                            ? "nav-link active"
+                            : "nav-link"
+                    }
+                >
+
+                    <span className="nav-icon">
+                        ▣
+                    </span>
+
+                    Dashboard
+
+                </Link>
+
+
+                <Link
+                    to="/practice"
+                    className={
+                        isActive("/practice")
+                            ? "nav-link active"
+                            : "nav-link"
+                    }
+                >
+
+                    <span className="nav-icon">
+                        ▤
+                    </span>
+
+                    Practice
+
+                </Link>
+
+
+                {/* We'll activate this later */}
+
+                <span className="nav-link disabled-link">
+
+                    <span className="nav-icon">
+                        ◷
+                    </span>
+
+                    History
+
+                </span>
+
+
+                {/* We'll activate this later */}
+
+                <span className="nav-link disabled-link">
+
+                    <span className="nav-icon">
+                        ♛
+                    </span>
+
+                    Leaderboard
+
+                </span>
+
+
+                {/* ADMIN */}
+
+                {isAdmin && (
+
+                    <Link
+                        to="/admin/questions"
+                        className={
+                            location.pathname.startsWith(
+                                "/admin"
+                            )
+                                ? "nav-link active"
+                                : "nav-link"
+                        }
+                    >
+
+                        <span className="nav-icon">
+                            ⚙
+                        </span>
+
+                        Admin
+
+                    </Link>
+
+                )}
+
+            </nav>
+
+
+            {/* =================================
+                USER
+            ================================= */}
+
+            <div className="navbar-user">
+
+                <div className="user-avatar">
+
+                    {name
+                        .charAt(0)
+                        .toUpperCase()}
+
+                </div>
+
+
+                <div className="user-details">
+
+                    <strong>
+                        {name}
+                    </strong>
+
+                    <span>
+                        {role}
+                    </span>
+
+                </div>
+
+
+                <button
+                    className="logout-button"
+                    onClick={handleLogout}
+                    title="Logout"
+                >
+                    ⋯
+                </button>
 
             </div>
 
-
-            {user && (
-                <div className="navbar-user">
-
-                    <div className="navbar-user-info">
-
-                        <strong>
-                            {user.name}
-                        </strong>
-
-                        <span>
-                            {user.role}
-                        </span>
-
-                    </div>
-
-                    <div className="navbar-avatar">
-                        {user.name.charAt(0).toUpperCase()}
-                    </div>
-
-                </div>
-            )}
-
-        </nav>
+        </header>
     );
 }
 
