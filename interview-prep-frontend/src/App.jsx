@@ -4,28 +4,25 @@ import {
     Route,
     Navigate
 } from "react-router-dom";
-
+import Leaderboard from "./pages/Leaderboard";
 import Dashboard from "./pages/Dashboard";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Practice from "./pages/Practice";
+import History from "./pages/History";
 import AdminQuestions from "./pages/AdminQuestions";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 import Layout from "./components/Layout";
 
-
 function App() {
 
     return (
-
         <BrowserRouter>
 
             <Routes>
 
-                {/* =========================
-                    PUBLIC ROUTES
-                ========================= */}
+                {/* PUBLIC */}
 
                 <Route
                     path="/"
@@ -48,9 +45,7 @@ function App() {
                 />
 
 
-                {/* =========================
-                    PROTECTED ROUTES
-                ========================= */}
+                {/* PROTECTED + SHARED NAVBAR */}
 
                 <Route
                     element={
@@ -59,7 +54,10 @@ function App() {
                         </ProtectedRoute>
                     }
                 >
-
+<Route
+        path="/leaderboard"
+        element={<Leaderboard />}
+    />
                     <Route
                         path="/dashboard"
                         element={<Dashboard />}
@@ -71,6 +69,11 @@ function App() {
                     />
 
                     <Route
+                        path="/history"
+                        element={<History />}
+                    />
+
+                    <Route
                         path="/admin/questions"
                         element={<AdminQuestions />}
                     />
@@ -78,9 +81,7 @@ function App() {
                 </Route>
 
 
-                {/* =========================
-                    FALLBACK
-                ========================= */}
+                {/* FALLBACK */}
 
                 <Route
                     path="*"

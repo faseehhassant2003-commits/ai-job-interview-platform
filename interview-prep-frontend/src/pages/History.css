@@ -1,0 +1,255 @@
+/* =========================================
+   HISTORY PAGE
+========================================= */
+
+.history-page {
+    min-height: calc(100vh - 72px);
+    padding: 40px;
+    background: #f4f7fb;
+    color: #172033;
+}
+
+.history-container {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.history-header {
+    margin-bottom: 30px;
+}
+
+.history-header h1 {
+    margin: 0;
+    font-size: 32px;
+    color: #172033;
+}
+
+.history-header p {
+    margin-top: 8px;
+    color: #64748b;
+    font-size: 16px;
+}
+
+
+/* =========================================
+   HISTORY LIST
+========================================= */
+
+.history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+
+/* =========================================
+   HISTORY CARD
+========================================= */
+
+.history-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 24px 28px;
+
+    background: white;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 4px 15px rgba(0, 0, 0, 0.04);
+
+    transition: 0.2s;
+}
+
+.history-card:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 7px 20px rgba(0, 0, 0, 0.07);
+}
+
+
+/* =========================================
+   TITLE
+========================================= */
+
+.history-title-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.history-title-row h2 {
+    margin: 0;
+
+    font-size: 20px;
+
+    color: #172033;
+}
+
+.history-difficulty {
+    padding: 5px 10px;
+
+    border-radius: 6px;
+
+    background: #ecfdf3;
+
+    color: #15803d;
+
+    font-size: 12px;
+
+    font-weight: 600;
+}
+
+.history-date {
+    margin: 8px 0 0;
+
+    color: #94a3b8;
+
+    font-size: 13px;
+}
+
+
+/* =========================================
+   STATS
+========================================= */
+
+.history-stats {
+    display: flex;
+    align-items: center;
+
+    gap: 35px;
+}
+
+.history-stat {
+    min-width: 70px;
+
+    text-align: center;
+}
+
+.history-stat strong {
+    display: block;
+
+    font-size: 20px;
+
+    color: #172033;
+}
+
+.history-stat span {
+    display: block;
+
+    margin-top: 4px;
+
+    color: #94a3b8;
+
+    font-size: 12px;
+}
+
+.correct-stat strong {
+    color: #198754;
+}
+
+.wrong-stat strong {
+    color: #dc3545;
+}
+
+
+/* =========================================
+   EMPTY
+========================================= */
+
+.empty-history {
+    padding: 70px 30px;
+
+    text-align: center;
+
+    background: white;
+
+    border-radius: 16px;
+
+    border: 1px solid #e5e7eb;
+}
+
+.empty-icon {
+    font-size: 50px;
+}
+
+.empty-history h2 {
+    margin-top: 15px;
+
+    color: #172033;
+}
+
+.empty-history p {
+    color: #64748b;
+}
+
+
+/* =========================================
+   ERROR
+========================================= */
+
+.history-error {
+    padding: 15px;
+
+    margin-bottom: 20px;
+
+    border-radius: 8px;
+
+    background: #fff1f2;
+
+    color: #dc2626;
+}
+
+
+/* =========================================
+   LOADING
+========================================= */
+
+.history-loading {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-height: 300px;
+
+    color: #64748b;
+
+    font-size: 17px;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 800px) {
+
+    .history-page {
+        padding: 25px 18px;
+    }
+
+    .history-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 25px;
+    }
+
+    .history-stats {
+        width: 100%;
+
+        justify-content: space-between;
+
+        gap: 10px;
+    }
+}

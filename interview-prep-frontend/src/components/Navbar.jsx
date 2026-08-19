@@ -106,28 +106,42 @@ function Navbar() {
 
                 {/* We'll activate this later */}
 
-                <span className="nav-link disabled-link">
+    <Link
+    to="/history"
+    className={
+        isActive("/history")
+            ? "nav-link active"
+            : "nav-link"
+    }
+>
 
-                    <span className="nav-icon">
-                        ◷
-                    </span>
+    <span className="nav-icon">
+        ◷
+    </span>
 
-                    History
+    History
 
-                </span>
+</Link>
 
 
                 {/* We'll activate this later */}
 
-                <span className="nav-link disabled-link">
+              <Link
+    to="/leaderboard"
+    className={
+        isActive("/leaderboard")
+            ? "nav-link active"
+            : "nav-link"
+    }
+>
 
-                    <span className="nav-icon">
-                        ♛
-                    </span>
+    <span className="nav-icon">
+        ♛
+    </span>
 
-                    Leaderboard
+    Leaderboard
 
-                </span>
+</Link>
 
 
                 {/* ADMIN */}
