@@ -1,0 +1,1345 @@
+/* =========================================================
+   ADMIN QUESTIONS
+   ========================================================= */
+
+.admin-questions-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 30px 20px;
+
+  font-family:
+    "Inter",
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  color: #1e3a2e;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.admin-questions-header {
+  margin-bottom: 20px;
+}
+
+.admin-questions-title {
+  font-size: 2rem;
+  font-weight: 700;
+
+  color: #1e3a2e;
+
+  margin: 0 0 6px 0;
+}
+
+.admin-questions-subtitle {
+  color: #4a6a5a;
+
+  margin: 0;
+
+  font-size: 1rem;
+}
+
+
+/* =========================================================
+   ACTION BAR
+   ========================================================= */
+
+.question-action-bar {
+  display: flex;
+
+  gap: 12px;
+
+  margin-bottom: 20px;
+
+  flex-wrap: wrap;
+}
+
+
+/* =========================================================
+   BUTTON BASE
+   ========================================================= */
+
+.question-btn {
+  border: none;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.15s ease,
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.question-btn:hover {
+  transform: translateY(-1px);
+}
+
+.question-btn:active {
+  transform: translateY(0);
+}
+
+.question-btn:disabled {
+  opacity: 0.6;
+
+  cursor: not-allowed;
+
+  transform: none;
+}
+
+
+/* =========================================================
+   PRIMARY
+   ========================================================= */
+
+.question-btn-primary {
+  background: #2e7d32;
+
+  color: #ffffff;
+
+  padding: 11px 22px;
+
+  border-radius: 40px;
+
+  font-size: 0.95rem;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 8px;
+}
+
+.question-btn-primary:hover {
+  background: #1b5e20;
+
+  box-shadow:
+    0 4px 12px
+    rgba(46, 125, 50, 0.2);
+}
+
+
+/* =========================================================
+   IMPORT
+   ========================================================= */
+
+.question-btn-import {
+  background: #e8f5e9;
+
+  color: #1e3a2e;
+
+  border: 1px solid #a5d6a7;
+
+  padding: 11px 22px;
+
+  border-radius: 40px;
+
+  font-size: 0.95rem;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 8px;
+}
+
+.question-btn-import:hover {
+  background: #c8e6c9;
+
+  box-shadow:
+    0 4px 12px
+    rgba(46, 125, 50, 0.12);
+}
+
+
+/* =========================================================
+   EDIT
+   ========================================================= */
+
+.question-btn-edit {
+  background: #e8f5e9;
+
+  color: #1e3a2e;
+
+  border: 1px solid #a5d6a7;
+
+  padding: 8px 16px;
+
+  border-radius: 30px;
+
+  font-size: 0.85rem;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 6px;
+}
+
+.question-btn-edit:hover {
+  background: #c8e6c9;
+}
+
+
+/* =========================================================
+   DELETE
+   ========================================================= */
+
+.question-btn-delete {
+  background: #fce4ec;
+
+  color: #b02b27;
+
+  border: 1px solid #f5c6c2;
+
+  padding: 8px 16px;
+
+  border-radius: 30px;
+
+  font-size: 0.85rem;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 6px;
+}
+
+.question-btn-delete:hover {
+  background: #f8bbd0;
+}
+
+
+/* =========================================================
+   CANCEL
+   ========================================================= */
+
+.question-btn-cancel {
+  background: transparent;
+
+  border: 1px solid #a5d6a7;
+
+  color: #2e7d32;
+
+  padding: 11px 22px;
+
+  border-radius: 40px;
+
+  font-size: 0.95rem;
+}
+
+.question-btn-cancel:hover {
+  background: #e8f5e9;
+}
+
+
+/* =========================================================
+   MESSAGE
+   ========================================================= */
+
+.question-message {
+  margin-bottom: 20px;
+
+  padding: 12px 16px;
+
+  border-radius: 12px;
+
+  background: #e8f5e9;
+
+  color: #1e3a2e;
+
+  border: 1px solid #a5d6a7;
+
+  font-size: 0.95rem;
+}
+
+
+/* =========================================================
+   CARD
+   ========================================================= */
+
+.question-card {
+  background: #ffffff;
+
+  border-radius: 24px;
+
+  padding: 28px;
+
+  box-shadow:
+    0 4px 20px
+    rgba(0, 0, 0, 0.05);
+
+  border: 1px solid #e0f0e3;
+
+  margin-bottom: 24px;
+}
+
+.question-card-header {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  gap: 12px;
+
+  margin-bottom: 10px;
+
+  flex-wrap: wrap;
+}
+
+.question-card-title {
+  font-size: 1.4rem;
+
+  font-weight: 700;
+
+  color: #1e3a2e;
+
+  margin: 0;
+}
+
+.question-count {
+  background: #e8f5e9;
+
+  color: #2e7d32;
+
+  padding: 6px 12px;
+
+  border-radius: 20px;
+
+  font-size: 0.85rem;
+
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   CATEGORY DELETE
+   ========================================================= */
+
+.category-delete-panel {
+  margin:
+    20px 0 24px 0;
+
+  padding: 20px;
+
+  background: #fff8f8;
+
+  border: 1px solid #f1caca;
+
+  border-radius: 16px;
+}
+
+.category-delete-content {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 20px;
+
+  flex-wrap: wrap;
+}
+
+.category-delete-content h3 {
+  margin: 0 0 5px 0;
+
+  color: #8b2525;
+
+  font-size: 1rem;
+}
+
+.category-delete-content p {
+  margin: 0;
+
+  color: #7b5555;
+
+  font-size: 0.85rem;
+
+  line-height: 1.4;
+}
+
+.category-delete-controls {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  flex-wrap: wrap;
+}
+
+.category-delete-controls select {
+  min-width: 180px;
+
+  padding: 10px 13px;
+
+  border-radius: 10px;
+
+  border: 1px solid #e0bcbc;
+
+  background: #ffffff;
+
+  color: #3a2020;
+
+  font-size: 0.9rem;
+
+  outline: none;
+
+  cursor: pointer;
+}
+
+.category-delete-controls select:focus {
+  border-color: #c62828;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(198, 40, 40, 0.1);
+}
+
+.category-delete-button {
+  padding: 10px 16px;
+
+  border: none;
+
+  border-radius: 30px;
+
+  background: #c62828;
+
+  color: #ffffff;
+
+  font-weight: 600;
+
+  font-size: 0.85rem;
+
+  cursor: pointer;
+
+  transition:
+    background 0.15s ease,
+    transform 0.15s ease;
+}
+
+.category-delete-button:hover {
+  background: #a51f1f;
+
+  transform: translateY(-1px);
+}
+
+.category-delete-button:disabled {
+  opacity: 0.55;
+
+  cursor: not-allowed;
+
+  transform: none;
+}
+
+
+/* =========================================================
+   QUESTION ITEM
+   ========================================================= */
+
+.question-item {
+  border-bottom: 1px solid #e8f5e9;
+
+  padding: 24px 0;
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: flex-start;
+
+  flex-wrap: wrap;
+
+  gap: 20px;
+}
+
+.question-item:last-child {
+  border-bottom: none;
+}
+
+.question-content {
+  flex: 1;
+
+  min-width: 250px;
+}
+
+.question-number {
+  color: #6b8575;
+
+  font-size: 0.8rem;
+
+  font-weight: 600;
+
+  margin-bottom: 7px;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.5px;
+}
+
+.question-text {
+  color: #1e3a2e;
+
+  font-size: 1.05rem;
+
+  line-height: 1.5;
+
+  margin: 0 0 12px 0;
+}
+
+
+/* =========================================================
+   META
+   ========================================================= */
+
+.question-meta {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 8px;
+
+  margin-bottom: 14px;
+}
+
+.category-badge {
+  background: #f1f8f2;
+
+  color: #2e7d32;
+
+  border: 1px solid #c8e6c9;
+
+  padding: 5px 10px;
+
+  border-radius: 20px;
+
+  font-size: 0.8rem;
+
+  font-weight: 600;
+}
+
+.difficulty-badge {
+  padding: 5px 10px;
+
+  border-radius: 20px;
+
+  font-size: 0.8rem;
+
+  font-weight: 600;
+}
+
+.difficulty-easy {
+  background: #e8f5e9;
+
+  color: #2e7d32;
+}
+
+.difficulty-medium {
+  background: #fff8e1;
+
+  color: #8a6500;
+}
+
+.difficulty-hard {
+  background: #ffebee;
+
+  color: #b71c1c;
+}
+
+.type-badge {
+  background: #f3f6f4;
+
+  color: #456052;
+
+  padding: 5px 10px;
+
+  border-radius: 20px;
+
+  font-size: 0.8rem;
+
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   OPTIONS
+   ========================================================= */
+
+.question-options {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 8px;
+
+  margin-bottom: 12px;
+}
+
+.question-option {
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 8px;
+
+  padding: 9px 11px;
+
+  background: #f8fbf8;
+
+  border: 1px solid #e0eee2;
+
+  border-radius: 10px;
+
+  font-size: 0.9rem;
+
+  color: #2e4a3a;
+}
+
+.option-letter {
+  flex-shrink: 0;
+
+  font-weight: 700;
+
+  color: #2e7d32;
+}
+
+
+/* =========================================================
+   ANSWER
+   ========================================================= */
+
+.question-answer {
+  margin: 8px 0;
+
+  color: #1e3a2e;
+
+  font-size: 0.9rem;
+}
+
+
+/* =========================================================
+   EXPLANATION
+   ========================================================= */
+
+.question-explanation {
+  background: #f8fbf8;
+
+  border-left:
+    3px solid #81c784;
+
+  padding: 10px 12px;
+
+  border-radius:
+    0 8px 8px 0;
+
+  margin-top: 10px;
+
+  color: #2e4a3a;
+
+  font-size: 0.9rem;
+}
+
+.question-explanation p {
+  margin: 5px 0 0 0;
+
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   QUESTION ACTIONS
+   ========================================================= */
+
+.question-actions {
+  display: flex;
+
+  gap: 8px;
+
+  align-items: center;
+
+  flex-shrink: 0;
+}
+
+
+/* =========================================================
+   FORM
+   ========================================================= */
+
+.question-form {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 20px;
+}
+
+.question-form-group {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 7px;
+}
+
+.question-form-row {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap: 16px;
+}
+
+.question-label {
+  font-weight: 600;
+
+  font-size: 0.9rem;
+
+  color: #1e3a2e;
+}
+
+.required-star {
+  color: #d32f2f;
+}
+
+
+/* =========================================================
+   INPUTS
+   ========================================================= */
+
+.question-input,
+.question-select,
+.question-textarea {
+  box-sizing: border-box;
+
+  width: 100%;
+
+  border: 1px solid #c8e6c9;
+
+  border-radius: 12px;
+
+  background: #ffffff;
+
+  color: #1e3a2e;
+
+  font-size: 0.95rem;
+
+  outline: none;
+
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.question-input,
+.question-select {
+  padding: 11px 13px;
+}
+
+.question-textarea {
+  padding: 11px 13px;
+
+  resize: vertical;
+
+  line-height: 1.5;
+
+  font-family:
+    "Inter",
+    system-ui,
+    sans-serif;
+}
+
+.question-input:focus,
+.question-select:focus,
+.question-textarea:focus {
+  border-color: #2e7d32;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(46, 125, 50, 0.15);
+}
+
+
+/* =========================================================
+   MCQ FORM
+   ========================================================= */
+
+.question-options-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 16px;
+}
+
+.question-option-group {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 6px;
+}
+
+.option-form-label {
+  font-size: 0.85rem;
+
+  font-weight: 700;
+
+  color: #2e7d32;
+}
+
+
+/* =========================================================
+   INFO BOX
+   ========================================================= */
+
+.question-info-box {
+  display: flex;
+
+  gap: 12px;
+
+  align-items: flex-start;
+
+  padding: 15px;
+
+  border-radius: 12px;
+
+  background: #f1f8f2;
+
+  border: 1px solid #c8e6c9;
+
+  color: #1e3a2e;
+}
+
+.question-info-icon {
+  font-size: 1.4rem;
+}
+
+.question-info-box p {
+  margin: 5px 0 0 0;
+
+  color: #4a6a5a;
+
+  font-size: 0.88rem;
+
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   FORM ACTIONS
+   ========================================================= */
+
+.question-form-actions {
+  display: flex;
+
+  gap: 12px;
+
+  margin-top: 4px;
+
+  flex-wrap: wrap;
+}
+
+
+/* =========================================================
+   LOADING
+   ========================================================= */
+
+.question-loading {
+  padding: 50px 20px;
+
+  text-align: center;
+
+  color: #4a6a5a;
+}
+
+.question-spinner {
+  width: 28px;
+
+  height: 28px;
+
+  border: 3px solid #e0f0e3;
+
+  border-top:
+    3px solid #2e7d32;
+
+  border-radius: 50%;
+
+  margin:
+    0 auto 12px auto;
+
+  animation:
+    question-spin
+    1s linear infinite;
+}
+
+@keyframes question-spin {
+
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+
+}
+
+
+/* =========================================================
+   EMPTY
+   ========================================================= */
+
+.question-empty {
+  text-align: center;
+
+  padding: 50px 20px;
+}
+
+.question-empty-icon {
+  font-size: 3rem;
+
+  margin-bottom: 10px;
+}
+
+.question-empty h3 {
+  color: #1e3a2e;
+
+  margin:
+    0 0 8px 0;
+}
+
+.question-empty p {
+  color: #6b8575;
+
+  margin:
+    0 auto 20px auto;
+
+  max-width: 450px;
+
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   CSV IMPORT
+   ========================================================= */
+
+.csv-import-card {
+  max-width: 800px;
+}
+
+.csv-import-description {
+  color: #4a6a5a;
+
+  margin:
+    8px 0 20px 0;
+
+  line-height: 1.5;
+}
+
+.csv-format-box {
+  background: #f8fbf8;
+
+  border: 1px solid #dcebdd;
+
+  border-radius: 12px;
+
+  padding: 14px 16px;
+
+  margin-bottom: 20px;
+
+  color: #2e4a3a;
+}
+
+.csv-format-box strong {
+  display: block;
+
+  margin-bottom: 7px;
+}
+
+.csv-format-box p {
+  margin: 0;
+
+  font-family: monospace;
+
+  font-size: 0.82rem;
+
+  line-height: 1.6;
+
+  word-break: break-word;
+
+  color: #456052;
+}
+
+
+/* =========================================================
+   CSV UPLOAD AREA
+   ========================================================= */
+
+.csv-upload-area {
+  border:
+    2px dashed #a5d6a7;
+
+  border-radius: 18px;
+
+  padding: 35px 20px;
+
+  text-align: center;
+
+  background: #fbfefb;
+
+  margin-bottom: 20px;
+}
+
+.csv-upload-icon {
+  font-size: 2.8rem;
+
+  margin-bottom: 12px;
+}
+
+.csv-file-label {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  background: #2e7d32;
+
+  color: #ffffff;
+
+  padding: 11px 22px;
+
+  border-radius: 40px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.15s ease,
+    transform 0.15s ease;
+}
+
+.csv-file-label:hover {
+  background: #1b5e20;
+
+  transform: translateY(-1px);
+}
+
+.csv-file-input {
+  display: none;
+}
+
+.csv-file-hint {
+  color: #6b8575;
+
+  font-size: 0.88rem;
+
+  margin: 12px 0 0 0;
+}
+
+
+/* =========================================================
+   SELECTED CSV
+   ========================================================= */
+
+.csv-selected-file {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 10px;
+
+  margin:
+    18px auto 0 auto;
+
+  padding: 12px 16px;
+
+  background: #e8f5e9;
+
+  border: 1px solid #c8e6c9;
+
+  border-radius: 12px;
+
+  max-width: 400px;
+
+  text-align: left;
+}
+
+.csv-selected-file > span {
+  font-size: 1.5rem;
+}
+
+.csv-selected-file div {
+  display: flex;
+
+  flex-direction: column;
+
+  min-width: 0;
+}
+
+.csv-selected-file strong {
+  color: #1e3a2e;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+.csv-selected-file small {
+  color: #6b8575;
+
+  margin-top: 3px;
+}
+
+
+/* =========================================================
+   CSV RESULT
+   ========================================================= */
+
+.csv-import-result {
+  margin-top: 20px;
+
+  padding: 20px;
+
+  border-radius: 14px;
+
+  background: #e8f5e9;
+
+  border: 1px solid #a5d6a7;
+
+  color: #1e3a2e;
+}
+
+.csv-import-result h3 {
+  margin:
+    0 0 15px 0;
+}
+
+
+/* =========================================================
+   CSV RESULT STATS
+   ========================================================= */
+
+.csv-result-stats {
+  display: flex;
+
+  gap: 14px;
+
+  flex-wrap: wrap;
+}
+
+.csv-result-stat {
+  flex: 1;
+
+  min-width: 130px;
+
+  background: #ffffff;
+
+  border: 1px solid #dcebdd;
+
+  border-radius: 12px;
+
+  padding: 14px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 4px;
+}
+
+.csv-result-stat span {
+  font-size: 1.3rem;
+}
+
+.csv-result-stat strong {
+  font-size: 1.4rem;
+
+  color: #1e3a2e;
+}
+
+.csv-result-stat small {
+  color: #6b8575;
+}
+
+
+/* =========================================================
+   CSV ERRORS
+   ========================================================= */
+
+.csv-error-list {
+  margin-top: 18px;
+
+  padding-top: 15px;
+
+  border-top:
+    1px solid #c8e6c9;
+}
+
+.csv-error-list h4 {
+  margin:
+    0 0 10px 0;
+}
+
+.csv-error-list p {
+  margin: 6px 0;
+
+  color: #7b2525;
+
+  font-size: 0.88rem;
+}
+
+
+/* =========================================================
+   CSV IMPORT ERROR
+   ========================================================= */
+
+.csv-import-error {
+  margin-top: 20px;
+
+  padding: 14px 16px;
+
+  border-radius: 12px;
+
+  background: #ffebee;
+
+  border: 1px solid #f5c6c2;
+
+  color: #b71c1c;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 800px) {
+
+  .question-form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .question-options-grid {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+
+@media (max-width: 700px) {
+
+  .category-delete-content {
+    align-items: stretch;
+
+    flex-direction: column;
+  }
+
+  .category-delete-controls {
+    flex-direction: column;
+
+    align-items: stretch;
+  }
+
+  .category-delete-controls select {
+    width: 100%;
+
+    box-sizing: border-box;
+  }
+
+  .category-delete-button {
+    width: 100%;
+  }
+
+}
+
+
+@media (max-width: 600px) {
+
+  .admin-questions-container {
+    padding:
+      20px 14px;
+  }
+
+  .admin-questions-title {
+    font-size: 1.6rem;
+  }
+
+  .question-card {
+    padding: 20px;
+
+    border-radius: 18px;
+  }
+
+  .question-options {
+    grid-template-columns: 1fr;
+  }
+
+  .question-actions {
+    width: 100%;
+  }
+
+  .question-actions .question-btn {
+    flex: 1;
+  }
+
+  .question-form-actions {
+    flex-direction: column;
+  }
+
+  .question-form-actions .question-btn {
+    width: 100%;
+  }
+
+  .question-btn-import {
+    width: 100%;
+  }
+
+  .csv-import-card {
+    width: 100%;
+
+    box-sizing: border-box;
+  }
+
+  .csv-upload-area {
+    padding:
+      28px 14px;
+  }
+
+  .csv-result-stats {
+    flex-direction: column;
+  }
+
+  .csv-result-stat {
+    width: 100%;
+
+    box-sizing: border-box;
+  }
+
+}

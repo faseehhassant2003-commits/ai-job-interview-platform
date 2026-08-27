@@ -1,889 +1,2100 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import "./Practice.css";
 
 function Practice() {
+  // =====================================================
+  // SETUP
+  // =====================================================
 
-    const [category, setCategory] = useState("Java");
-    const [difficulty, setDifficulty] = useState("EASY");
+  const [categories, setCategories] = useState([]);
 
-    const [questions, setQuestions] = useState([]);
-    const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [selectedCategories, setSelectedCategories] =
+    useState([]);
 
-    const [selectedAnswer, setSelectedAnswer] = useState("");
-    const [answerResult, setAnswerResult] = useState(null);
+  const [selectedDifficulties, setSelectedDifficulties] =
+    useState(["EASY"]);
 
-    const [correctAnswers, setCorrectAnswers] = useState(0);
-    const [wrongAnswers, setWrongAnswers] = useState(0);
+  const [questionCount, setQuestionCount] =
+    useState(10);
 
-    const [loading, setLoading] = useState(false);
-    const [answerLoading, setAnswerLoading] = useState(false);
-    const [historyLoading, setHistoryLoading] = useState(false);
+  const [availableCount, setAvailableCount] =
+    useState(0);
 
-    const [error, setError] = useState("");
+  const [categoriesLoading, setCategoriesLoading] =
+    useState(true);
 
-    const [started, setStarted] = useState(false);
-    const [completed, setCompleted] = useState(false);
-
-    const [finalResult, setFinalResult] = useState(null);
+  const [availabilityLoading, setAvailabilityLoading] =
+    useState(false);
 
 
-    // =========================================
-    // START PRACTICE
-    // =========================================
+  // =====================================================
+  // QUIZ
+  // =====================================================
 
-    const handleStartPractice = async () => {
+  const [questions, setQuestions] = useState([]);
 
-        setLoading(true);
-        setError("");
+  const [currentQuestion, setCurrentQuestion] =
+    useState(0);
 
-        setQuestions([]);
-        setCurrentQuestion(0);
-        setSelectedAnswer("");
-        setAnswerResult(null);
+  /*
+   * answers object:
+   *
+   * {
+   *   12: "A",
+   *   15: "C"
+   * }
+   */
 
-        setCorrectAnswers(0);
-        setWrongAnswers(0);
+  const [answers, setAnswers] = useState({});
 
-        setCompleted(false);
-        setFinalResult(null);
 
-        try {
+  /*
+   * skipped object:
+   *
+   * {
+   *   12: true
+   * }
+   */
 
-            const token = localStorage.getItem("token");
+  const [skipped, setSkipped] = useState({});
 
-            const response = await fetch(
-                `http://localhost:8080/api/questions/practice?category=${category}&difficulty=${difficulty}`,
-                {
-                    method: "GET",
 
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                }
-            );
+  // =====================================================
+  // PAGE STATE
+  // =====================================================
 
-            if (!response.ok) {
-                throw new Error(
-                    "Failed to load practice questions"
-                );
-            }
+  const [started, setStarted] = useState(false);
 
-            const data = await response.json();
+  const [submitted, setSubmitted] = useState(false);
 
-            if (data.length === 0) {
+  const [submitting, setSubmitting] = useState(false);
 
-                setError(
-                    "No questions found for this category and difficulty."
-                );
+  const [loading, setLoading] = useState(false);
 
-                setStarted(false);
+  const [error, setError] = useState("");
 
-                return;
-            }
+  const [finalResult, setFinalResult] =
+    useState(null);
 
-            setQuestions(data);
-            setCurrentQuestion(0);
-            setSelectedAnswer("");
-            setAnswerResult(null);
 
-            setCorrectAnswers(0);
-            setWrongAnswers(0);
+  // =====================================================
+  // DIFFICULTIES
+  // =====================================================
 
-            setStarted(true);
+  const difficulties = [
+    {
+      value: "EASY",
+      label: "Easy",
+    },
+    {
+      value: "MEDIUM",
+      label: "Medium",
+    },
+    {
+      value: "HARD",
+      label: "Hard",
+    },
+  ];
 
-        } catch (error) {
 
-            setError(error.message);
+  // =====================================================
+  // QUESTION COUNTS
+  // =====================================================
 
-        } finally {
+  const questionCountOptions = [
+    5,
+    10,
+    15,
+    20,
+    25,
+    30,
+  ];
 
-            setLoading(false);
+
+  // =====================================================
+  // LOAD CATEGORIES
+  // =====================================================
+
+  useEffect(() => {
+    loadCategories();
+  }, []);
+
+
+  const loadCategories = async () => {
+    setCategoriesLoading(true);
+
+    setError("");
+
+    try {
+      const token =
+        localStorage.getItem("token");
+
+      const response = await fetch(
+        "http://localhost:8080/api/questions/categories",
+        {
+          method: "GET",
+
+          headers: {
+            Authorization:
+              `Bearer ${token}`,
+
+            Accept:
+              "application/json",
+          },
         }
-    };
+      );
+
+      if (!response.ok) {
+        throw new Error(
+          "Failed to load categories."
+        );
+      }
+
+      const data =
+        await response.json();
+
+      if (!Array.isArray(data)) {
+        throw new Error(
+          "Invalid category data."
+        );
+      }
+
+      setCategories(data);
+
+    } catch (error) {
+      console.error(
+        "Category loading error:",
+        error
+      );
+
+      setError(
+        error.message ||
+          "Failed to load categories."
+      );
+
+    } finally {
+      setCategoriesLoading(false);
+    }
+  };
 
 
-    // =========================================
-    // SELECT ANSWER
-    // =========================================
+  // =====================================================
+  // CATEGORY CHECKBOX
+  // =====================================================
 
-    const handleAnswerSelect = (answer) => {
+  const handleCategoryChange = (category) => {
+    setSelectedCategories(
+      (previous) => {
 
-        if (answerResult) {
-            return;
-        }
+        if (previous.includes(category)) {
 
-        setSelectedAnswer(answer);
-    };
+          return previous.filter(
+            (item) => item !== category
+          );
 
-
-    // =========================================
-    // SUBMIT ANSWER
-    // =========================================
-
-    const handleSubmitAnswer = async () => {
-
-        if (!selectedAnswer) {
-
-            alert("Please select an answer.");
-
-            return;
-        }
-
-        setAnswerLoading(true);
-        setError("");
-
-        try {
-
-            const token = localStorage.getItem("token");
-
-            const question =
-                questions[currentQuestion];
-
-            const response = await fetch(
-                "http://localhost:8080/api/practice/answer",
-                {
-                    method: "POST",
-
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`
-                    },
-
-                    body: JSON.stringify({
-                        questionId: question.id,
-                        selectedAnswer: selectedAnswer
-                    })
-                }
-            );
-
-            const data = await response.json();
-
-            if (!response.ok) {
-
-                throw new Error(
-                    data.message ||
-                    "Failed to check answer"
-                );
-            }
-
-            setAnswerResult(data);
-
-            if (data.correct) {
-
-                setCorrectAnswers(
-                    previous => previous + 1
-                );
-
-            } else {
-
-                setWrongAnswers(
-                    previous => previous + 1
-                );
-            }
-
-        } catch (error) {
-
-            setError(error.message);
-
-        } finally {
-
-            setAnswerLoading(false);
-        }
-    };
-
-
-    // =========================================
-    // FINISH PRACTICE
-    // =========================================
-
-    const finishPractice = async (
-        finalCorrect,
-        finalWrong
-    ) => {
-
-        setHistoryLoading(true);
-        setError("");
-
-        const totalQuestions =
-            questions.length;
-
-        const score =
-            finalCorrect;
-
-        const accuracy =
-            totalQuestions > 0
-                ? (finalCorrect / totalQuestions) * 100
-                : 0;
-
-        try {
-
-            const token = localStorage.getItem("token");
-
-            const response = await fetch(
-                "http://localhost:8080/api/practice/history",
-                {
-                    method: "POST",
-
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`
-                    },
-
-                    body: JSON.stringify({
-                        category: category,
-                        difficulty: difficulty,
-                        totalQuestions: totalQuestions,
-                        correctAnswers: finalCorrect,
-                        wrongAnswers: finalWrong,
-                        score: score,
-                        accuracy: accuracy
-                    })
-                }
-            );
-
-            if (!response.ok) {
-
-                throw new Error(
-                    "Failed to save practice history"
-                );
-            }
-
-            setFinalResult({
-                totalQuestions: totalQuestions,
-                correctAnswers: finalCorrect,
-                wrongAnswers: finalWrong,
-                score: score,
-                accuracy: accuracy
-            });
-
-            setCompleted(true);
-
-        } catch (error) {
-
-            setError(error.message);
-
-        } finally {
-
-            setHistoryLoading(false);
-        }
-    };
-
-
-    // =========================================
-    // NEXT QUESTION
-    // =========================================
-
-    const handleNext = () => {
-
-        const isLastQuestion =
-            currentQuestion ===
-            questions.length - 1;
-
-        if (isLastQuestion) {
-
-            const finalCorrect =
-                correctAnswers;
-
-            const finalWrong =
-                wrongAnswers;
-
-            finishPractice(
-                finalCorrect,
-                finalWrong
-            );
-
-            return;
         }
 
-        setCurrentQuestion(
-            currentQuestion + 1
+        return [
+          ...previous,
+          category,
+        ];
+      }
+    );
+  };
+
+
+  // =====================================================
+  // DIFFICULTY CHECKBOX
+  // =====================================================
+
+  const handleDifficultyChange = (
+    difficulty
+  ) => {
+
+    setSelectedDifficulties(
+      (previous) => {
+
+        if (
+          previous.includes(difficulty)
+        ) {
+
+          return previous.filter(
+            (item) =>
+              item !== difficulty
+          );
+
+        }
+
+        return [
+          ...previous,
+          difficulty,
+        ];
+      }
+    );
+  };
+
+
+  // =====================================================
+  // SELECT ALL CATEGORIES
+  // =====================================================
+
+  const handleSelectAllCategories = () => {
+
+    if (
+      selectedCategories.length ===
+      categories.length
+    ) {
+
+      setSelectedCategories([]);
+
+      return;
+    }
+
+    setSelectedCategories(
+      [...categories]
+    );
+  };
+
+
+  // =====================================================
+  // AVAILABLE QUESTION COUNT
+  // =====================================================
+
+  useEffect(() => {
+
+    if (
+      selectedCategories.length === 0 ||
+      selectedDifficulties.length === 0
+    ) {
+
+      setAvailableCount(0);
+
+      return;
+    }
+
+    loadAvailableCount();
+
+  }, [
+    selectedCategories,
+    selectedDifficulties,
+  ]);
+
+
+  const loadAvailableCount = async () => {
+
+    setAvailabilityLoading(true);
+
+    try {
+
+      const token =
+        localStorage.getItem("token");
+
+
+      const params =
+        new URLSearchParams();
+
+
+      selectedCategories.forEach(
+        (category) => {
+          params.append(
+            "categories",
+            category
+          );
+        }
+      );
+
+
+      selectedDifficulties.forEach(
+        (difficulty) => {
+          params.append(
+            "difficulties",
+            difficulty
+          );
+        }
+      );
+
+
+      /*
+       * We request a very large count.
+       * The backend returns all matching
+       * questions up to that count.
+       */
+
+      params.append(
+        "count",
+        "10000"
+      );
+
+
+      const response =
+        await fetch(
+          `http://localhost:8080/api/questions/practice?${params.toString()}`,
+          {
+            method: "GET",
+
+            headers: {
+              Authorization:
+                `Bearer ${token}`,
+
+              Accept:
+                "application/json",
+            },
+          }
         );
 
-        setSelectedAnswer("");
-        setAnswerResult(null);
-    };
 
-
-    // =========================================
-    // PRACTICE AGAIN
-    // =========================================
-
-    const handlePracticeAgain = () => {
-
-        setCompleted(false);
-        setStarted(false);
-
-        setQuestions([]);
-        setCurrentQuestion(0);
-
-        setSelectedAnswer("");
-        setAnswerResult(null);
-
-        setCorrectAnswers(0);
-        setWrongAnswers(0);
-
-        setFinalResult(null);
-        setError("");
-    };
-
-
-    // =========================================
-    // SETUP SCREEN
-    // =========================================
-
-    if (!started && !completed) {
-
-        return (
-
-            <div className="practice-page">
-
-                <div className="practice-setup">
-
-                    <h1>
-                        Practice
-                    </h1>
-
-                    <p>
-                        Choose your topic and difficulty
-                        to start practicing.
-                    </p>
-
-
-                    {/* CATEGORY */}
-
-                    <div className="practice-field">
-
-                        <label>
-                            Category
-                        </label>
-
-                        <select
-                            value={category}
-                            onChange={(e) =>
-                                setCategory(e.target.value)
-                            }
-                        >
-
-                            <option value="Java">
-                                Java
-                            </option>
-
-                            <option value="Python">
-                                Python
-                            </option>
-
-                            <option value="SQL">
-                                SQL
-                            </option>
-
-                            <option value="DSA">
-                                DSA
-                            </option>
-
-                        </select>
-
-                    </div>
-
-
-                    {/* DIFFICULTY */}
-
-                    <div className="practice-field">
-
-                        <label>
-                            Difficulty
-                        </label>
-
-                        <select
-                            value={difficulty}
-                            onChange={(e) =>
-                                setDifficulty(e.target.value)
-                            }
-                        >
-
-                            <option value="EASY">
-                                Easy
-                            </option>
-
-                            <option value="MEDIUM">
-                                Medium
-                            </option>
-
-                            <option value="HARD">
-                                Hard
-                            </option>
-
-                        </select>
-
-                    </div>
-
-
-                    {/* ERROR */}
-
-                    {error && (
-
-                        <div className="practice-error">
-                            {error}
-                        </div>
-
-                    )}
-
-
-                    {/* START */}
-
-                    <button
-                        className="start-practice-btn"
-                        onClick={handleStartPractice}
-                        disabled={loading}
-                    >
-
-                        {loading
-                            ? "Loading..."
-                            : "🚀 Start Practice"}
-
-                    </button>
-
-                </div>
-
-            </div>
+      if (!response.ok) {
+        throw new Error(
+          "Failed to check available questions."
         );
+      }
+
+
+      const data =
+        await response.json();
+
+
+      if (Array.isArray(data)) {
+
+        setAvailableCount(
+          data.length
+        );
+
+      } else {
+
+        setAvailableCount(0);
+
+      }
+
+    } catch (error) {
+
+      console.error(
+        "Availability error:",
+        error
+      );
+
+      setAvailableCount(0);
+
+    } finally {
+
+      setAvailabilityLoading(false);
+
+    }
+  };
+
+
+  // =====================================================
+  // QUESTION COUNT VALIDATION
+  // =====================================================
+
+  const effectiveQuestionCount =
+    Math.min(
+      questionCount,
+      availableCount
+    );
+
+
+  // =====================================================
+  // START QUIZ
+  // =====================================================
+
+  const handleStartPractice = async () => {
+
+    setError("");
+
+
+    if (
+      selectedCategories.length === 0
+    ) {
+
+      setError(
+        "Please select at least one topic."
+      );
+
+      return;
     }
 
 
-    // =========================================
-    // COMPLETED SCREEN
-    // =========================================
+    if (
+      selectedDifficulties.length === 0
+    ) {
 
-    if (completed && finalResult) {
+      setError(
+        "Please select at least one difficulty."
+      );
 
-        return (
-
-            <div className="practice-page">
-
-                <div className="practice-setup">
-
-                    <div
-                        style={{
-                            textAlign: "center"
-                        }}
-                    >
-
-                        <div
-                            style={{
-                                fontSize: "50px",
-                                marginBottom: "10px"
-                            }}
-                        >
-                            🎉
-                        </div>
-
-                        <h1>
-                            Practice Complete!
-                        </h1>
-
-                        <p>
-                            Great job! Here's your result.
-                        </p>
-
-                    </div>
-
-
-                    {/* SCORE */}
-
-                    <div
-                        style={{
-                            display: "flex",
-                            justifyContent: "center",
-                            gap: "20px",
-                            marginTop: "30px",
-                            flexWrap: "wrap"
-                        }}
-                    >
-
-                        <div
-                            style={{
-                                padding: "20px 30px",
-                                borderRadius: "12px",
-                                background: "#ecfdf3",
-                                textAlign: "center"
-                            }}
-                        >
-
-                            <strong
-                                style={{
-                                    display: "block",
-                                    fontSize: "30px",
-                                    color: "#198754"
-                                }}
-                            >
-                                {finalResult.correctAnswers}
-                                /
-                                {finalResult.totalQuestions}
-                            </strong>
-
-                            <span>
-                                Score
-                            </span>
-
-                        </div>
-
-
-                        <div
-                            style={{
-                                padding: "20px 30px",
-                                borderRadius: "12px",
-                                background: "#f1f5f9",
-                                textAlign: "center"
-                            }}
-                        >
-
-                            <strong
-                                style={{
-                                    display: "block",
-                                    fontSize: "30px",
-                                    color: "#172033"
-                                }}
-                            >
-                                {Math.round(
-                                    finalResult.accuracy
-                                )}%
-                            </strong>
-
-                            <span>
-                                Accuracy
-                            </span>
-
-                        </div>
-
-                    </div>
-
-
-                    {/* DETAILS */}
-
-                    <div
-                        style={{
-                            marginTop: "30px",
-                            borderTop: "1px solid #e5e7eb",
-                            paddingTop: "20px"
-                        }}
-                    >
-
-                        <p>
-                            <strong>
-                                Category:
-                            </strong>{" "}
-                            {category}
-                        </p>
-
-                        <p>
-                            <strong>
-                                Difficulty:
-                            </strong>{" "}
-                            {difficulty}
-                        </p>
-
-                        <p>
-                            <strong>
-                                Correct:
-                            </strong>{" "}
-                            {finalResult.correctAnswers}
-                        </p>
-
-                        <p>
-                            <strong>
-                                Incorrect:
-                            </strong>{" "}
-                            {finalResult.wrongAnswers}
-                        </p>
-
-                    </div>
-
-
-                    {error && (
-
-                        <div className="practice-error">
-                            {error}
-                        </div>
-
-                    )}
-
-
-                    <button
-                        className="start-practice-btn"
-                        onClick={handlePracticeAgain}
-                    >
-                        🔄 Practice Again
-                    </button>
-
-                </div>
-
-            </div>
-        );
+      return;
     }
 
 
-    // =========================================
-    // CURRENT QUESTION
-    // =========================================
+    if (availableCount === 0) {
 
-    const question =
-        questions[currentQuestion];
+      setError(
+        "No questions are available for the selected topics and difficulties."
+      );
 
-    const progress =
-        ((currentQuestion + 1) /
-            questions.length) * 100;
+      return;
+    }
 
 
-    // =========================================
-    // QUESTION SCREEN
-    // =========================================
+    if (questionCount > availableCount) {
+
+      setError(
+        `Only ${availableCount} matching question${
+          availableCount === 1
+            ? ""
+            : "s"
+        } are available.`
+      );
+
+      return;
+    }
+
+
+    setLoading(true);
+
+
+    try {
+
+      const token =
+        localStorage.getItem("token");
+
+
+      const params =
+        new URLSearchParams();
+
+
+      selectedCategories.forEach(
+        (category) => {
+
+          params.append(
+            "categories",
+            category
+          );
+
+        }
+      );
+
+
+      selectedDifficulties.forEach(
+        (difficulty) => {
+
+          params.append(
+            "difficulties",
+            difficulty
+          );
+
+        }
+      );
+
+
+      params.append(
+        "count",
+        String(questionCount)
+      );
+
+
+      const response =
+        await fetch(
+          `http://localhost:8080/api/questions/practice?${params.toString()}`,
+          {
+            method: "GET",
+
+            headers: {
+              Authorization:
+                `Bearer ${token}`,
+
+              Accept:
+                "application/json",
+            },
+          }
+        );
+
+
+      let data = null;
+
+
+      try {
+        data =
+          await response.json();
+      } catch {
+        data = null;
+      }
+
+
+      if (!response.ok) {
+
+        throw new Error(
+          typeof data === "string"
+            ? data
+            : "Failed to load practice questions."
+        );
+
+      }
+
+
+      if (
+        !Array.isArray(data) ||
+        data.length === 0
+      ) {
+
+        throw new Error(
+          "No matching questions were found."
+        );
+
+      }
+
+
+      if (
+        data.length < questionCount
+      ) {
+
+        throw new Error(
+          `Only ${data.length} matching questions are available.`
+        );
+
+      }
+
+
+      setQuestions(data);
+
+      setCurrentQuestion(0);
+
+      setAnswers({});
+
+      setSkipped({});
+
+      setFinalResult(null);
+
+      setSubmitted(false);
+
+      setStarted(true);
+
+
+    } catch (error) {
+
+      console.error(
+        "Start practice error:",
+        error
+      );
+
+      setError(
+        error.message ||
+          "Failed to start practice."
+      );
+
+    } finally {
+
+      setLoading(false);
+
+    }
+  };
+
+
+  // =====================================================
+  // CURRENT QUESTION
+  // =====================================================
+
+  const question =
+    questions[currentQuestion];
+
+
+  // =====================================================
+  // SELECT ANSWER
+  // =====================================================
+
+  const handleAnswerSelect = (
+    answer
+  ) => {
+
+    if (!question) {
+      return;
+    }
+
+
+    setAnswers(
+      (previous) => ({
+
+        ...previous,
+
+        [question.id]:
+          answer,
+
+      })
+    );
+
+
+    /*
+     * If the user answers a previously
+     * skipped question, remove it
+     * from skipped state.
+     */
+
+    setSkipped(
+      (previous) => {
+
+        const updated = {
+          ...previous,
+        };
+
+        delete updated[question.id];
+
+        return updated;
+      }
+    );
+  };
+
+
+  // =====================================================
+  // SKIP QUESTION
+  // =====================================================
+
+  const handleSkip = () => {
+
+    if (!question) {
+      return;
+    }
+
+
+    /*
+     * Remove any selected answer.
+     */
+
+    setAnswers(
+      (previous) => {
+
+        const updated = {
+          ...previous,
+        };
+
+        delete updated[question.id];
+
+        return updated;
+      }
+    );
+
+
+    /*
+     * Mark as skipped.
+     */
+
+    setSkipped(
+      (previous) => ({
+
+        ...previous,
+
+        [question.id]:
+          true,
+
+      })
+    );
+
+
+    /*
+     * Move to next question.
+     */
+
+    if (
+      currentQuestion <
+      questions.length - 1
+    ) {
+
+      setCurrentQuestion(
+        currentQuestion + 1
+      );
+
+      return;
+    }
+
+
+    /*
+     * If this is the last question,
+     * go back to the first unanswered
+     * or skipped question.
+     */
+
+    const nextIndex =
+      questions.findIndex(
+        (item) =>
+          !answers[item.id] &&
+          item.id !== question.id
+      );
+
+
+    if (nextIndex !== -1) {
+
+      setCurrentQuestion(
+        nextIndex
+      );
+
+    }
+  };
+
+
+  // =====================================================
+  // NEXT QUESTION
+  // =====================================================
+
+  const handleNext = () => {
+
+    if (
+      currentQuestion <
+      questions.length - 1
+    ) {
+
+      setCurrentQuestion(
+        currentQuestion + 1
+      );
+
+    }
+
+  };
+
+
+  // =====================================================
+  // PREVIOUS QUESTION
+  // =====================================================
+
+  const handlePrevious = () => {
+
+    if (
+      currentQuestion > 0
+    ) {
+
+      setCurrentQuestion(
+        currentQuestion - 1
+      );
+
+    }
+
+  };
+
+
+  // =====================================================
+  // GO TO QUESTION
+  // =====================================================
+
+  const handleQuestionNavigation = (
+    index
+  ) => {
+
+    setCurrentQuestion(index);
+
+  };
+
+
+  // =====================================================
+  // CALCULATE RESULT
+  // =====================================================
+
+  const calculateResult = () => {
+
+    let correct = 0;
+
+    let incorrect = 0;
+
+    let unanswered = 0;
+
+
+    questions.forEach(
+      (item) => {
+
+        const userAnswer =
+          answers[item.id];
+
+
+        if (!userAnswer) {
+
+          unanswered++;
+
+          return;
+
+        }
+
+
+        if (
+          userAnswer ===
+          item.correctAnswer
+        ) {
+
+          correct++;
+
+        } else {
+
+          incorrect++;
+
+        }
+
+      }
+    );
+
+
+    const total =
+      questions.length;
+
+
+    const accuracy =
+      total > 0
+        ? (correct / total) * 100
+        : 0;
+
+
+    return {
+
+      total,
+
+      correct,
+
+      incorrect,
+
+      unanswered,
+
+      accuracy,
+
+    };
+  };
+
+
+  // =====================================================
+  // SUBMIT QUIZ
+  // =====================================================
+
+  const handleSubmitQuiz = async () => {
+
+    const unanswered =
+      questions.filter(
+        (item) =>
+          !answers[item.id]
+      ).length;
+
+
+    if (unanswered > 0) {
+
+      const confirmed =
+        window.confirm(
+          `You have ${unanswered} unanswered question${
+            unanswered === 1
+              ? ""
+              : "s"
+          }.\n\nDo you want to submit the quiz anyway?`
+        );
+
+
+      if (!confirmed) {
+
+        return;
+
+      }
+
+    }
+
+
+    setSubmitting(true);
+
+    setError("");
+
+
+    try {
+
+      /*
+       * For the current frontend architecture,
+       * correctness is calculated after the
+       * quiz is submitted.
+       */
+
+      const result =
+        calculateResult();
+
+
+      /*
+       * Save result if the history API exists.
+       */
+
+      try {
+
+        const token =
+          localStorage.getItem("token");
+
+
+        await fetch(
+          "http://localhost:8080/api/practice/history",
+          {
+            method: "POST",
+
+            headers: {
+              "Content-Type":
+                "application/json",
+
+              Authorization:
+                `Bearer ${token}`,
+
+              Accept:
+                "application/json",
+            },
+
+            body: JSON.stringify({
+
+              categories:
+                selectedCategories,
+
+              difficulties:
+                selectedDifficulties,
+
+              totalQuestions:
+                result.total,
+
+              correctAnswers:
+                result.correct,
+
+              wrongAnswers:
+                result.incorrect,
+
+              unanswered:
+                result.unanswered,
+
+              score:
+                result.correct,
+
+              accuracy:
+                result.accuracy,
+
+            }),
+          }
+        );
+
+      } catch (historyError) {
+
+        /*
+         * Do not prevent the user from
+         * seeing their result if history
+         * saving isn't implemented yet.
+         */
+
+        console.warn(
+          "History save skipped:",
+          historyError
+        );
+
+      }
+
+
+      setFinalResult(result);
+
+      setSubmitted(true);
+
+
+    } catch (error) {
+
+      console.error(
+        "Submit quiz error:",
+        error
+      );
+
+      setError(
+        error.message ||
+          "Failed to submit quiz."
+      );
+
+    } finally {
+
+      setSubmitting(false);
+
+    }
+  };
+
+
+  // =====================================================
+  // RESTART
+  // =====================================================
+
+  const handleRestart = () => {
+
+    setQuestions([]);
+
+    setCurrentQuestion(0);
+
+    setAnswers({});
+
+    setSkipped({});
+
+    setStarted(false);
+
+    setSubmitted(false);
+
+    setSubmitting(false);
+
+    setFinalResult(null);
+
+    setError("");
+
+  };
+
+
+  // =====================================================
+  // ANSWER STATUS
+  // =====================================================
+
+  const getQuestionStatus = (
+    item,
+    index
+  ) => {
+
+    if (
+      answers[item.id]
+    ) {
+
+      return "answered";
+
+    }
+
+
+    if (
+      skipped[item.id]
+    ) {
+
+      return "skipped";
+
+    }
+
+
+    if (
+      index === currentQuestion
+    ) {
+
+      return "current";
+
+    }
+
+
+    return "unanswered";
+  };
+
+
+  // =====================================================
+  // SETUP SCREEN
+  // =====================================================
+
+  if (!started && !submitted) {
 
     return (
 
-        <div className="practice-page">
+      <div className="practice-page">
 
-            <div className="practice-container">
+        <div className="practice-setup-card">
 
-                <div className="question-card">
+          <div className="practice-header">
 
-                    {/* TOP */}
+            <h1>
+              Practice
+            </h1>
 
-                    <div className="question-top">
+            <p>
+              Build your own interview practice
+              session.
+            </p>
 
-                        <span className="category-badge">
-                            {question.category}
-                        </span>
-
-                        <span className="question-number">
-                            Question {currentQuestion + 1} of{" "}
-                            {questions.length}
-                        </span>
-
-                        <span className="difficulty-badge">
-                            {question.difficulty}
-                        </span>
-
-                    </div>
+          </div>
 
 
-                    {/* PROGRESS */}
+          {/* ============================================
+              TOPICS
+              ============================================ */}
 
-                    <div className="progress-track">
+          <div className="setup-section">
 
-                        <div
-                            className="progress-bar"
-                            style={{
-                                width: `${progress}%`
-                            }}
-                        />
+            <div className="setup-section-header">
 
-                    </div>
+              <div>
 
+                <h2>
+                  Topics
+                </h2>
 
-                    {/* QUESTION */}
+                <p>
+                  Select one or more topics.
+                </p>
 
-                    <h2 className="question-text">
-                        {question.questionText}
-                    </h2>
-
-
-                    {/* OPTIONS */}
-
-                    <div className="options-container">
-
-                        <button
-                            className={
-                                selectedAnswer === "A"
-                                    ? "answer-option selected"
-                                    : "answer-option"
-                            }
-                            onClick={() =>
-                                handleAnswerSelect("A")
-                            }
-                        >
-
-                            <span className="option-letter">
-                                A
-                            </span>
-
-                            <span className="option-text">
-                                {question.optionA}
-                            </span>
-
-                        </button>
+              </div>
 
 
-                        <button
-                            className={
-                                selectedAnswer === "B"
-                                    ? "answer-option selected"
-                                    : "answer-option"
-                            }
-                            onClick={() =>
-                                handleAnswerSelect("B")
-                            }
-                        >
+              {categories.length > 0 && (
 
-                            <span className="option-letter">
-                                B
-                            </span>
+                <button
+                  type="button"
+                  className="select-all-btn"
+                  onClick={
+                    handleSelectAllCategories
+                  }
+                >
 
-                            <span className="option-text">
-                                {question.optionB}
-                            </span>
+                  {selectedCategories.length ===
+                  categories.length
+                    ? "Clear All"
+                    : "Select All"}
 
-                        </button>
+                </button>
 
+              )}
 
-                        <button
-                            className={
-                                selectedAnswer === "C"
-                                    ? "answer-option selected"
-                                    : "answer-option"
-                            }
-                            onClick={() =>
-                                handleAnswerSelect("C")
-                            }
-                        >
-
-                            <span className="option-letter">
-                                C
-                            </span>
-
-                            <span className="option-text">
-                                {question.optionC}
-                            </span>
-
-                        </button>
+            </div>
 
 
-                        <button
-                            className={
-                                selectedAnswer === "D"
-                                    ? "answer-option selected"
-                                    : "answer-option"
-                            }
-                            onClick={() =>
-                                handleAnswerSelect("D")
-                            }
-                        >
+            {categoriesLoading ? (
 
-                            <span className="option-letter">
-                                D
-                            </span>
+              <div className="setup-loading">
+                Loading topics...
+              </div>
 
-                            <span className="option-text">
-                                {question.optionD}
-                            </span>
+            ) : categories.length === 0 ? (
 
-                        </button>
+              <div className="setup-empty">
+                No topics available.
+              </div>
 
-                    </div>
+            ) : (
 
+              <div className="checkbox-grid">
 
-                    {/* ERROR */}
+                {categories.map(
+                  (category) => (
 
-                    {error && (
-
-                        <div className="practice-error">
-                            {error}
-                        </div>
-
-                    )}
-
-
-                    {/* SUBMIT */}
-
-                    {!answerResult && (
-
-                        <button
-                            className="submit-answer-btn"
-                            onClick={handleSubmitAnswer}
-                            disabled={answerLoading}
-                        >
-
-                            {answerLoading
-                                ? "Checking..."
-                                : "➤ Submit Answer"}
-
-                        </button>
-
-                    )}
-
-                </div>
-
-
-                {/* =================================
-                    RESULT
-                ================================= */}
-
-                {answerResult && (
-
-                    <div
-                        className={
-                            answerResult.correct
-                                ? "result-card correct"
-                                : "result-card incorrect"
-                        }
+                    <label
+                      key={category}
+                      className={
+                        selectedCategories.includes(
+                          category
+                        )
+                          ? "checkbox-card selected"
+                          : "checkbox-card"
+                      }
                     >
 
-                        <h3 className="result-title">
+                      <input
+                        type="checkbox"
+                        checked={
+                          selectedCategories.includes(
+                            category
+                          )
+                        }
+                        onChange={() =>
+                          handleCategoryChange(
+                            category
+                          )
+                        }
+                      />
 
-                            {answerResult.correct
-                                ? "✅ Correct! 🎉"
-                                : "❌ Incorrect"}
+
+                      <span className="custom-checkbox">
+
+                        {selectedCategories.includes(
+                          category
+                        )
+                          ? "✓"
+                          : ""}
+
+                      </span>
+
+
+                      <span className="checkbox-label">
+                        {category}
+                      </span>
+
+                    </label>
+
+                  )
+                )}
+
+              </div>
+
+            )}
+
+          </div>
+
+
+          {/* ============================================
+              DIFFICULTY
+              ============================================ */}
+
+          <div className="setup-section">
+
+            <div className="setup-section-header">
+
+              <div>
+
+                <h2>
+                  Difficulty
+                </h2>
+
+                <p>
+                  Select one or more difficulty
+                  levels.
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <div className="difficulty-grid">
+
+              {difficulties.map(
+                (item) => (
+
+                  <label
+                    key={item.value}
+                    className={
+                      selectedDifficulties.includes(
+                        item.value
+                      )
+                        ? "difficulty-card selected"
+                        : "difficulty-card"
+                    }
+                  >
+
+                    <input
+                      type="checkbox"
+                      checked={
+                        selectedDifficulties.includes(
+                          item.value
+                        )
+                      }
+                      onChange={() =>
+                        handleDifficultyChange(
+                          item.value
+                        )
+                      }
+                    />
+
+
+                    <span className="custom-checkbox">
+
+                      {selectedDifficulties.includes(
+                        item.value
+                      )
+                        ? "✓"
+                        : ""}
+
+                    </span>
+
+
+                    <span>
+                      {item.label}
+                    </span>
+
+                  </label>
+
+                )
+              )}
+
+            </div>
+
+          </div>
+
+
+          {/* ============================================
+              QUESTION COUNT
+              ============================================ */}
+
+          <div className="setup-section">
+
+            <div className="setup-section-header">
+
+              <div>
+
+                <h2>
+                  Number of Questions
+                </h2>
+
+                <p>
+                  Choose how many questions you
+                  want to practice.
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <div className="question-count-grid">
+
+              {questionCountOptions.map(
+                (count) => (
+
+                  <button
+                    key={count}
+                    type="button"
+                    className={
+                      questionCount === count
+                        ? "count-btn selected"
+                        : "count-btn"
+                    }
+                    onClick={() =>
+                      setQuestionCount(
+                        count
+                      )
+                    }
+                  >
+
+                    {count}
+
+                  </button>
+
+                )
+              )}
+
+            </div>
+
+
+            <div className="availability-box">
+
+              <span>
+                Available matching questions
+              </span>
+
+
+              <strong>
+
+                {availabilityLoading
+                  ? "Checking..."
+                  : availableCount}
+
+              </strong>
+
+            </div>
+
+          </div>
+
+
+          {/* ============================================
+              ERROR
+              ============================================ */}
+
+          {error && (
+
+            <div className="practice-error">
+
+              ⚠️ {error}
+
+            </div>
+
+          )}
+
+
+          {/* ============================================
+              START
+              ============================================ */}
+
+          <button
+            type="button"
+            className="start-practice-btn"
+            onClick={
+              handleStartPractice
+            }
+            disabled={
+              loading ||
+              categoriesLoading ||
+              selectedCategories.length === 0 ||
+              selectedDifficulties.length === 0 ||
+              availableCount === 0 ||
+              questionCount > availableCount
+            }
+          >
+
+            {loading
+              ? "Preparing Quiz..."
+              : "🚀 Start Practice"}
+
+          </button>
+
+        </div>
+
+      </div>
+
+    );
+  }
+
+
+  // =====================================================
+  // RESULT SCREEN
+  // =====================================================
+
+  if (submitted && finalResult) {
+
+    return (
+
+      <div className="practice-page">
+
+        <div className="result-container">
+
+          <div className="result-header">
+
+            <div className="result-icon">
+              🎉
+            </div>
+
+            <h1>
+              Quiz Completed!
+            </h1>
+
+            <p>
+              Here's how you performed.
+            </p>
+
+          </div>
+
+
+          {/* ==========================================
+              SCORE
+              ========================================== */}
+
+          <div className="score-circle">
+
+            <strong>
+              {finalResult.correct}
+              /
+              {finalResult.total}
+            </strong>
+
+            <span>
+              Score
+            </span>
+
+          </div>
+
+
+          {/* ==========================================
+              STATISTICS
+              ========================================== */}
+
+          <div className="result-stats">
+
+            <div className="result-stat correct-stat">
+
+              <strong>
+                {finalResult.correct}
+              </strong>
+
+              <span>
+                Correct
+              </span>
+
+            </div>
+
+
+            <div className="result-stat incorrect-stat">
+
+              <strong>
+                {finalResult.incorrect}
+              </strong>
+
+              <span>
+                Incorrect
+              </span>
+
+            </div>
+
+
+            <div className="result-stat unanswered-stat">
+
+              <strong>
+                {finalResult.unanswered}
+              </strong>
+
+              <span>
+                Unanswered
+              </span>
+
+            </div>
+
+
+            <div className="result-stat accuracy-stat">
+
+              <strong>
+                {Math.round(
+                  finalResult.accuracy
+                )}
+                %
+              </strong>
+
+              <span>
+                Accuracy
+              </span>
+
+            </div>
+
+          </div>
+
+
+          {/* ==========================================
+              QUIZ DETAILS
+              ========================================== */}
+
+          <div className="result-details">
+
+            <div>
+
+              <strong>
+                Topics
+              </strong>
+
+              <span>
+                {selectedCategories.join(
+                  ", "
+                )}
+              </span>
+
+            </div>
+
+
+            <div>
+
+              <strong>
+                Difficulty
+              </strong>
+
+              <span>
+                {selectedDifficulties
+                  .map(
+                    (difficulty) =>
+                      difficulty.charAt(0) +
+                      difficulty
+                        .slice(1)
+                        .toLowerCase()
+                  )
+                  .join(", ")}
+              </span>
+
+            </div>
+
+          </div>
+
+
+          {/* ==========================================
+              REVIEW
+              ========================================== */}
+
+          <div className="review-section">
+
+            <h2>
+              Review Answers
+            </h2>
+
+
+            <div className="review-list">
+
+              {questions.map(
+                (item, index) => {
+
+                  const userAnswer =
+                    answers[item.id];
+
+                  const isCorrect =
+                    userAnswer ===
+                    item.correctAnswer;
+
+                  const isSkipped =
+                    !userAnswer;
+
+
+                  return (
+
+                    <div
+                      key={item.id}
+                      className={
+                        isSkipped
+                          ? "review-item unanswered"
+                          : isCorrect
+                          ? "review-item correct"
+                          : "review-item incorrect"
+                      }
+                    >
+
+                      <div className="review-number">
+
+                        {index + 1}
+
+                      </div>
+
+
+                      <div className="review-content">
+
+                        <h3>
+
+                          {item.questionText}
 
                         </h3>
 
 
-                        <p>
+                        <div className="review-answer">
 
-                            <strong>
-                                Correct Answer:
-                            </strong>{" "}
+                          <span>
 
-                            {answerResult.correctAnswer}
+                            Your answer:
 
-                        </p>
+                          </span>
 
 
-                        <p>
+                          <strong>
 
-                            <strong>
-                                Explanation:
-                            </strong>
+                            {userAnswer
+                              ? userAnswer
+                              : "Unanswered"}
 
-                            <br />
+                          </strong>
 
-                            {answerResult.explanation}
-
-                        </p>
+                        </div>
 
 
-                        {/* NEXT / FINISH */}
+                        <div className="review-answer">
 
-                        <button
-                            className="next-question-btn"
-                            onClick={handleNext}
-                            disabled={historyLoading}
-                        >
+                          <span>
 
-                            {historyLoading
-                                ? "Saving Result..."
-                                : currentQuestion <
-                                    questions.length - 1
-                                    ? "Next Question →"
-                                    : "Finish Practice ✓"}
+                            Correct answer:
 
-                        </button>
+                          </span>
+
+
+                          <strong>
+
+                            {item.correctAnswer}
+
+                          </strong>
+
+                        </div>
+
+                      </div>
+
+
+                      <div className="review-status">
+
+                        {isSkipped
+                          ? "—"
+                          : isCorrect
+                          ? "✓"
+                          : "✗"}
+
+                      </div>
 
                     </div>
 
-                )}
+                  );
+
+                }
+              )}
 
             </div>
 
+          </div>
+
+
+          {/* ==========================================
+              ACTIONS
+              ========================================== */}
+
+          <button
+            type="button"
+            className="start-practice-btn"
+            onClick={
+              handleRestart
+            }
+          >
+
+            🔄 Start New Practice
+
+          </button>
+
         </div>
+
+      </div>
+
     );
+  }
+
+
+  // =====================================================
+  // QUIZ SCREEN
+  // =====================================================
+
+  if (!question) {
+
+    return (
+
+      <div className="practice-page">
+
+        <div className="practice-setup-card">
+
+          <div className="practice-error">
+            Question could not be loaded.
+          </div>
+
+
+          <button
+            type="button"
+            className="start-practice-btn"
+            onClick={
+              handleRestart
+            }
+          >
+            ← Back to Practice
+          </button>
+
+        </div>
+
+      </div>
+
+    );
+  }
+
+
+  const progress =
+    ((currentQuestion + 1) /
+      questions.length) *
+    100;
+
+
+  const selectedAnswer =
+    answers[question.id] || "";
+
+
+  const isSkipped =
+    skipped[question.id] === true;
+
+
+  const answeredCount =
+    Object.keys(answers).length;
+
+
+  const unansweredCount =
+    questions.length -
+    answeredCount;
+
+
+  return (
+
+    <div className="practice-page">
+
+      <div className="quiz-container">
+
+        {/* ==========================================
+            QUIZ HEADER
+            ========================================== */}
+
+        <div className="quiz-header">
+
+          <div>
+
+            <span className="quiz-category-label">
+              {selectedCategories.length === 1
+                ? selectedCategories[0]
+                : `${selectedCategories.length} Topics`}
+            </span>
+
+            <h1>
+              Practice Quiz
+            </h1>
+
+          </div>
+
+
+          <div className="quiz-progress-text">
+
+            {currentQuestion + 1}
+
+            <span>
+              /
+              {questions.length}
+            </span>
+
+          </div>
+
+        </div>
+
+
+        {/* ==========================================
+            PROGRESS BAR
+            ========================================== */}
+
+        <div className="quiz-progress-track">
+
+          <div
+            className="quiz-progress-bar"
+            style={{
+              width:
+                `${progress}%`,
+            }}
+          />
+
+        </div>
+
+
+        {/* ==========================================
+            QUESTION NAVIGATOR
+            ========================================== */}
+
+        <div className="question-navigator">
+
+          <div className="navigator-header">
+
+            <span>
+              Questions
+            </span>
+
+            <span>
+              {answeredCount} answered ·{" "}
+              {unansweredCount} unanswered
+            </span>
+
+          </div>
+
+
+          <div className="navigator-grid">
+
+            {questions.map(
+              (item, index) => {
+
+                const status =
+                  getQuestionStatus(
+                    item,
+                    index
+                  );
+
+
+                return (
+
+                  <button
+                    key={item.id}
+                    type="button"
+                    className={`navigator-number ${status}`}
+                    onClick={() =>
+                      handleQuestionNavigation(
+                        index
+                      )
+                    }
+                  >
+
+                    {index + 1}
+
+                  </button>
+
+                );
+
+              }
+            )}
+
+          </div>
+
+        </div>
+
+
+        {/* ==========================================
+            QUESTION CARD
+            ========================================== */}
+
+        <div className="quiz-question-card">
+
+          <div className="quiz-question-meta">
+
+            <span>
+              {question.category}
+            </span>
+
+
+            <span>
+              {question.difficulty}
+            </span>
+
+
+            {isSkipped && (
+
+              <span className="skipped-label">
+                Skipped
+              </span>
+
+            )}
+
+          </div>
+
+
+          <h2 className="quiz-question-text">
+
+            {question.questionText}
+
+          </h2>
+
+
+          {/* ========================================
+              OPTIONS
+              ======================================== */}
+
+          {question.type === "MCQ" && (
+
+            <div className="quiz-options">
+
+              {[
+                {
+                  key: "A",
+                  value:
+                    question.optionA,
+                },
+
+                {
+                  key: "B",
+                  value:
+                    question.optionB,
+                },
+
+                {
+                  key: "C",
+                  value:
+                    question.optionC,
+                },
+
+                {
+                  key: "D",
+                  value:
+                    question.optionD,
+                },
+
+              ].map(
+                (option) => (
+
+                  <button
+                    key={option.key}
+                    type="button"
+                    className={
+                      selectedAnswer ===
+                      option.key
+                        ? "quiz-option selected"
+                        : "quiz-option"
+                    }
+                    onClick={() =>
+                      handleAnswerSelect(
+                        option.key
+                      )
+                    }
+                  >
+
+                    <span className="quiz-option-letter">
+
+                      {option.key}
+
+                    </span>
+
+
+                    <span className="quiz-option-text">
+
+                      {option.value}
+
+                    </span>
+
+                  </button>
+
+                )
+              )}
+
+            </div>
+
+          )}
+
+
+          {/* ========================================
+              QUIZ ACTIONS
+              ======================================== */}
+
+          <div className="quiz-actions">
+
+            <button
+              type="button"
+              className="quiz-secondary-btn"
+              onClick={
+                handlePrevious
+              }
+              disabled={
+                currentQuestion === 0
+              }
+            >
+              ← Previous
+            </button>
+
+
+            <button
+              type="button"
+              className="quiz-skip-btn"
+              onClick={
+                handleSkip
+              }
+            >
+              Skip
+            </button>
+
+
+            {currentQuestion <
+            questions.length - 1 ? (
+
+              <button
+                type="button"
+                className="quiz-next-btn"
+                onClick={
+                  handleNext
+                }
+              >
+                Next →
+              </button>
+
+            ) : (
+
+              <button
+                type="button"
+                className="quiz-submit-btn"
+                onClick={
+                  handleSubmitQuiz
+                }
+                disabled={
+                  submitting
+                }
+              >
+
+                {submitting
+                  ? "Submitting..."
+                  : "Submit Quiz ✓"}
+
+              </button>
+
+            )}
+
+          </div>
+
+        </div>
+
+
+        {/* ==========================================
+            FOOTER INFO
+            ========================================== */}
+
+        <div className="quiz-footer">
+
+          <span>
+            ✓ Answered:{" "}
+            {answeredCount}
+          </span>
+
+          <span>
+            — Unanswered:{" "}
+            {unansweredCount}
+          </span>
+
+          <span>
+            Correct answers are revealed
+            after submission.
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  );
 }
 
 export default Practice;
