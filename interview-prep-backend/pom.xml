@@ -52,6 +52,13 @@
 			<artifactId>jjwt-api</artifactId>
 			<version>0.13.0</version>
 		</dependency>
+		<!--AI-->
+		<dependency>
+			<groupId>com.openai</groupId>
+			<artifactId>openai-java</artifactId>
+			<version>4.45.0</version>
+		</dependency>
+		<!--AI-->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-csv</artifactId>

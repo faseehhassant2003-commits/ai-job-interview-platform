@@ -240,6 +240,15 @@ public class PracticeQuestionController {
         );
 
 
+        // =================================================
+        // CORRECT ANSWER
+        // =================================================
+
+        dto.setCorrectAnswer(
+                question.getCorrectAnswer()
+        );
+
+
         return dto;
     }
 }

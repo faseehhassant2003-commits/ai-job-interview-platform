@@ -1,0 +1,1144 @@
+/* =========================================================
+   PREPAI — AI INTERVIEW
+   ========================================================= */
+
+.ai-interview-page {
+    min-height: calc(100vh - 80px);
+
+    background:
+        radial-gradient(
+            circle at top left,
+            rgba(25, 135, 84, 0.08),
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at bottom right,
+            rgba(25, 135, 84, 0.06),
+            transparent 35%
+        ),
+        #f5f8f7;
+
+    padding: 55px 25px 80px;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   SETUP CONTAINER
+   ========================================================= */
+
+.ai-interview-setup {
+    width: 100%;
+    max-width: 720px;
+
+    background: rgba(255, 255, 255, 0.96);
+
+    border: 1px solid #e2e9e5;
+
+    border-radius: 24px;
+
+    padding: 45px;
+
+    box-shadow:
+        0 15px 45px rgba(20, 50, 40, 0.08),
+        0 3px 10px rgba(20, 50, 40, 0.04);
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   SETUP HEADER
+   ========================================================= */
+
+.ai-interview-setup-header {
+    text-align: center;
+
+    margin-bottom: 38px;
+}
+
+
+.ai-icon {
+    width: 72px;
+    height: 72px;
+
+    margin: 0 auto 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 20px;
+
+    background: linear-gradient(
+        135deg,
+        #198754,
+        #20a866
+    );
+
+    color: white;
+
+    font-size: 30px;
+
+    box-shadow:
+        0 10px 25px rgba(25, 135, 84, 0.22);
+}
+
+
+.ai-interview-setup-header h1 {
+    margin: 0;
+
+    color: #172033;
+
+    font-size: 36px;
+
+    font-weight: 750;
+
+    letter-spacing: -0.8px;
+}
+
+
+.ai-interview-setup-header p {
+    margin: 12px auto 0;
+
+    max-width: 500px;
+
+    color: #718096;
+
+    font-size: 16px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   FORM FIELD
+   ========================================================= */
+
+.ai-field {
+    margin-bottom: 23px;
+}
+
+
+.ai-field label {
+    display: block;
+
+    margin-bottom: 9px;
+
+    color: #25334d;
+
+    font-size: 15px;
+
+    font-weight: 700;
+}
+
+
+.ai-field select {
+    width: 100%;
+
+    height: 52px;
+
+    padding: 0 17px;
+
+    border: 1px solid #d9e2dd;
+
+    border-radius: 12px;
+
+    background-color: #ffffff;
+
+    color: #25334d;
+
+    font-family: inherit;
+
+    font-size: 15px;
+
+    outline: none;
+
+    cursor: pointer;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+
+    box-sizing: border-box;
+}
+
+
+.ai-field select:hover {
+    border-color: #b8ccc1;
+}
+
+
+.ai-field select:focus {
+    border-color: #198754;
+
+    box-shadow:
+        0 0 0 4px rgba(25, 135, 84, 0.10);
+}
+
+
+/* =========================================================
+   ERROR
+   ========================================================= */
+
+.ai-error {
+    margin: 8px 0 20px;
+
+    padding: 14px 17px;
+
+    border: 1px solid #ffd0d0;
+
+    border-radius: 12px;
+
+    background: #fff2f2;
+
+    color: #d93025;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    text-align: center;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   START / SUBMIT BUTTON
+   ========================================================= */
+
+.ai-start-btn {
+    width: 100%;
+
+    height: 54px;
+
+    margin-top: 8px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    background: linear-gradient(
+        135deg,
+        #198754,
+        #16834f
+    );
+
+    color: white;
+
+    font-family: inherit;
+
+    font-size: 16px;
+
+    font-weight: 750;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 8px 20px rgba(25, 135, 84, 0.20);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        opacity 0.2s ease;
+}
+
+
+.ai-start-btn:hover:not(:disabled) {
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 11px 25px rgba(25, 135, 84, 0.27);
+}
+
+
+.ai-start-btn:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+
+.ai-start-btn:disabled {
+    opacity: 0.65;
+
+    cursor: not-allowed;
+
+    box-shadow: none;
+}
+
+
+/* =========================================================
+   INFO BOX
+   ========================================================= */
+
+.ai-info {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 12px;
+
+    margin-top: 25px;
+
+    padding: 15px 17px;
+
+    border-radius: 12px;
+
+    background: #f0faf5;
+
+    border: 1px solid #d9f0e3;
+}
+
+
+.ai-info span {
+    flex-shrink: 0;
+
+    font-size: 18px;
+}
+
+
+.ai-info p {
+    margin: 0;
+
+    color: #5f766b;
+
+    font-size: 13px;
+
+    line-height: 1.55;
+}
+
+
+/* =========================================================
+   INTERVIEW SCREEN
+   ========================================================= */
+
+.ai-interview-container {
+    width: 100%;
+
+    max-width: 900px;
+}
+
+
+/* =========================================================
+   INTERVIEW HEADER
+   ========================================================= */
+
+.ai-interview-header {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 25px;
+}
+
+
+.ai-interview-header h1 {
+    margin: 0;
+
+    color: #172033;
+
+    font-size: 32px;
+
+    font-weight: 750;
+
+    letter-spacing: -0.5px;
+}
+
+
+.ai-interview-header p {
+    margin: 6px 0 0;
+
+    color: #718096;
+
+    font-size: 14px;
+}
+
+
+.ai-badge {
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    padding: 9px 14px;
+
+    border-radius: 999px;
+
+    background: #eaf8f0;
+
+    border: 1px solid #d3efdf;
+
+    color: #198754;
+
+    font-size: 14px;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   QUESTION PROGRESS
+   ========================================================= */
+
+.ai-question-progress {
+    margin-bottom: 15px;
+
+    color: #718096;
+
+    font-size: 14px;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   AI MESSAGE CARD
+   ========================================================= */
+
+.ai-interview-card {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 18px;
+
+    background: white;
+
+    border: 1px solid #e1e8e4;
+
+    border-radius: 20px;
+
+    padding: 30px;
+
+    box-shadow:
+        0 12px 35px rgba(20, 50, 40, 0.07);
+}
+
+
+.ai-avatar {
+    width: 55px;
+    height: 55px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 16px;
+
+    background: linear-gradient(
+        135deg,
+        #198754,
+        #22a968
+    );
+
+    font-size: 25px;
+
+    box-shadow:
+        0 7px 18px rgba(25, 135, 84, 0.18);
+}
+
+
+.ai-message {
+    flex: 1;
+}
+
+
+.ai-message h2 {
+    margin: 0 0 9px;
+
+    color: #172033;
+
+    font-size: 17px;
+
+    font-weight: 750;
+}
+
+
+.ai-message p {
+    margin: 0;
+
+    color: #334155;
+
+    font-size: 19px;
+
+    line-height: 1.65;
+}
+
+
+/* =========================================================
+   INTERVIEW DETAILS
+   ========================================================= */
+
+.interview-details {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 14px;
+
+    margin-top: 18px;
+}
+
+
+.detail-card {
+    padding: 17px;
+
+    background: white;
+
+    border: 1px solid #e1e8e4;
+
+    border-radius: 14px;
+
+    text-align: center;
+}
+
+
+.detail-card span {
+    display: block;
+
+    margin-bottom: 6px;
+
+    color: #82958c;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.4px;
+}
+
+
+.detail-card strong {
+    color: #198754;
+
+    font-size: 15px;
+
+    font-weight: 750;
+}
+
+
+/* =========================================================
+   ANSWER SECTION
+   ========================================================= */
+
+.ai-answer-section {
+    margin-top: 24px;
+
+    padding: 25px;
+
+    background: #ffffff;
+
+    border: 1px solid #e1e8e4;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 10px 30px rgba(20, 50, 40, 0.06);
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   ANSWER LABEL
+   ========================================================= */
+
+.ai-answer-section label {
+    display: flex;
+
+    align-items: center;
+
+    margin-bottom: 11px;
+
+    color: #172033;
+
+    font-size: 16px;
+
+    font-weight: 750;
+}
+
+
+/* =========================================================
+   ANSWER TEXTAREA
+   ========================================================= */
+
+.ai-answer-section textarea {
+    display: block;
+
+    width: 100%;
+
+    min-height: 190px;
+
+    box-sizing: border-box;
+
+    padding: 18px 20px;
+
+    border: 1.5px solid #d9e2dd;
+
+    border-radius: 14px;
+
+    background: #f8fbf9;
+
+    color: #25334d;
+
+    font-family: inherit;
+
+    font-size: 15px;
+
+    line-height: 1.7;
+
+    outline: none;
+
+    resize: vertical;
+
+    transition:
+        border-color 0.2s ease,
+        background-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+/* =========================================================
+   TEXTAREA PLACEHOLDER
+   ========================================================= */
+
+.ai-answer-section textarea::placeholder {
+    color: #9aa9a2;
+
+    opacity: 1;
+}
+
+
+/* =========================================================
+   TEXTAREA HOVER
+   ========================================================= */
+
+.ai-answer-section textarea:hover {
+    border-color: #b9ccc1;
+
+    background: #ffffff;
+}
+
+
+/* =========================================================
+   TEXTAREA FOCUS
+   ========================================================= */
+
+.ai-answer-section textarea:focus {
+    border-color: #198754;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 0 0 4px rgba(25, 135, 84, 0.10),
+        0 8px 20px rgba(25, 135, 84, 0.06);
+}
+
+
+/* =========================================================
+   TEXTAREA DISABLED
+   ========================================================= */
+
+.ai-answer-section textarea:disabled {
+    background: #f1f5f3;
+
+    color: #718096;
+
+    cursor: not-allowed;
+
+    resize: none;
+}
+
+
+/* =========================================================
+   ANSWER BUTTON
+   ========================================================= */
+
+.ai-answer-section .ai-start-btn {
+    margin-top: 16px;
+}
+
+
+/* =========================================================
+   EVALUATION SECTION
+   ========================================================= */
+
+.ai-evaluation-section {
+    margin-top: 24px;
+}
+
+
+/* =========================================================
+   EVALUATION HEADER
+   ========================================================= */
+
+.ai-evaluation-header {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 18px;
+}
+
+
+.ai-evaluation-header h2 {
+    margin: 0;
+
+    color: #172033;
+
+    font-size: 22px;
+
+    font-weight: 750;
+}
+
+
+/* =========================================================
+   SCORE
+   ========================================================= */
+
+.ai-score {
+    display: flex;
+
+    align-items: baseline;
+
+    gap: 4px;
+
+    color: #198754;
+
+    font-size: 34px;
+
+    font-weight: 800;
+}
+
+
+.ai-score span {
+    color: #82958c;
+
+    font-size: 15px;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   EVALUATION CARDS
+   ========================================================= */
+
+.evaluation-card {
+    margin-bottom: 14px;
+
+    padding: 21px;
+
+    background: #ffffff;
+
+    border: 1px solid #e1e8e4;
+
+    border-radius: 15px;
+
+    box-shadow:
+        0 7px 22px rgba(20, 50, 40, 0.05);
+}
+
+
+.evaluation-card h3 {
+    margin: 0 0 8px;
+
+    color: #172033;
+
+    font-size: 15px;
+
+    font-weight: 750;
+}
+
+
+.evaluation-card p {
+    margin: 0;
+
+    color: #4b5b68;
+
+    font-size: 14px;
+
+    line-height: 1.7;
+
+    white-space: pre-wrap;
+
+    word-break: break-word;
+}
+
+
+/* =========================================================
+   INTERVIEW ACTIONS
+   ========================================================= */
+
+.ai-interview-actions {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-end;
+
+    gap: 12px;
+
+    margin-top: 22px;
+}
+
+
+/* =========================================================
+   SECONDARY BUTTON
+   ========================================================= */
+
+.ai-secondary-btn {
+    min-height: 46px;
+
+    padding: 12px 20px;
+
+    border: 1px solid #d6e1db;
+
+    border-radius: 10px;
+
+    background: white;
+
+    color: #198754;
+
+    font-family: inherit;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.ai-secondary-btn:hover {
+    background: #f0faf5;
+
+    border-color: #198754;
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   COMPLETION MESSAGE
+   ========================================================= */
+
+.ai-complete-message {
+    display: flex;
+
+    align-items: center;
+
+    min-height: 46px;
+
+    padding: 0 18px;
+
+    border: 1px solid #d3efdf;
+
+    border-radius: 10px;
+
+    background: #f0faf5;
+
+    color: #198754;
+
+    font-size: 14px;
+
+    font-weight: 750;
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 800px) {
+
+    .ai-interview-page {
+        padding: 35px 18px 60px;
+    }
+
+
+    .ai-interview-setup {
+        padding: 35px 28px;
+    }
+
+
+    .interview-details {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .ai-interview-page {
+        min-height: calc(100vh - 70px);
+
+        padding: 25px 13px 45px;
+    }
+
+
+    .ai-interview-setup {
+        padding: 28px 20px;
+
+        border-radius: 18px;
+    }
+
+
+    .ai-interview-setup-header {
+        margin-bottom: 30px;
+    }
+
+
+    .ai-icon {
+        width: 62px;
+        height: 62px;
+
+        border-radius: 17px;
+
+        font-size: 25px;
+    }
+
+
+    .ai-interview-setup-header h1 {
+        font-size: 29px;
+    }
+
+
+    .ai-interview-setup-header p {
+        font-size: 14px;
+    }
+
+
+    .ai-field {
+        margin-bottom: 19px;
+    }
+
+
+    .ai-field select {
+        height: 49px;
+    }
+
+
+    .ai-start-btn {
+        height: 51px;
+    }
+
+
+    /* =============================================
+       INTERVIEW HEADER
+       ============================================= */
+
+    .ai-interview-header {
+        align-items: flex-start;
+
+        gap: 15px;
+    }
+
+
+    .ai-interview-header h1 {
+        font-size: 27px;
+    }
+
+
+    .ai-badge {
+        padding: 7px 11px;
+
+        font-size: 12px;
+    }
+
+
+    /* =============================================
+       QUESTION
+       ============================================= */
+
+    .ai-interview-card {
+        padding: 22px;
+
+        gap: 13px;
+
+        border-radius: 16px;
+    }
+
+
+    .ai-avatar {
+        width: 45px;
+        height: 45px;
+
+        border-radius: 13px;
+
+        font-size: 20px;
+    }
+
+
+    .ai-message p {
+        font-size: 16px;
+
+        line-height: 1.55;
+    }
+
+
+    /* =============================================
+       DETAILS
+       ============================================= */
+
+    .interview-details {
+        grid-template-columns:
+            repeat(2, 1fr);
+
+        gap: 10px;
+    }
+
+
+    .detail-card {
+        padding: 14px 10px;
+    }
+
+
+    /* =============================================
+       ANSWER BOX
+       ============================================= */
+
+    .ai-answer-section {
+        margin-top: 18px;
+
+        padding: 18px;
+
+        border-radius: 15px;
+    }
+
+
+    .ai-answer-section label {
+        font-size: 15px;
+    }
+
+
+    .ai-answer-section textarea {
+        min-height: 170px;
+
+        padding: 15px 16px;
+
+        font-size: 14px;
+
+        line-height: 1.6;
+
+        border-radius: 12px;
+    }
+
+
+    /* =============================================
+       EVALUATION
+       ============================================= */
+
+    .ai-evaluation-header {
+        align-items: flex-start;
+
+        gap: 12px;
+    }
+
+
+    .ai-evaluation-header h2 {
+        font-size: 19px;
+    }
+
+
+    .ai-score {
+        font-size: 28px;
+    }
+
+
+    .evaluation-card {
+        padding: 17px;
+    }
+
+
+    /* =============================================
+       ACTIONS
+       ============================================= */
+
+    .ai-interview-actions {
+        flex-direction: column;
+
+        align-items: stretch;
+
+        justify-content: stretch;
+    }
+
+
+    .ai-interview-actions .ai-start-btn,
+    .ai-interview-actions .ai-secondary-btn {
+        width: 100%;
+    }
+
+
+    .ai-complete-message {
+        justify-content: center;
+
+        width: 100%;
+
+        box-sizing: border-box;
+    }
+
+}
+
+
+/* =========================================================
+   VERY SMALL SCREENS
+   ========================================================= */
+
+@media (max-width: 380px) {
+
+    .ai-interview-setup {
+        padding: 24px 16px;
+    }
+
+
+    .ai-interview-setup-header h1 {
+        font-size: 26px;
+    }
+
+
+    .interview-details {
+        grid-template-columns: 1fr;
+    }
+
+
+    .ai-interview-card {
+        padding: 18px;
+    }
+
+
+    .ai-answer-section {
+        padding: 15px;
+    }
+
+}
