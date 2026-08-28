@@ -1,3 +1,4 @@
+import API_URL from "../config";
 import { useState } from "react";
 import "./AIInterview.css";
 
@@ -73,7 +74,7 @@ function AIInterview() {
 
             const response =
                 await fetch(
-                    "http://localhost:8080/api/ai-interview/start",
+                    `${API_URL}/api/ai-interview/start`,
                     {
                         method: "POST",
 
@@ -243,7 +244,7 @@ function AIInterview() {
 
             const response =
                 await fetch(
-                    "http://localhost:8080/api/ai-interview/evaluate",
+                    `${API_URL}/api/ai-interview/evaluate`,
                     {
                         method: "POST",
 
@@ -1395,3 +1396,4 @@ function parseEvaluation(
 
 
 export default AIInterview;
+

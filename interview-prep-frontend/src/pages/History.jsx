@@ -1,3 +1,4 @@
+import API_URL from "../config";
 import { useEffect, useState } from "react";
 import "./History.css";
 
@@ -18,7 +19,7 @@ function History() {
             const token = localStorage.getItem("token");
 
             const response = await fetch(
-                "http://localhost:8080/api/practice/history",
+                `${API_URL}/api/practice/history`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -240,3 +241,4 @@ function History() {
 }
 
 export default History;
+

@@ -1,3 +1,4 @@
+import API_URL from "../config";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../App.css";
@@ -42,7 +43,7 @@ function Register() {
         try {
 
             const response = await fetch(
-                "http://localhost:8080/api/auth/register",
+                `${API_URL}/api/auth/register`,
                 {
                     method: "POST",
 
@@ -244,3 +245,5 @@ function Register() {
 }
 
 export default Register;
+
+

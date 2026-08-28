@@ -1,3 +1,4 @@
+import API_URL from "../config";
 import { useEffect, useMemo, useState } from "react";
 import "./Practice.css";
 
@@ -130,7 +131,7 @@ function Practice() {
         localStorage.getItem("token");
 
       const response = await fetch(
-        "http://localhost:8080/api/questions/categories",
+        `${API_URL}/api/questions/categories`,
         {
           method: "GET",
 
@@ -328,7 +329,7 @@ function Practice() {
 
       const response =
         await fetch(
-          `http://localhost:8080/api/questions/practice?${params.toString()}`,
+          `${API_URL}/api/questions/practice?${params.toString()}`,
           {
             method: "GET",
 
@@ -496,7 +497,7 @@ function Practice() {
 
       const response =
         await fetch(
-          `http://localhost:8080/api/questions/practice?${params.toString()}`,
+          `${API_URL}/api/questions/practice?${params.toString()}`,
           {
             method: "GET",
 
@@ -917,7 +918,7 @@ function Practice() {
 
 
         await fetch(
-          "http://localhost:8080/api/practice/history",
+          `${API_URL}/api/practice/history`,
           {
             method: "POST",
 
@@ -2098,3 +2099,4 @@ function Practice() {
 }
 
 export default Practice;
+

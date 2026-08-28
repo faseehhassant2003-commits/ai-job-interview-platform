@@ -1,3 +1,4 @@
+import API_URL from "../config";
 import React, { useState } from "react";
 import "./AdminQuestions.css";
 
@@ -118,7 +119,7 @@ function AdminQuestions() {
       }
 
       const response = await fetch(
-        "http://localhost:8080/api/admin/questions",
+        `${API_URL}/api/admin/questions`,
         {
           method: "GET",
 
@@ -288,8 +289,8 @@ function AdminQuestions() {
       }
 
       const url = editingQuestion
-        ? `http://localhost:8080/api/admin/questions/${editingQuestion.id}`
-        : "http://localhost:8080/api/admin/questions";
+        ? `${API_URL}/api/admin/questions/${editingQuestion.id}`
+        : `${API_URL}/api/admin/questions`;
 
       const method = editingQuestion
         ? "PUT"
@@ -392,7 +393,7 @@ function AdminQuestions() {
       }
 
       const response = await fetch(
-        `http://localhost:8080/api/admin/questions/${id}`,
+        `${API_URL}/api/admin/questions/${id}`,
         {
           method: "DELETE",
 
@@ -489,7 +490,7 @@ function AdminQuestions() {
 
 
       const response = await fetch(
-        `http://localhost:8080/api/admin/questions/category/${encodeURIComponent(
+        `${API_URL}/api/admin/questions/category/${encodeURIComponent(
           deleteCategory
         )}`,
         {
@@ -648,7 +649,7 @@ function AdminQuestions() {
 
       const response =
         await fetch(
-          "http://localhost:8080/api/admin/questions/import",
+          `${API_URL}/api/admin/questions/import`,
           {
             method: "POST",
 
@@ -1995,3 +1996,4 @@ function AdminQuestions() {
 }
 
 export default AdminQuestions;
+

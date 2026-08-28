@@ -1,3 +1,4 @@
+import API_URL from "../config";
 import { useEffect, useState } from "react";
 import "./Leaderboard.css";
 
@@ -24,7 +25,7 @@ function Leaderboard() {
                 localStorage.getItem("token");
 
             const response = await fetch(
-                "http://localhost:8080/api/leaderboard",
+                `${API_URL}/api/leaderboard`,
                 {
                     method: "GET",
 
@@ -359,3 +360,4 @@ function Leaderboard() {
 }
 
 export default Leaderboard;
+

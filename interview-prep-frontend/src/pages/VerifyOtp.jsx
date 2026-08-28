@@ -1,3 +1,4 @@
+import API_URL from "../config";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -60,7 +61,7 @@ function VerifyOtp() {
         try {
 
             const response = await fetch(
-                `http://localhost:8080/api/auth/verify-otp?email=${encodeURIComponent(email)}&otp=${encodeURIComponent(otp)}`,
+                `${API_URL}/api/auth/verify-otp?email=${encodeURIComponent(email)}&otp=${encodeURIComponent(otp)}`,
                 {
                     method: "POST",
                 }
@@ -122,7 +123,7 @@ function VerifyOtp() {
         try {
 
             const response = await fetch(
-                `http://localhost:8080/api/auth/resend-otp?email=${encodeURIComponent(email)}`,
+                `${API_URL}/api/auth/resend-otp?email=${encodeURIComponent(email)}`,
                 {
                     method: "POST",
                 }
@@ -293,3 +294,4 @@ function VerifyOtp() {
 }
 
 export default VerifyOtp;
+
