@@ -5,9 +5,9 @@
 .top-navbar {
     position: sticky;
     top: 0;
-
     z-index: 1000;
 
+    width: 100%;
     height: 72px;
 
     display: flex;
@@ -29,7 +29,6 @@
 ========================================= */
 
 .navbar-brand {
-
     display: flex;
     align-items: center;
 
@@ -38,10 +37,11 @@
     text-decoration: none;
 
     margin-right: 45px;
+
+    flex-shrink: 0;
 }
 
 .brand-icon {
-
     width: 34px;
     height: 34px;
 
@@ -53,18 +53,21 @@
 
     background: #198754;
 
-    color: white;
+    color: #ffffff;
 
     font-size: 14px;
+
     font-weight: 700;
 }
 
 .brand-name {
-
     font-size: 25px;
+
     font-weight: 800;
 
     color: #172033;
+
+    white-space: nowrap;
 }
 
 .brand-name span {
@@ -73,11 +76,10 @@
 
 
 /* =========================================
-   NAV LINKS
+   DESKTOP NAVIGATION
 ========================================= */
 
 .navbar-links {
-
     display: flex;
     align-items: center;
 
@@ -87,7 +89,6 @@
 }
 
 .nav-link {
-
     display: flex;
     align-items: center;
 
@@ -102,11 +103,14 @@
     color: #64748b;
 
     font-size: 15px;
+
     font-weight: 500;
 
+    white-space: nowrap;
+
     transition:
-        background 0.2s,
-        color 0.2s;
+        background 0.2s ease,
+        color 0.2s ease;
 }
 
 .nav-icon {
@@ -114,14 +118,12 @@
 }
 
 .nav-link:hover {
-
     color: #198754;
 
     background: #f0fdf4;
 }
 
 .nav-link.active {
-
     color: #198754;
 
     background: #ecfdf3;
@@ -130,37 +132,20 @@
 }
 
 
-/* FUTURE LINKS */
-
-.disabled-link {
-
-    cursor: default;
-
-    opacity: 0.9;
-}
-
-.disabled-link:hover {
-
-    color: #64748b;
-
-    background: transparent;
-}
-
-
 /* =========================================
    USER
 ========================================= */
 
 .navbar-user {
-
     display: flex;
     align-items: center;
 
     gap: 10px;
+
+    flex-shrink: 0;
 }
 
 .user-avatar {
-
     width: 40px;
     height: 40px;
 
@@ -175,11 +160,11 @@
     color: #198754;
 
     font-size: 17px;
+
     font-weight: 700;
 }
 
 .user-details {
-
     display: flex;
     flex-direction: column;
 
@@ -187,14 +172,12 @@
 }
 
 .user-details strong {
-
     color: #172033;
 
     font-size: 14px;
 }
 
 .user-details span {
-
     margin-top: 3px;
 
     color: #64748b;
@@ -208,7 +191,6 @@
 ========================================= */
 
 .logout-button {
-
     margin-left: 4px;
 
     border: none;
@@ -222,6 +204,8 @@
     cursor: pointer;
 
     padding: 5px;
+
+    transition: color 0.2s ease;
 }
 
 .logout-button:hover {
@@ -230,25 +214,65 @@
 
 
 /* =========================================
-   RESPONSIVE
+   MOBILE MENU BUTTON
 ========================================= */
 
-@media (max-width: 950px) {
+.mobile-menu-button {
+    display: none;
+
+    width: 42px;
+    height: 42px;
+
+    align-items: center;
+    justify-content: center;
+
+    margin-left: auto;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 9px;
+
+    background: #ffffff;
+
+    color: #172033;
+
+    font-size: 22px;
+
+    cursor: pointer;
+}
+
+
+/* =========================================
+   MOBILE MENU
+========================================= */
+
+.mobile-menu {
+    display: none;
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 1050px) {
 
     .top-navbar {
-        padding: 0 18px;
+        padding: 0 20px;
     }
 
     .navbar-brand {
-        margin-right: 15px;
+        margin-right: 20px;
     }
 
     .nav-link {
-        padding: 9px;
-    }
+        padding: 9px 10px;
 
-    .nav-link {
         font-size: 14px;
+    }
+
+    .nav-icon {
+        font-size: 15px;
     }
 
     .user-details {
@@ -257,7 +281,240 @@
 }
 
 
-@media (max-width: 700px) {
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+
+    .top-navbar {
+        height: 64px;
+
+        padding: 0 16px;
+    }
+
+
+    /* BRAND */
+
+    .navbar-brand {
+        margin-right: 0;
+    }
+
+    .brand-icon {
+        width: 32px;
+        height: 32px;
+
+        font-size: 13px;
+    }
+
+    .brand-name {
+        font-size: 22px;
+    }
+
+
+    /* HIDE DESKTOP NAV */
+
+    .navbar-links {
+        display: none;
+    }
+
+
+    /* HIDE DESKTOP USER */
+
+    .navbar-user {
+        display: none;
+    }
+
+
+    /* SHOW HAMBURGER */
+
+    .mobile-menu-button {
+        display: flex;
+    }
+
+
+    /* MOBILE DROPDOWN */
+
+    .mobile-menu {
+        position: absolute;
+
+        top: 64px;
+
+        left: 0;
+        right: 0;
+
+        display: block;
+
+        background: #ffffff;
+
+        border-bottom: 1px solid #e5e7eb;
+
+        box-shadow:
+            0 10px 25px rgba(15, 23, 42, 0.10);
+
+        padding: 16px;
+    }
+
+
+    /* MOBILE USER */
+
+    .mobile-user {
+        display: flex;
+        align-items: center;
+
+        gap: 12px;
+
+        padding: 12px;
+
+        margin-bottom: 10px;
+
+        background: #f8fafc;
+
+        border-radius: 10px;
+    }
+
+    .mobile-user-avatar {
+        width: 42px;
+        height: 42px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 50%;
+
+        background: #e9f7ef;
+
+        color: #198754;
+
+        font-size: 17px;
+
+        font-weight: 700;
+    }
+
+    .mobile-user div:last-child {
+        display: flex;
+
+        flex-direction: column;
+    }
+
+    .mobile-user strong {
+        color: #172033;
+
+        font-size: 14px;
+    }
+
+    .mobile-user span {
+        margin-top: 3px;
+
+        color: #64748b;
+
+        font-size: 12px;
+    }
+
+
+    /* MOBILE LINKS */
+
+    .mobile-menu-links {
+        display: flex;
+
+        flex-direction: column;
+
+        gap: 4px;
+    }
+
+    .mobile-nav-link {
+        display: flex;
+
+        align-items: center;
+
+        gap: 13px;
+
+        width: 100%;
+
+        padding: 13px 14px;
+
+        border-radius: 9px;
+
+        text-decoration: none;
+
+        color: #475569;
+
+        font-size: 15px;
+
+        font-weight: 500;
+
+        transition:
+            background 0.2s ease,
+            color 0.2s ease;
+    }
+
+    .mobile-nav-link span {
+        width: 22px;
+
+        text-align: center;
+
+        font-size: 17px;
+    }
+
+    .mobile-nav-link:hover {
+        color: #198754;
+
+        background: #f0fdf4;
+    }
+
+    .mobile-nav-link.active {
+        color: #198754;
+
+        background: #ecfdf3;
+
+        font-weight: 600;
+    }
+
+
+    /* MOBILE LOGOUT */
+
+    .mobile-logout {
+        display: flex;
+
+        align-items: center;
+
+        gap: 13px;
+
+        width: 100%;
+
+        margin-top: 12px;
+
+        padding: 16px 14px 13px;
+
+        border: none;
+
+        border-top: 1px solid #e5e7eb;
+
+        background: transparent;
+
+        color: #dc3545;
+
+        font-size: 15px;
+
+        font-weight: 600;
+
+        cursor: pointer;
+
+        text-align: left;
+    }
+}
+
+
+/* =========================================
+   VERY SMALL PHONES
+========================================= */
+
+@media (max-width: 380px) {
+
+    .top-navbar {
+        padding: 0 12px;
+    }
 
     .brand-name {
         font-size: 20px;
@@ -268,20 +525,8 @@
         height: 30px;
     }
 
-    .navbar-links {
-        gap: 0;
-    }
-
-    .nav-link {
-        font-size: 12px;
-        padding: 7px;
-    }
-
-    .nav-icon {
-        display: none;
-    }
-
-    .navbar-user {
-        margin-left: 5px;
+    .mobile-menu-button {
+        width: 40px;
+        height: 40px;
     }
 }

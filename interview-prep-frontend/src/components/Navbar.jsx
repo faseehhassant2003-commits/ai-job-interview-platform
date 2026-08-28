@@ -4,12 +4,16 @@ import {
     useNavigate
 } from "react-router-dom";
 
+import { useState } from "react";
+
 import "./Navbar.css";
 
 function Navbar() {
 
     const location = useLocation();
     const navigate = useNavigate();
+
+    const [menuOpen, setMenuOpen] = useState(false);
 
     const name =
         localStorage.getItem("name") || "User";
@@ -21,7 +25,6 @@ function Navbar() {
 
 
     const isActive = (path) => {
-
         return location.pathname === path;
     };
 
@@ -34,7 +37,14 @@ function Navbar() {
         localStorage.removeItem("role");
         localStorage.removeItem("user");
 
+        setMenuOpen(false);
+
         navigate("/login");
+    };
+
+
+    const closeMenu = () => {
+        setMenuOpen(false);
     };
 
 
@@ -47,8 +57,9 @@ function Navbar() {
             ================================= */}
 
             <Link
-                to="/dashboard"
+                to={isAdmin ? "/admin" : "/dashboard"}
                 className="navbar-brand"
+                onClick={closeMenu}
             >
 
                 <div className="brand-icon">
@@ -63,133 +74,136 @@ function Navbar() {
 
 
             {/* =================================
-                NAVIGATION
+                DESKTOP NAVIGATION
             ================================= */}
 
             <nav className="navbar-links">
 
-                {/* DASHBOARD */}
+                {isAdmin ? (
 
-                <Link
-                    to="/dashboard"
-                    className={
-                        isActive("/dashboard")
-                            ? "nav-link active"
-                            : "nav-link"
-                    }
-                >
+                    /* =============================
+                       ADMIN NAVIGATION
+                    ============================= */
 
-                    <span className="nav-icon">
-                        ▣
-                    </span>
+                    <>
+                        <Link
+                            to="/admin"
+                            className={
+                                isActive("/admin")
+                                    ? "nav-link active"
+                                    : "nav-link"
+                            }
+                        >
+                            <span className="nav-icon">
+                                ▣
+                            </span>
 
-                    Dashboard
-
-                </Link>
-
-
-                {/* PRACTICE */}
-
-                <Link
-                    to="/practice"
-                    className={
-                        isActive("/practice")
-                            ? "nav-link active"
-                            : "nav-link"
-                    }
-                >
-
-                    <span className="nav-icon">
-                        ▤
-                    </span>
-
-                    Practice
-
-                </Link>
+                            Admin Dashboard
+                        </Link>
 
 
-                {/* AI INTERVIEW */}
+                        <Link
+                            to="/admin/questions"
+                            className={
+                                isActive("/admin/questions")
+                                    ? "nav-link active"
+                                    : "nav-link"
+                            }
+                        >
+                            <span className="nav-icon">
+                                ▤
+                            </span>
 
-                <Link
-                    to="/ai-interview"
-                    className={
-                        isActive("/ai-interview")
-                            ? "nav-link active"
-                            : "nav-link"
-                    }
-                >
+                            Questions
+                        </Link>
+                    </>
 
-                    <span className="nav-icon">
-                        🤖
-                    </span>
+                ) : (
 
-                    AI Interview
+                    /* =============================
+                       USER NAVIGATION
+                    ============================= */
 
-                </Link>
+                    <>
+                        <Link
+                            to="/dashboard"
+                            className={
+                                isActive("/dashboard")
+                                    ? "nav-link active"
+                                    : "nav-link"
+                            }
+                        >
+                            <span className="nav-icon">
+                                ▣
+                            </span>
 
-
-                {/* HISTORY */}
-
-                <Link
-                    to="/history"
-                    className={
-                        isActive("/history")
-                            ? "nav-link active"
-                            : "nav-link"
-                    }
-                >
-
-                    <span className="nav-icon">
-                        ◷
-                    </span>
-
-                    History
-
-                </Link>
-
-
-                {/* LEADERBOARD */}
-
-                <Link
-                    to="/leaderboard"
-                    className={
-                        isActive("/leaderboard")
-                            ? "nav-link active"
-                            : "nav-link"
-                    }
-                >
-
-                    <span className="nav-icon">
-                        ♛
-                    </span>
-
-                    Leaderboard
-
-                </Link>
+                            Dashboard
+                        </Link>
 
 
-                {/* ADMIN */}
+                        <Link
+                            to="/practice"
+                            className={
+                                isActive("/practice")
+                                    ? "nav-link active"
+                                    : "nav-link"
+                            }
+                        >
+                            <span className="nav-icon">
+                                ▤
+                            </span>
 
-                {isAdmin && (
+                            Practice
+                        </Link>
 
-                    <Link
-                        to="/admin/questions"
-                        className={
-                            location.pathname.startsWith(
-                                "/admin"
-                            )
-                                ? "nav-link active"
-                                : "nav-link"
-                        }
-                    >
 
-                        <span className="nav-icon">
-                            ⚙
-                        </span>
+                        <Link
+                            to="/ai-interview"
+                            className={
+                                isActive("/ai-interview")
+                                    ? "nav-link active"
+                                    : "nav-link"
+                            }
+                        >
+                            <span className="nav-icon">
+                                🤖
+                            </span>
 
-                        Admin
+                            AI Interview
+                        </Link>
 
-                    </Link>
+
+                        <Link
+                            to="/history"
+                            className={
+                                isActive("/history")
+                                    ? "nav-link active"
+                                    : "nav-link"
+                            }
+                        >
+                            <span className="nav-icon">
+                                ◷
+                            </span>
+
+                            History
+                        </Link>
+
+
+                        <Link
+                            to="/leaderboard"
+                            className={
+                                isActive("/leaderboard")
+                                    ? "nav-link active"
+                                    : "nav-link"
+                            }
+                        >
+                            <span className="nav-icon">
+                                ♛
+                            </span>
+
+                            Leaderboard
+                        </Link>
+                    </>
 
                 )}
 
@@ -197,17 +211,13 @@ function Navbar() {
 
 
             {/* =================================
-                USER
+                DESKTOP USER
             ================================= */}
 
             <div className="navbar-user">
 
                 <div className="user-avatar">
-
-                    {name
-                        .charAt(0)
-                        .toUpperCase()}
-
+                    {name.charAt(0).toUpperCase()}
                 </div>
 
 
@@ -218,7 +228,9 @@ function Navbar() {
                     </strong>
 
                     <span>
-                        {role}
+                        {isAdmin
+                            ? "ADMIN"
+                            : role}
                     </span>
 
                 </div>
@@ -229,10 +241,187 @@ function Navbar() {
                     onClick={handleLogout}
                     title="Logout"
                 >
-                    ⋯
+                    ⇥
                 </button>
 
             </div>
+
+
+            {/* =================================
+                MOBILE MENU BUTTON
+            ================================= */}
+
+            <button
+                className="mobile-menu-button"
+                onClick={() => setMenuOpen(!menuOpen)}
+                aria-label="Toggle navigation menu"
+                aria-expanded={menuOpen}
+            >
+                {menuOpen ? "✕" : "☰"}
+            </button>
+
+
+            {/* =================================
+                MOBILE MENU
+            ================================= */}
+
+            {menuOpen && (
+
+                <div className="mobile-menu">
+
+                    {/* MOBILE USER */}
+
+                    <div className="mobile-user">
+
+                        <div className="mobile-user-avatar">
+                            {name.charAt(0).toUpperCase()}
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                {name}
+                            </strong>
+
+                            <span>
+                                {isAdmin
+                                    ? "ADMIN"
+                                    : role}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    {/* MOBILE LINKS */}
+
+                    <div className="mobile-menu-links">
+
+                        {isAdmin ? (
+
+                            <>
+                                <Link
+                                    to="/admin"
+                                    onClick={closeMenu}
+                                    className={
+                                        isActive("/admin")
+                                            ? "mobile-nav-link active"
+                                            : "mobile-nav-link"
+                                    }
+                                >
+                                    <span>▣</span>
+                                    Admin Dashboard
+                                </Link>
+
+
+                                <Link
+                                    to="/admin/questions"
+                                    onClick={closeMenu}
+                                    className={
+                                        isActive("/admin/questions")
+                                            ? "mobile-nav-link active"
+                                            : "mobile-nav-link"
+                                    }
+                                >
+                                    <span>▤</span>
+                                    Questions
+                                </Link>
+                            </>
+
+                        ) : (
+
+                            <>
+                                <Link
+                                    to="/dashboard"
+                                    onClick={closeMenu}
+                                    className={
+                                        isActive("/dashboard")
+                                            ? "mobile-nav-link active"
+                                            : "mobile-nav-link"
+                                    }
+                                >
+                                    <span>▣</span>
+                                    Dashboard
+                                </Link>
+
+
+                                <Link
+                                    to="/practice"
+                                    onClick={closeMenu}
+                                    className={
+                                        isActive("/practice")
+                                            ? "mobile-nav-link active"
+                                            : "mobile-nav-link"
+                                    }
+                                >
+                                    <span>▤</span>
+                                    Practice
+                                </Link>
+
+
+                                <Link
+                                    to="/ai-interview"
+                                    onClick={closeMenu}
+                                    className={
+                                        isActive("/ai-interview")
+                                            ? "mobile-nav-link active"
+                                            : "mobile-nav-link"
+                                    }
+                                >
+                                    <span>🤖</span>
+                                    AI Interview
+                                </Link>
+
+
+                                <Link
+                                    to="/history"
+                                    onClick={closeMenu}
+                                    className={
+                                        isActive("/history")
+                                            ? "mobile-nav-link active"
+                                            : "mobile-nav-link"
+                                    }
+                                >
+                                    <span>◷</span>
+                                    History
+                                </Link>
+
+
+                                <Link
+                                    to="/leaderboard"
+                                    onClick={closeMenu}
+                                    className={
+                                        isActive("/leaderboard")
+                                            ? "mobile-nav-link active"
+                                            : "mobile-nav-link"
+                                    }
+                                >
+                                    <span>♛</span>
+                                    Leaderboard
+                                </Link>
+                            </>
+
+                        )}
+
+                    </div>
+
+
+                    {/* MOBILE LOGOUT */}
+
+                    <button
+                        className="mobile-logout"
+                        onClick={handleLogout}
+                    >
+                        ⇥
+                        <span>
+                            Logout
+                        </span>
+                    </button>
+
+                </div>
+
+            )}
 
         </header>
     );
