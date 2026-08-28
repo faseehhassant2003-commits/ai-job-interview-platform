@@ -1,13 +1,18 @@
 package com.example.demo.Config;
 
 import com.example.demo.Filter.JwtAuthFilter;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
 import org.springframework.http.HttpMethod;
+
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -29,33 +34,65 @@ public class SecurityConfig {
     ) throws Exception {
 
         http
-                // Allow React frontend to communicate with backend
+
+                // =========================
+                // CORS
+                // =========================
                 .cors(cors ->
-                        cors.configurationSource(corsConfigurationSource())
+                        cors.configurationSource(
+                                corsConfigurationSource()
+                        )
                 )
 
+                // =========================
+                // CSRF
+                // =========================
                 .csrf(csrf -> csrf.disable())
 
+                // =========================
+                // SESSION
+                // =========================
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(
                                 SessionCreationPolicy.STATELESS
                         )
                 )
+
+                // =========================
+                // AUTHORIZATION
+                // =========================
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll()
+
+                        // Login / Register / OTP
+                        .requestMatchers(
+                                "/api/auth/**"
+                        ).permitAll()
 
                         // CORS preflight
-                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        .requestMatchers(
+                                HttpMethod.OPTIONS,
+                                "/**"
+                        ).permitAll()
 
-                        // Admin-only APIs
-                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        // Admin APIs
+                        .requestMatchers(
+                                "/api/admin/**"
+                        ).hasRole("ADMIN")
 
-                        // All other APIs require login
+                        // Everything else requires authentication
                         .anyRequest().authenticated()
                 )
+
+                // =========================
+                // DISABLE DEFAULT LOGIN
+                // =========================
                 .formLogin(form -> form.disable())
+
                 .httpBasic(basic -> basic.disable())
 
+                // =========================
+                // JWT FILTER
+                // =========================
                 .addFilterBefore(
                         jwtAuthFilter,
                         UsernamePasswordAuthenticationFilter.class
@@ -64,23 +101,40 @@ public class SecurityConfig {
         return http.build();
     }
 
+
+    // =========================================================
+    // CORS CONFIGURATION
+    // =========================================================
+
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
 
         CorsConfiguration configuration =
                 new CorsConfiguration();
 
-        // React frontend
+        // =========================
+        // ALLOWED FRONTENDS
+        // =========================
         configuration.setAllowedOrigins(
                 List.of(
+
+                        // Local development
                         "http://localhost:5173",
                         "http://localhost:5174",
                         "http://localhost:5175",
-                        "https://ai-job-interview-platform-lilac.vercel.app"
+
+                        // OLD VERCEL FRONTEND
+                        "https://ai-job-interview-platform-lilac.vercel.app",
+
+                        // NEW RENDER FRONTEND
+                        "https://prep-ai-frontend-5h31.onrender.com"
                 )
         );
 
-        // HTTP methods React is allowed to use
+
+        // =========================
+        // ALLOWED HTTP METHODS
+        // =========================
         configuration.setAllowedMethods(
                 List.of(
                         "GET",
@@ -92,13 +146,24 @@ public class SecurityConfig {
                 )
         );
 
-        // Allow headers such as Content-Type and Authorization
+
+        // =========================
+        // ALLOWED HEADERS
+        // =========================
         configuration.setAllowedHeaders(
                 List.of("*")
         );
 
+
+        // =========================
+        // CREDENTIALS
+        // =========================
         configuration.setAllowCredentials(true);
 
+
+        // =========================
+        // REGISTER CORS
+        // =========================
         UrlBasedCorsConfigurationSource source =
                 new UrlBasedCorsConfigurationSource();
 
