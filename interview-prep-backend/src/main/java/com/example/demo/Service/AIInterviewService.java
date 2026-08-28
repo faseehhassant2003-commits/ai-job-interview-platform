@@ -41,20 +41,16 @@ public class AIInterviewService {
                 request.getNumberOfQuestions();
 
 
-        // =================================================
-        // PROMPT
-        // =================================================
-
         String prompt = """
                 You are PrepAI, a professional technical
                 interview interviewer.
 
-                Start a technical interview for a candidate.
+                Start a technical interview.
 
                 Topic: %s
                 Difficulty: %s
                 Interview type: %s
-                Number of questions: %d
+                Total questions: %d
 
                 Generate ONE interview question.
 
@@ -63,8 +59,8 @@ public class AIInterviewService {
                 - Do not provide the answer.
                 - Do not provide hints.
                 - Do not explain the answer.
-                - Make the question appropriate for the
-                  requested difficulty.
+                - Make it appropriate for the requested
+                  difficulty.
                 - Make it realistic for a real job interview.
                 - Keep it clear and concise.
 
@@ -77,10 +73,6 @@ public class AIInterviewService {
         );
 
 
-        // =================================================
-        // GROQ REQUEST
-        // =================================================
-
         ResponseCreateParams params =
                 ResponseCreateParams.builder()
                         .input(prompt)
@@ -88,18 +80,10 @@ public class AIInterviewService {
                         .build();
 
 
-        // =================================================
-        // CALL GROQ
-        // =================================================
-
         Response response =
                 openAIClient.responses()
                         .create(params);
 
-
-        // =================================================
-        // EXTRACT QUESTION
-        // =================================================
 
         String generatedQuestion =
                 response.output()
@@ -126,10 +110,6 @@ public class AIInterviewService {
                         );
 
 
-        // =================================================
-        // RESPONSE DTO
-        // =================================================
-
         AIInterviewResponseDTO result =
                 new AIInterviewResponseDTO();
 
@@ -142,7 +122,7 @@ public class AIInterviewService {
 
 
     // =====================================================
-    // EVALUATE INTERVIEW ANSWER
+    // EVALUATE ANSWER + GENERATE FOLLOW-UP
     // =====================================================
 
     public AIInterviewEvaluationResponseDTO evaluateAnswer(
@@ -163,6 +143,12 @@ public class AIInterviewService {
 
         String interviewType =
                 request.getInterviewType();
+
+        int questionNumber =
+                request.getQuestionNumber();
+
+        int totalQuestions =
+                request.getTotalQuestions();
 
 
         // =================================================
@@ -188,24 +174,71 @@ public class AIInterviewService {
 
 
         // =================================================
+        // DETERMINE INTERVIEW STAGE
+        // =================================================
+
+        boolean lastQuestion =
+                questionNumber >= totalQuestions;
+
+
+        String stageInstruction;
+
+
+        if (lastQuestion) {
+
+            stageInstruction = """
+                    This is the final question of the
+                    interview.
+
+                    Do not generate another follow-up
+                    question.
+                    """;
+
+        } else {
+
+            stageInstruction = """
+                    This is not the final question.
+
+                    Based on the candidate's answer,
+                    generate ONE relevant follow-up
+                    interview question.
+
+                    The follow-up should test deeper
+                    understanding of the same topic.
+
+                    Do not simply repeat the previous
+                    question.
+                    """;
+        }
+
+
+        // =================================================
         // EVALUATION PROMPT
         // =================================================
 
         String prompt = """
                 You are PrepAI, a professional technical
-                interview evaluator.
+                interviewer and evaluator.
 
-                Evaluate the candidate's answer to the
-                interview question.
+                You are conducting a real technical
+                interview.
 
-                Topic: %s
-                Difficulty: %s
-                Interview type: %s
-
-                Interview Question:
+                Topic:
                 %s
 
-                Candidate Answer:
+                Difficulty:
+                %s
+
+                Interview type:
+                %s
+
+                Current question:
+                %d of %d
+
+                Interview question:
+                %s
+
+                Candidate answer:
                 %s
 
                 Evaluate the candidate fairly.
@@ -214,10 +247,12 @@ public class AIInterviewService {
 
                 Consider:
                 - Technical correctness
-                - Understanding of the concept
+                - Understanding
                 - Completeness
-                - Problem-solving ability
+                - Problem solving
                 - Clarity
+
+                %s
 
                 Return ONLY valid JSON.
 
@@ -225,14 +260,23 @@ public class AIInterviewService {
 
                 {
                   "score": 0,
-                  "feedback": "overall feedback",
+                  "feedback": "overall evaluation",
                   "strengths": "what the candidate did well",
                   "improvements": "what the candidate should improve",
-                  "idealAnswer": "a strong example answer"
+                  "idealAnswer": "a strong example answer",
+                  "followUpQuestion": "next interview question"
                 }
 
-                Important:
+                Rules:
                 - score must be an integer from 0 to 10.
+                - If the answer is weak, explain what is missing.
+                - If the answer is strong, identify what was done well.
+                - The follow-up question must be relevant to
+                  the candidate's answer.
+                - Do not provide the answer to the follow-up
+                  question.
+                - If this is the final question, set
+                  followUpQuestion to an empty string.
                 - Do not use markdown.
                 - Do not use code fences.
                 - Do not add text before the JSON.
@@ -241,13 +285,16 @@ public class AIInterviewService {
                 topic,
                 difficulty,
                 interviewType,
+                questionNumber,
+                totalQuestions,
                 question,
-                answer
+                answer,
+                stageInstruction
         );
 
 
         // =================================================
-        // CREATE REQUEST
+        // GROQ REQUEST
         // =================================================
 
         ResponseCreateParams params =
@@ -304,7 +351,7 @@ public class AIInterviewService {
 
 
         // =================================================
-        // CONVERT JSON → DTO
+        // PARSE JSON
         // =================================================
 
         try {
@@ -326,7 +373,7 @@ public class AIInterviewService {
 
 
     // =====================================================
-    // CLEAN JSON RESPONSE
+    // CLEAN JSON
     // =====================================================
 
     private String cleanJsonResponse(
@@ -343,18 +390,12 @@ public class AIInterviewService {
                 response.trim();
 
 
-        // Remove ```json
-
         if (cleaned.startsWith("```json")) {
 
             cleaned =
                     cleaned.substring(7);
-        }
 
-
-        // Remove ```
-
-        else if (cleaned.startsWith("```")) {
+        } else if (cleaned.startsWith("```")) {
 
             cleaned =
                     cleaned.substring(3);

@@ -16,4 +16,6 @@ public class AIInterviewEvaluationResponseDTO {
     private String improvements;
 
     private String idealAnswer;
+
+    private String followUpQuestion;
 }

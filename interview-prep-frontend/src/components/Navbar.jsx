@@ -68,6 +68,8 @@ function Navbar() {
 
             <nav className="navbar-links">
 
+                {/* DASHBOARD */}
+
                 <Link
                     to="/dashboard"
                     className={
@@ -85,6 +87,8 @@ function Navbar() {
 
                 </Link>
 
+
+                {/* PRACTICE */}
 
                 <Link
                     to="/practice"
@@ -104,44 +108,64 @@ function Navbar() {
                 </Link>
 
 
-                {/* We'll activate this later */}
+                {/* AI INTERVIEW */}
 
-    <Link
-    to="/history"
-    className={
-        isActive("/history")
-            ? "nav-link active"
-            : "nav-link"
-    }
->
+                <Link
+                    to="/ai-interview"
+                    className={
+                        isActive("/ai-interview")
+                            ? "nav-link active"
+                            : "nav-link"
+                    }
+                >
 
-    <span className="nav-icon">
-        ◷
-    </span>
+                    <span className="nav-icon">
+                        🤖
+                    </span>
 
-    History
+                    AI Interview
 
-</Link>
+                </Link>
 
 
-                {/* We'll activate this later */}
+                {/* HISTORY */}
 
-              <Link
-    to="/leaderboard"
-    className={
-        isActive("/leaderboard")
-            ? "nav-link active"
-            : "nav-link"
-    }
->
+                <Link
+                    to="/history"
+                    className={
+                        isActive("/history")
+                            ? "nav-link active"
+                            : "nav-link"
+                    }
+                >
 
-    <span className="nav-icon">
-        ♛
-    </span>
+                    <span className="nav-icon">
+                        ◷
+                    </span>
 
-    Leaderboard
+                    History
 
-</Link>
+                </Link>
+
+
+                {/* LEADERBOARD */}
+
+                <Link
+                    to="/leaderboard"
+                    className={
+                        isActive("/leaderboard")
+                            ? "nav-link active"
+                            : "nav-link"
+                    }
+                >
+
+                    <span className="nav-icon">
+                        ♛
+                    </span>
+
+                    Leaderboard
+
+                </Link>
 
 
                 {/* ADMIN */}

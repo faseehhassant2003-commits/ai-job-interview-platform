@@ -4,6 +4,8 @@ import {
     Route,
     Navigate
 } from "react-router-dom";
+
+import VerifyOtp from "./pages/VerifyOtp";
 import Leaderboard from "./pages/Leaderboard";
 import Dashboard from "./pages/Dashboard";
 import Register from "./pages/Register";
@@ -11,6 +13,7 @@ import Login from "./pages/Login";
 import Practice from "./pages/Practice";
 import History from "./pages/History";
 import AdminQuestions from "./pages/AdminQuestions";
+import AIInterview from "./pages/AIInterview";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 import Layout from "./components/Layout";
@@ -33,6 +36,7 @@ function App() {
                         />
                     }
                 />
+                
 
                 <Route
                     path="/register"
@@ -42,6 +46,11 @@ function App() {
                 <Route
                     path="/login"
                     element={<Login />}
+                />
+
+                <Route
+                    path="/verify-otp"
+                    element={<VerifyOtp />}
                 />
 
 
@@ -54,10 +63,7 @@ function App() {
                         </ProtectedRoute>
                     }
                 >
-<Route
-        path="/leaderboard"
-        element={<Leaderboard />}
-    />
+
                     <Route
                         path="/dashboard"
                         element={<Dashboard />}
@@ -71,6 +77,18 @@ function App() {
                     <Route
                         path="/history"
                         element={<History />}
+                    />
+
+                    <Route
+                        path="/leaderboard"
+                        element={<Leaderboard />}
+                    />
+
+                    {/* AI INTERVIEW */}
+
+                    <Route
+                        path="/ai-interview"
+                        element={<AIInterview />}
                     />
 
                     <Route

@@ -273,7 +273,13 @@ function AIInterview() {
                                 difficulty,
 
                             interviewType:
-                                interviewType
+                                interviewType,
+
+                            questionNumber:
+                                questionNumber,
+
+                            totalQuestions:
+                                Number(questionCount)
 
                         })
                     }
@@ -307,7 +313,7 @@ function AIInterview() {
                 if (response.status === 403) {
 
                     throw new Error(
-                        "Access denied. Please login again and try."
+                        "Access denied. Please login again. "
                     );
 
                 }
@@ -336,17 +342,7 @@ function AIInterview() {
             );
 
 
-            /*
-             * At the moment the backend returns the
-             * AI JSON inside the feedback field.
-             *
-             * We handle both:
-             *
-             * 1. Proper JSON response
-             * 2. Temporary feedback string
-             */
-
-            let parsedEvaluation =
+            const parsedEvaluation =
                 parseEvaluation(data);
 
 
@@ -380,147 +376,76 @@ function AIInterview() {
     // NEXT QUESTION
     // =====================================================
 
-    const nextQuestion = async () => {
+    const nextQuestion = () => {
 
         setError("");
 
-        setLoading(true);
 
-        try {
-
-            const token =
-                localStorage.getItem("token");
+        const nextNumber =
+            questionNumber + 1;
 
 
-            if (!token) {
+        /*
+         * If all questions are completed,
+         * don't generate another question.
+         */
 
-                throw new Error(
-                    "You are not logged in. Please login again."
-                );
-
-            }
-
-
-            const nextNumber =
-                questionNumber + 1;
-
-
-            /*
-             * If all questions are completed,
-             * don't generate another question.
-             */
-
-            if (
-                nextNumber >
-                Number(questionCount)
-            ) {
-
-                setError(
-                    "You have completed the interview."
-                );
-
-                return;
-            }
-
-
-            const response =
-                await fetch(
-                    "http://localhost:8080/api/ai-interview/start",
-                    {
-                        method: "POST",
-
-                        headers: {
-                            "Content-Type":
-                                "application/json",
-
-                            "Authorization":
-                                `Bearer ${token}`,
-
-                            "Accept":
-                                "application/json"
-                        },
-
-                        body: JSON.stringify({
-
-                            topic:
-                                category,
-
-                            difficulty:
-                                difficulty,
-
-                            interviewType:
-                                interviewType,
-
-                            numberOfQuestions:
-                                Number(questionCount)
-
-                        })
-                    }
-                );
-
-
-            let data = null;
-
-            try {
-
-                data =
-                    await response.json();
-
-            } catch {
-
-                data = null;
-
-            }
-
-
-            if (!response.ok) {
-
-                if (
-                    data &&
-                    data.message
-                ) {
-
-                    throw new Error(
-                        data.message
-                    );
-
-                }
-
-                throw new Error(
-                    `Failed to generate next question (${response.status})`
-                );
-
-            }
-
-
-            setInterview(data);
-
-            setQuestionNumber(
-                nextNumber
-            );
-
-            setAnswer("");
-
-            setEvaluation(null);
-
-
-        } catch (error) {
-
-            console.error(
-                "Next question error:",
-                error
-            );
+        if (
+            nextNumber >
+            Number(questionCount)
+        ) {
 
             setError(
-                error.message ||
-                "Failed to generate next question."
+                "You have completed the interview."
             );
 
-        } finally {
-
-            setLoading(false);
-
+            return;
         }
+
+
+        /*
+         * The backend evaluation now contains
+         * the context-aware follow-up question.
+         */
+
+        const followUpQuestion =
+            evaluation?.followUpQuestion;
+
+
+        if (
+            !followUpQuestion ||
+            !followUpQuestion.trim()
+        ) {
+
+            setError(
+                "The AI did not generate a follow-up question."
+            );
+
+            return;
+        }
+
+
+        /*
+         * Put the AI follow-up question directly
+         * into the current interview state.
+         */
+
+        setInterview({
+
+            question:
+                followUpQuestion
+
+        });
+
+
+        setQuestionNumber(
+            nextNumber
+        );
+
+
+        setAnswer("");
+
+        setEvaluation(null);
 
     };
 
@@ -770,6 +695,7 @@ function AIInterview() {
                                 <div className="ai-score">
 
                                     {evaluation.score ?? "—"}
+
                                     <span>
                                         /10
                                     </span>
@@ -778,6 +704,8 @@ function AIInterview() {
 
                             </div>
 
+
+                            {/* FEEDBACK */}
 
                             <div className="evaluation-card">
 
@@ -793,6 +721,8 @@ function AIInterview() {
                             </div>
 
 
+                            {/* STRENGTHS */}
+
                             <div className="evaluation-card">
 
                                 <h3>
@@ -806,6 +736,8 @@ function AIInterview() {
 
                             </div>
 
+
+                            {/* IMPROVEMENTS */}
 
                             <div className="evaluation-card">
 
@@ -821,6 +753,8 @@ function AIInterview() {
                             </div>
 
 
+                            {/* IDEAL ANSWER */}
+
                             <div className="evaluation-card">
 
                                 <h3>
@@ -835,6 +769,29 @@ function AIInterview() {
                             </div>
 
 
+                            {/* FOLLOW-UP PREVIEW */}
+
+                            {evaluation.followUpQuestion &&
+                                questionNumber <
+                                Number(questionCount) && (
+
+                                    <div className="evaluation-card">
+
+                                        <h3>
+                                            Next Question
+                                        </h3>
+
+                                        <p>
+                                            The AI will ask a
+                                            follow-up based on
+                                            your answer.
+                                        </p>
+
+                                    </div>
+
+                                )}
+
+
                             {error && (
 
                                 <div className="ai-error">
@@ -845,6 +802,10 @@ function AIInterview() {
 
                             )}
 
+
+                            {/* =================================
+                                ACTIONS
+                                ================================= */}
 
                             <div className="ai-interview-actions">
 
@@ -858,13 +819,12 @@ function AIInterview() {
                                             nextQuestion
                                         }
                                         disabled={
-                                            loading
+                                            loading ||
+                                            !evaluation.followUpQuestion
                                         }
                                     >
 
-                                        {loading
-                                            ? "Generating Question..."
-                                            : "Next Question →"}
+                                        Next Question →
 
                                     </button>
 
@@ -886,7 +846,9 @@ function AIInterview() {
                                         restartInterview
                                     }
                                 >
+
                                     ← Start New Interview
+
                                 </button>
 
                             </div>
@@ -894,7 +856,6 @@ function AIInterview() {
                         </div>
 
                     )}
-
 
                 </div>
 
@@ -1287,14 +1248,15 @@ function parseEvaluation(
 ) {
 
     /*
-     * Ideal case:
+     * Proper backend response:
      *
      * {
      *   score: 8,
      *   feedback: "...",
      *   strengths: "...",
      *   improvements: "...",
-     *   idealAnswer: "..."
+     *   idealAnswer: "...",
+     *   followUpQuestion: "..."
      * }
      */
 
@@ -1304,13 +1266,33 @@ function parseEvaluation(
         data.score !== undefined
     ) {
 
-        return data;
+        return {
+
+            score:
+                data.score,
+
+            feedback:
+                data.feedback || "",
+
+            strengths:
+                data.strengths || "",
+
+            improvements:
+                data.improvements || "",
+
+            idealAnswer:
+                data.idealAnswer || "",
+
+            followUpQuestion:
+                data.followUpQuestion || ""
+
+        };
 
     }
 
 
     /*
-     * Temporary backend response:
+     * Temporary/older backend response:
      *
      * {
      *   feedback: "{ ...JSON... }"
@@ -1334,7 +1316,27 @@ function parseEvaluation(
                 typeof parsed === "object"
             ) {
 
-                return parsed;
+                return {
+
+                    score:
+                        parsed.score ?? null,
+
+                    feedback:
+                        parsed.feedback || "",
+
+                    strengths:
+                        parsed.strengths || "",
+
+                    improvements:
+                        parsed.improvements || "",
+
+                    idealAnswer:
+                        parsed.idealAnswer || "",
+
+                    followUpQuestion:
+                        parsed.followUpQuestion || ""
+
+                };
 
             }
 
@@ -1342,7 +1344,8 @@ function parseEvaluation(
 
             return {
 
-                score: null,
+                score:
+                    null,
 
                 feedback:
                     data.feedback,
@@ -1354,6 +1357,9 @@ function parseEvaluation(
                     "",
 
                 idealAnswer:
+                    "",
+
+                followUpQuestion:
                     ""
 
             };
@@ -1365,7 +1371,8 @@ function parseEvaluation(
 
     return {
 
-        score: null,
+        score:
+            null,
 
         feedback:
             "The AI returned an unexpected evaluation format.",
@@ -1377,6 +1384,9 @@ function parseEvaluation(
             "",
 
         idealAnswer:
+            "",
+
+        followUpQuestion:
             ""
 
     };
