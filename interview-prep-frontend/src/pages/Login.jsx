@@ -134,7 +134,13 @@ function Login() {
             );
 
 
-            navigate("/dashboard");
+          const role = localStorage.getItem("role");
+
+if (role === "ADMIN") {
+    navigate("/admin");
+} else {
+    navigate("/dashboard");
+}
 
 
         } catch (error) {
