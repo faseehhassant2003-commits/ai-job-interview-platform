@@ -1,24 +1,28 @@
 # 🤖 PrepAI — AI-Powered Job & Interview Preparation Platform
 
 <p align="center">
+  <strong>An AI-powered full-stack platform for coding practice, mock interviews, and interview preparation.</strong>
+</p>
 
-**An AI-powered full-stack platform for coding practice, mock interviews, and interview preparation.**
-
-<a href="https://ai-job-interview-platform-lilac.vercel.app/login">
-  <strong>🚀 Live Demo</strong>
-</a>
-
+<p align="center">
+  <a href="https://ai-job-interview-platform-lilac.vercel.app">
+    <img src="https://img.shields.io/badge/🚀%20Live%20Demo-Visit%20PrepAI-success?style=for-the-badge" alt="Live Demo">
+  </a>
 </p>
 
 ---
 
 ## 🌟 Overview
 
-**PrepAI** is a full-stack AI-powered job and interview preparation platform built with **React** and **Spring Boot**.
+**PrepAI** is a full-stack AI-powered job and interview preparation platform built
+with **React** and **Spring Boot**.
 
-The platform allows users to practice technical questions based on topic and difficulty, track their attempts, participate in a competitive leaderboard, and conduct AI-powered mock interviews.
+The platform allows users to practice technical questions based on topic and
+difficulty, track their attempts, participate in a competitive leaderboard,
+and conduct AI-powered mock interviews.
 
-It also includes an administration panel for managing the question bank and platform content.
+It also includes an administration panel for managing the question bank and
+platform content.
 
 ---
 
@@ -26,9 +30,10 @@ It also includes an administration panel for managing the question bank and plat
 
 ### 🌐 Try PrepAI
 
-👉 **https://ai-job-interview-platform-lilac.vercel.app/login**
+**[👉 Open PrepAI](https://ai-job-interview-platform-lilac.vercel.app)**
 
-> The application is deployed in production with the frontend hosted on Vercel and the backend connected to the production environment.
+The application is deployed in production with the frontend hosted on Vercel,
+the backend deployed on Render, and PostgreSQL hosted using Neon.
 
 ---
 
@@ -36,49 +41,57 @@ It also includes an administration panel for managing the question bank and plat
 
 ## 👨‍💻 Interview Preparation
 
-* 🎯 Topic-based technical practice
-* 🎚️ Difficulty-based question selection
-* 📝 Coding and technical questions
-* 📊 Attempt history
-* 🏆 Competitive leaderboard
-* 📚 Large technical question bank
+- 🎯 Topic-based technical practice
+- 🎚️ Difficulty-based question selection
+- 📝 Technical question practice
+- 📊 Attempt history
+- 🏆 Competitive leaderboard
+- 📚 Large technical question bank
+
+---
 
 ## 🤖 AI Mock Interviews
 
-* AI-powered mock interview experience
-* Dynamic interview interaction
-* AI-generated interview responses
-* Groq API integration
-* Secure server-side API integration
-* API keys managed through environment variables
+- 🤖 AI-powered mock interview experience
+- 💬 Interactive AI interview functionality
+- 🧠 AI-generated interview responses
+- ⚡ Groq API integration
+- 🔐 Secure server-side AI API integration
+- 🔑 API keys protected using environment variables
+
+---
 
 ## 🔐 Authentication & Security
 
-* JWT-based authentication
-* Spring Security
-* BCrypt password hashing
-* Email OTP account verification
-* Role-based authorization
-* Separate MEMBER and ADMIN permissions
-* Protected REST APIs
+- 🔑 JWT-based authentication
+- 🛡️ Spring Security
+- 🔒 BCrypt password hashing
+- 📧 Email OTP account verification
+- 👥 Role-based authorization
+- 👤 MEMBER role
+- 👨‍💼 ADMIN role
+- 🔐 Protected REST API endpoints
+
+---
 
 ## 👨‍💼 Admin Panel
 
-* Question management
-* Create questions
-* Update questions
-* Delete questions
-* Bulk CSV question import
-* Question bank administration
-* Role-based administrative access
+- ➕ Create questions
+- ✏️ Update questions
+- 🗑️ Delete questions
+- 📥 Bulk CSV question import
+- 📚 Question bank management
+- 👥 Role-based administrative access
+
+---
 
 ## 📚 Question Bank
 
 The platform contains:
 
-* **3,600+ questions**
-* **12 technical topics**
-* **3 difficulty levels**
+- **3,600+ questions**
+- **12 technical topics**
+- **3 difficulty levels**
 
 ---
 
@@ -86,48 +99,79 @@ The platform contains:
 
 ## Frontend
 
-* React
-* JavaScript
-* React Router
-* HTML5
-* CSS3
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 
-## Backend
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 
-* Java
-* Spring Boot
-* Spring Security
-* Spring Data JPA
-* Hibernate
-* REST APIs
-* JWT
-* BCrypt
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 
-## Database
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 
-* PostgreSQL
-* Neon
-
-## AI
-
-* Groq API
-
-## Deployment
-
-* Vercel
-* Render
-* Neon
-
-## Development Tools
-
-* Git
-* GitHub
-* Maven
-* VS Code
+- React
+- React Router
+- JavaScript
+- HTML5
+- CSS3
 
 ---
 
-# 🏗️ Project Architecture
+## Backend
+
+![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
+
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white)
+
+![Spring Security](https://img.shields.io/badge/Spring%20Security-6DB33F?style=for-the-badge&logo=springsecurity&logoColor=white)
+
+- Java
+- Spring Boot
+- Spring Security
+- Spring Data JPA
+- Hibernate
+- REST APIs
+- JWT
+- BCrypt
+
+---
+
+## 🗄️ Database
+
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
+
+- PostgreSQL
+- Neon
+
+---
+
+## 🤖 Artificial Intelligence
+
+- Groq API
+- AI-powered mock interviews
+- LLM-powered interview interaction
+
+---
+
+## 🔧 Tools & Deployment
+
+![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
+
+![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)
+
+![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
+
+![Render](https://img.shields.io/badge/Render-46E3B7?style=for-the-badge&logo=render&logoColor=black)
+
+- Git
+- GitHub
+- Maven
+- VS Code
+- Vercel
+- Render
+- Neon
+
+---
+
+# 🏗️ System Architecture
 
 ```text
                          ┌──────────────────────┐
@@ -152,243 +196,5 @@ The platform contains:
                     ▼                                 ▼
           ┌──────────────────┐              ┌─────────────────┐
           │   PostgreSQL     │              │    Groq API     │
-          │      Neon        │              │   AI Interviews │
+          │      Neon        │              │  AI Interviews  │
           └──────────────────┘              └─────────────────┘
-```
-
----
-
-# 🔐 Authentication Flow
-
-```text
-User
- │
- ▼
-Login / Registration
- │
- ▼
-Spring Security
- │
- ▼
-JWT Authentication
- │
- ▼
-Protected REST API
- │
- ▼
-Role Authorization
- │
- ├── MEMBER
- │
- └── ADMIN
-```
-
-Passwords are protected using **BCrypt**, while JWT tokens are used to secure authenticated API requests.
-
----
-
-# 📂 Repository Structure
-
-```text
-ai-job-interview-platform/
-│
-├── interview-prep-frontend/
-│   ├── src/
-│   ├── public/
-│   ├── package.json
-│   └── ...
-│
-├── interview-prep-backend/
-│   ├── src/
-│   ├── pom.xml
-│   └── ...
-│
-└── README.md
-```
-
----
-
-# ⚙️ Running the Project Locally
-
-## 1. Clone the repository
-
-```bash
-git clone https://github.com/faseehhassant2003-commits/ai-job-interview-platform.git
-```
-
-```bash
-cd ai-job-interview-platform
-```
-
----
-
-## 2. Backend Setup
-
-Navigate to the backend:
-
-```bash
-cd interview-prep-backend
-```
-
-Configure the required environment variables and database connection.
-
-Then run:
-
-```bash
-mvn spring-boot:run
-```
-
-The Spring Boot backend will start locally.
-
----
-
-## 3. Frontend Setup
-
-Open another terminal:
-
-```bash
-cd interview-prep-frontend
-```
-
-Install dependencies:
-
-```bash
-npm install
-```
-
-Start the development server:
-
-```bash
-npm run dev
-```
-
-The React application will then be available through the local Vite development server.
-
----
-
-# 🔑 Environment Variables
-
-Sensitive credentials should **never be committed to GitHub**.
-
-Example backend configuration:
-
-```text
-DATABASE_URL=your_database_url
-DATABASE_USERNAME=your_database_username
-DATABASE_PASSWORD=your_database_password
-
-JWT_SECRET=your_jwt_secret
-
-GROQ_API_KEY=your_groq_api_key
-
-EMAIL_USERNAME=your_email
-EMAIL_PASSWORD=your_email_password
-```
-
-Use environment variables for production secrets and API credentials.
-
----
-
-# 📊 Main Modules
-
-| Module            | Description                                |
-| ----------------- | ------------------------------------------ |
-| 👤 Authentication | Registration, login and JWT authentication |
-| 🔐 Security       | Spring Security, BCrypt and authorization  |
-| 🎯 Practice       | Topic and difficulty-based practice        |
-| 📊 Attempts       | Track user practice history                |
-| 🏆 Leaderboard    | Competitive ranking system                 |
-| 🤖 AI Interview   | AI-powered mock interviews                 |
-| 👨‍💼 Admin       | Question management                        |
-| 📥 CSV Import     | Bulk question importing                    |
-| 📚 Question Bank  | 3,600+ technical questions                 |
-
----
-
-# 🚀 Deployment
-
-The application is deployed using:
-
-```text
-Frontend  → Vercel
-Backend   → Render
-Database  → Neon PostgreSQL
-AI        → Groq API
-```
-
-### 🌐 Production Application
-
-👉 **https://ai-job-interview-platform-lilac.vercel.app/login**
-
----
-
-# 🔒 Security Considerations
-
-The application implements several security mechanisms:
-
-* JWT authentication
-* Spring Security
-* BCrypt password hashing
-* Role-based authorization
-* Protected REST endpoints
-* Server-side AI API integration
-* Environment-based secret management
-* Email OTP verification
-
-The Groq API key is kept on the backend rather than exposed directly to the frontend.
-
----
-
-# 📈 Project Highlights
-
-### 3,600+
-
-Technical Questions
-
-### 12
-
-Technical Topics
-
-### 3
-
-Difficulty Levels
-
-### 2
-
-User Roles — MEMBER & ADMIN
-
----
-
-# 🎯 Future Improvements
-
-Potential future enhancements include:
-
-* 📄 AI resume analysis
-* 🎯 Personalized interview roadmaps
-* 📈 Advanced performance analytics
-* 🧠 Adaptive question recommendations
-* 💼 Job recommendation system
-* 🎤 Voice-based mock interviews
-* 📊 More detailed recruiter-style analytics
-
----
-
-# 👨‍💻 Author
-
-## Faseeh Hassan
-
-🎓 Computer Science & Engineering
-
-🌐 **Portfolio:**
-https://portfolio-r0uq.onrender.com
-
-💻 **GitHub:**
-https://github.com/faseehhassant2003-commits
-
----
-
-## ⭐ Support
-
-If you find this project interesting, consider giving the repository a ⭐ on GitHub.
-
-**Thanks for visiting! 🚀**
