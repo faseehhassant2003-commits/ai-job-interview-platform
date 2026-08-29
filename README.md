@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <a href="https://ai-job-interview-platform-lilac.vercel.app">
+  <a href="https://prep-ai-frontend-5h31.onrender.com">
     <img src="https://img.shields.io/badge/🚀%20Live%20Demo-Visit%20PrepAI-success?style=for-the-badge" alt="Live Demo">
   </a>
 </p>
