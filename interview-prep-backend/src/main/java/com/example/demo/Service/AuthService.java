@@ -33,12 +33,10 @@ public class AuthService {
     public User register(RegisterRequest request) {
 
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
-
             throw new RuntimeException(
                     "Email already registered"
             );
         }
-
 
         User user = new User();
 
@@ -54,11 +52,11 @@ public class AuthService {
                 )
         );
 
+        // Every new registration is a normal USER
         user.setRole("USER");
 
-        // New account is NOT verified yet
+        // New users must verify email
         user.setEmailVerified(false);
-
 
         // Generate OTP
         String otp = generateOtp();
@@ -69,19 +67,15 @@ public class AuthService {
                 LocalDateTime.now().plusMinutes(5)
         );
 
-
-        // Save user
         User savedUser =
                 userRepository.save(user);
 
-
-        // Send OTP email
+        // Send OTP
         emailService.sendVerificationOtpEmail(
                 savedUser.getEmail(),
                 savedUser.getName(),
                 otp
         );
-
 
         return savedUser;
     }
@@ -117,8 +111,6 @@ public class AuthService {
                                 )
                         );
 
-
-        // Already verified
         if (Boolean.TRUE.equals(
                 user.getEmailVerified()
         )) {
@@ -128,8 +120,6 @@ public class AuthService {
             );
         }
 
-
-        // Check OTP
         if (
                 user.getVerificationOtp() == null ||
                         !user.getVerificationOtp().equals(otp)
@@ -140,8 +130,6 @@ public class AuthService {
             );
         }
 
-
-        // Check expiry
         if (
                 user.getOtpExpiry() == null ||
                         LocalDateTime.now()
@@ -153,14 +141,11 @@ public class AuthService {
             );
         }
 
-
-        // Verify user
         user.setEmailVerified(true);
 
         user.setVerificationOtp(null);
 
         user.setOtpExpiry(null);
-
 
         userRepository.save(user);
     }
@@ -182,7 +167,6 @@ public class AuthService {
                                 )
                         );
 
-
         if (Boolean.TRUE.equals(
                 user.getEmailVerified()
         )) {
@@ -192,10 +176,8 @@ public class AuthService {
             );
         }
 
-
         String otp =
                 generateOtp();
-
 
         user.setVerificationOtp(otp);
 
@@ -203,9 +185,7 @@ public class AuthService {
                 LocalDateTime.now().plusMinutes(5)
         );
 
-
         userRepository.save(user);
-
 
         emailService.sendVerificationOtpEmail(
                 user.getEmail(),
@@ -223,6 +203,10 @@ public class AuthService {
             LoginRequest request
     ) {
 
+        // -------------------------------------------------
+        // FIND USER
+        // -------------------------------------------------
+
         User user =
                 userRepository.findByEmail(
                                 request.getEmail()
@@ -234,25 +218,9 @@ public class AuthService {
                         );
 
 
-        // ================================================
-        // EMAIL VERIFICATION CHECK
-        // ================================================
-
-        if (
-                Boolean.FALSE.equals(
-                        user.getEmailVerified()
-                )
-        ) {
-
-            throw new RuntimeException(
-                    "Please verify your email before logging in."
-            );
-        }
-
-
-        // ================================================
-        // PASSWORD
-        // ================================================
+        // -------------------------------------------------
+        // CHECK PASSWORD
+        // -------------------------------------------------
 
         if (!passwordEncoder.matches(
                 request.getPassword(),
@@ -265,9 +233,51 @@ public class AuthService {
         }
 
 
-        // ================================================
-        // JWT
-        // ================================================
+        // -------------------------------------------------
+        // CHECK ADMIN
+        // -------------------------------------------------
+
+        boolean isAdmin =
+                "ADMIN".equalsIgnoreCase(
+                        user.getRole()
+                );
+
+
+        // -------------------------------------------------
+        // EMAIL VERIFICATION
+        // -------------------------------------------------
+        //
+        // ADMIN:
+        // Can login without email verification.
+        //
+        // USER:
+        // Must verify email.
+        //
+
+        if (
+                !isAdmin &&
+                        !Boolean.TRUE.equals(
+                                user.getEmailVerified()
+                        )
+        ) {
+
+            throw new RuntimeException(
+                    "Please verify your email before logging in."
+            );
+        }
+
+
+        // -------------------------------------------------
+        // NORMALIZE ROLE
+        // -------------------------------------------------
+
+        String role =
+                isAdmin ? "ADMIN" : "USER";
+
+
+        // -------------------------------------------------
+        // GENERATE JWT
+        // -------------------------------------------------
 
         String token =
                 jwtUtil.generateToken(
@@ -275,11 +285,15 @@ public class AuthService {
                 );
 
 
+        // -------------------------------------------------
+        // RETURN RESPONSE
+        // -------------------------------------------------
+
         return new AuthResponse(
                 token,
                 user.getName(),
                 user.getEmail(),
-                user.getRole()
+                role
         );
     }
 }

@@ -23,6 +23,10 @@ function Login() {
 
         try {
 
+            // =====================================================
+            // LOGIN REQUEST
+            // =====================================================
+
             const response = await fetch(
                 `${API_URL}/api/auth/login`,
                 {
@@ -33,19 +37,21 @@ function Login() {
                     },
 
                     body: JSON.stringify({
-                        email,
-                        password,
+                        email: email.trim(),
+                        password: password,
                     }),
                 }
             );
 
 
+            // =====================================================
+            // READ RESPONSE
+            // =====================================================
+
             const responseText =
                 await response.text();
 
-
             let data = {};
-
 
             if (responseText) {
 
@@ -64,6 +70,10 @@ function Login() {
             }
 
 
+            // =====================================================
+            // LOGIN FAILED
+            // =====================================================
+
             if (!response.ok) {
 
                 throw new Error(
@@ -79,9 +89,9 @@ function Login() {
             );
 
 
-            // ==========================================
+            // =====================================================
             // CLEAR OLD LOGIN DATA
-            // ==========================================
+            // =====================================================
 
             localStorage.removeItem("token");
             localStorage.removeItem("name");
@@ -90,65 +100,104 @@ function Login() {
             localStorage.removeItem("user");
 
 
-            // ==========================================
-            // SAVE NEW LOGIN DATA
-            // ==========================================
+            // =====================================================
+            // SAVE TOKEN
+            // =====================================================
 
             localStorage.setItem(
                 "token",
                 data.token
             );
 
+
+            // =====================================================
+            // SAVE USER INFORMATION
+            // =====================================================
+
             localStorage.setItem(
                 "name",
-                data.name
+                data.name || ""
             );
 
             localStorage.setItem(
                 "email",
-                data.email
+                data.email || email
             );
 
             localStorage.setItem(
                 "role",
-                data.role
+                data.role || "USER"
             );
 
 
-            // ==========================================
-            // SAVE COMPLETE USER INFORMATION
-            // ==========================================
+            // =====================================================
+            // SAVE COMPLETE USER OBJECT
+            // =====================================================
 
             localStorage.setItem(
                 "user",
                 JSON.stringify({
-                    name: data.name,
-                    email: data.email,
-                    role: data.role
+                    name: data.name || "",
+                    email: data.email || email,
+                    role: data.role || "USER"
                 })
             );
 
 
-            setMessage(
-                `Login successful! Welcome ${data.name} 👋`
+            // =====================================================
+            // GET ROLE
+            // =====================================================
+
+            const role =
+                data.role ||
+                localStorage.getItem("role") ||
+                "USER";
+
+
+            console.log(
+                "Logged in role:",
+                role
             );
 
 
-          const role = localStorage.getItem("role");
+            // =====================================================
+            // SUCCESS MESSAGE
+            // =====================================================
 
-if (role === "ADMIN") {
-    navigate("/admin");
-} else {
-    navigate("/dashboard");
-}
+            setMessage(
+                `Login successful! Welcome ${
+                    data.name || ""
+                } 👋`
+            );
+
+
+            // =====================================================
+            // REDIRECT
+            // =====================================================
+
+            if (
+                role.toUpperCase() === "ADMIN"
+            ) {
+
+                navigate("/admin");
+
+            } else {
+
+                navigate("/dashboard");
+            }
 
 
         } catch (error) {
 
-            setMessage(
-                error.message
+            console.error(
+                "Login error:",
+                error
             );
 
+            setMessage(
+                error.message ||
+                "Invalid email or password"
+            );
 
         } finally {
 
@@ -163,6 +212,10 @@ if (role === "ADMIN") {
 
             <div className="register-card">
 
+                {/* =================================================
+                    BRAND
+                ================================================= */}
+
                 <div className="brand">
 
                     <h1>
@@ -172,16 +225,30 @@ if (role === "ADMIN") {
                 </div>
 
 
+                {/* =================================================
+                    SUBTITLE
+                ================================================= */}
+
                 <p className="register-subtitle">
+
                     Login to continue your
                     interview preparation
+
                 </p>
 
+
+                {/* =================================================
+                    LOGIN FORM
+                ================================================= */}
 
                 <form
                     className="register-form"
                     onSubmit={handleLogin}
                 >
+
+                    {/* =================================================
+                        EMAIL
+                    ================================================= */}
 
                     <div className="form-group">
 
@@ -193,7 +260,9 @@ if (role === "ADMIN") {
                             type="email"
                             value={email}
                             onChange={(e) =>
-                                setEmail(e.target.value)
+                                setEmail(
+                                    e.target.value
+                                )
                             }
                             placeholder="Enter your email"
                             required
@@ -201,6 +270,10 @@ if (role === "ADMIN") {
 
                     </div>
 
+
+                    {/* =================================================
+                        PASSWORD
+                    ================================================= */}
 
                     <div className="form-group">
 
@@ -212,7 +285,9 @@ if (role === "ADMIN") {
                             type="password"
                             value={password}
                             onChange={(e) =>
-                                setPassword(e.target.value)
+                                setPassword(
+                                    e.target.value
+                                )
                             }
                             placeholder="Enter your password"
                             required
@@ -220,6 +295,10 @@ if (role === "ADMIN") {
 
                     </div>
 
+
+                    {/* =================================================
+                        LOGIN BUTTON
+                    ================================================= */}
 
                     <button
                         type="submit"
@@ -229,28 +308,41 @@ if (role === "ADMIN") {
 
                         {loading
                             ? "Logging in..."
-                            : "Login"}
+                            : "Login"
+                        }
 
                     </button>
 
                 </form>
 
 
+                {/* =================================================
+                    MESSAGE
+                ================================================= */}
+
                 {message && (
 
                     <p className="register-message">
+
                         {message}
+
                     </p>
 
                 )}
 
+
+                {/* =================================================
+                    REGISTER LINK
+                ================================================= */}
 
                 <p className="login-link">
 
                     Don't have an account?{" "}
 
                     <Link to="/register">
+
                         Create Account
+
                     </Link>
 
                 </p>
@@ -262,4 +354,3 @@ if (role === "ADMIN") {
 }
 
 export default Login;
-

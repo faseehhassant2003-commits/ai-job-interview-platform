@@ -24,9 +24,23 @@ public class SecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
 
-    public SecurityConfig(JwtAuthFilter jwtAuthFilter) {
-        this.jwtAuthFilter = jwtAuthFilter;
+
+    // =====================================================
+    // CONSTRUCTOR
+    // =====================================================
+
+    public SecurityConfig(
+            JwtAuthFilter jwtAuthFilter
+    ) {
+
+        this.jwtAuthFilter =
+                jwtAuthFilter;
     }
+
+
+    // =====================================================
+    // SECURITY FILTER CHAIN
+    // =====================================================
 
     @Bean
     public SecurityFilterChain securityFilterChain(
@@ -35,76 +49,118 @@ public class SecurityConfig {
 
         http
 
-                // =========================
+                // =================================================
                 // CORS
-                // =========================
+                // =================================================
+
                 .cors(cors ->
                         cors.configurationSource(
                                 corsConfigurationSource()
                         )
                 )
 
-                // =========================
-                // CSRF
-                // =========================
-                .csrf(csrf -> csrf.disable())
 
-                // =========================
+                // =================================================
+                // CSRF
+                // =================================================
+
+                .csrf(csrf ->
+                        csrf.disable()
+                )
+
+
+                // =================================================
                 // SESSION
-                // =========================
+                // =================================================
+
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(
                                 SessionCreationPolicy.STATELESS
                         )
                 )
 
-                // =========================
+
+                // =================================================
                 // AUTHORIZATION
-                // =========================
+                // =================================================
+
                 .authorizeHttpRequests(auth -> auth
 
-                        // Login / Register / OTP
+                        // -----------------------------------------
+                        // LOGIN / REGISTER / OTP
+                        // -----------------------------------------
+
                         .requestMatchers(
                                 "/api/auth/**"
-                        ).permitAll()
+                        )
+                        .permitAll()
 
-                        // CORS preflight
+
+                        // -----------------------------------------
+                        // CORS PREFLIGHT
+                        // -----------------------------------------
+
                         .requestMatchers(
                                 HttpMethod.OPTIONS,
                                 "/**"
-                        ).permitAll()
+                        )
+                        .permitAll()
 
-                        // Admin APIs
+
+                        // -----------------------------------------
+                        // ADMIN APIs
+                        // -----------------------------------------
+
                         .requestMatchers(
                                 "/api/admin/**"
-                        ).hasRole("ADMIN")
+                        )
+                        .hasRole("ADMIN")
 
-                        // Everything else requires authentication
-                        .anyRequest().authenticated()
+
+                        // -----------------------------------------
+                        // EVERYTHING ELSE
+                        // -----------------------------------------
+
+                        .anyRequest()
+                        .authenticated()
                 )
 
-                // =========================
-                // DISABLE DEFAULT LOGIN
-                // =========================
-                .formLogin(form -> form.disable())
 
-                .httpBasic(basic -> basic.disable())
+                // =================================================
+                // DISABLE FORM LOGIN
+                // =================================================
 
-                // =========================
+                .formLogin(form ->
+                        form.disable()
+                )
+
+
+                // =================================================
+                // DISABLE HTTP BASIC
+                // =================================================
+
+                .httpBasic(basic ->
+                        basic.disable()
+                )
+
+
+                // =================================================
                 // JWT FILTER
-                // =========================
+                // =================================================
+
                 .addFilterBefore(
                         jwtAuthFilter,
                         UsernamePasswordAuthenticationFilter.class
                 );
 
+
         return http.build();
     }
 
 
-    // =========================================================
+    // =====================================================
     // CORS CONFIGURATION
-    // =========================================================
+    // =====================================================
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
@@ -112,9 +168,11 @@ public class SecurityConfig {
         CorsConfiguration configuration =
                 new CorsConfiguration();
 
-        // =========================
+
+        // =================================================
         // ALLOWED FRONTENDS
-        // =========================
+        // =================================================
+
         configuration.setAllowedOrigins(
                 List.of(
 
@@ -123,18 +181,19 @@ public class SecurityConfig {
                         "http://localhost:5174",
                         "http://localhost:5175",
 
-                        // OLD VERCEL FRONTEND
+                        // Vercel frontend
                         "https://ai-job-interview-platform-lilac.vercel.app",
 
-                        // NEW RENDER FRONTEND
+                        // Render frontend
                         "https://prep-ai-frontend-5h31.onrender.com"
                 )
         );
 
 
-        // =========================
-        // ALLOWED HTTP METHODS
-        // =========================
+        // =================================================
+        // ALLOWED METHODS
+        // =================================================
+
         configuration.setAllowedMethods(
                 List.of(
                         "GET",
@@ -147,23 +206,26 @@ public class SecurityConfig {
         );
 
 
-        // =========================
+        // =================================================
         // ALLOWED HEADERS
-        // =========================
+        // =================================================
+
         configuration.setAllowedHeaders(
                 List.of("*")
         );
 
 
-        // =========================
+        // =================================================
         // CREDENTIALS
-        // =========================
+        // =================================================
+
         configuration.setAllowCredentials(true);
 
 
-        // =========================
+        // =================================================
         // REGISTER CORS
-        // =========================
+        // =================================================
+
         UrlBasedCorsConfigurationSource source =
                 new UrlBasedCorsConfigurationSource();
 
@@ -171,6 +233,7 @@ public class SecurityConfig {
                 "/**",
                 configuration
         );
+
 
         return source;
     }
