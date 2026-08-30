@@ -1,159 +1,49 @@
-import {
-    BrowserRouter,
-    Routes,
-    Route,
-    Navigate
-} from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import VerifyOtp from "./pages/VerifyOtp";
-import Leaderboard from "./pages/Leaderboard";
-import Dashboard from "./pages/Dashboard";
-import Register from "./pages/Register";
+import Introduction from "./pages/Introduction";
 import Login from "./pages/Login";
-import Practice from "./pages/Practice";
-import History from "./pages/History";
-import AdminQuestions from "./pages/AdminQuestions";
-import AdminDashboard from "./pages/AdminDashboard";
-import AIInterview from "./pages/AIInterview";
+import Register from "./pages/Register";
 
-import ProtectedRoute from "./components/ProtectedRoute";
-import Layout from "./components/Layout";
+// Import your other existing pages here
+// import Dashboard from "./pages/Dashboard";
+// import Admin from "./pages/Admin";
 
 function App() {
-
     return (
         <BrowserRouter>
 
             <Routes>
 
-                {/* =========================================
-                    PUBLIC ROUTES
-                ========================================= */}
-
+                {/* INTRODUCTION / HOME PAGE */}
                 <Route
                     path="/"
-                    element={
-                        <Navigate
-                            to="/login"
-                            replace
-                        />
-                    }
+                    element={<Introduction />}
                 />
 
-                <Route
-                    path="/register"
-                    element={<Register />}
-                />
-
+                {/* LOGIN */}
                 <Route
                     path="/login"
                     element={<Login />}
                 />
 
+                {/* REGISTER */}
                 <Route
-                    path="/verify-otp"
-                    element={<VerifyOtp />}
+                    path="/register"
+                    element={<Register />}
                 />
 
-
-                {/* =========================================
-                    PROTECTED ROUTES
-                    SHARED NAVBAR + LAYOUT
-                ========================================= */}
-
+                {/* KEEP YOUR EXISTING ROUTES BELOW */}
+                {/* 
                 <Route
-                    element={
-                        <ProtectedRoute>
-                            <Layout />
-                        </ProtectedRoute>
-                    }
-                >
-
-                    {/* =====================================
-                        USER DASHBOARD
-                    ===================================== */}
-
-                    <Route
-                        path="/dashboard"
-                        element={<Dashboard />}
-                    />
-
-
-                    {/* =====================================
-                        PRACTICE
-                    ===================================== */}
-
-                    <Route
-                        path="/practice"
-                        element={<Practice />}
-                    />
-
-
-                    {/* =====================================
-                        HISTORY
-                    ===================================== */}
-
-                    <Route
-                        path="/history"
-                        element={<History />}
-                    />
-
-
-                    {/* =====================================
-                        LEADERBOARD
-                    ===================================== */}
-
-                    <Route
-                        path="/leaderboard"
-                        element={<Leaderboard />}
-                    />
-
-
-                    {/* =====================================
-                        AI INTERVIEW
-                    ===================================== */}
-
-                    <Route
-                        path="/ai-interview"
-                        element={<AIInterview />}
-                    />
-
-
-                    {/* =====================================
-                        ADMIN DASHBOARD
-                    ===================================== */}
-
-                    <Route
-                        path="/admin"
-                        element={<AdminDashboard />}
-                    />
-
-
-                    {/* =====================================
-                        ADMIN QUESTION MANAGEMENT
-                    ===================================== */}
-
-                    <Route
-                        path="/admin/questions"
-                        element={<AdminQuestions />}
-                    />
-
-                </Route>
-
-
-                {/* =========================================
-                    FALLBACK
-                ========================================= */}
-
-                <Route
-                    path="*"
-                    element={
-                        <Navigate
-                            to="/dashboard"
-                            replace
-                        />
-                    }
+                    path="/dashboard"
+                    element={<Dashboard />}
                 />
+
+                <Route
+                    path="/admin"
+                    element={<Admin />}
+                />
+                */}
 
             </Routes>
 

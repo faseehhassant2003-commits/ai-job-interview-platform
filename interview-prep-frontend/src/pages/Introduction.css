@@ -1,0 +1,1052 @@
+/* =========================================================
+   INTERVIEW PREP - INTRODUCTION PAGE
+   WHITE + BLACK + GREEN THEME
+========================================================= */
+
+.intro-page {
+    min-height: 100vh;
+    background: #f5f7fa;
+    color: #111827;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+.intro-navbar {
+    width: 100%;
+    min-height: 100px;
+
+    padding: 0 7%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    background: #ffffff;
+
+    border-bottom: 1px solid #e5e7eb;
+
+    box-sizing: border-box;
+}
+
+
+/* Logo */
+
+.intro-logo {
+    font-size: 38px;
+    font-weight: 800;
+    letter-spacing: -1.5px;
+
+    color: #111827;
+}
+
+.intro-logo span {
+    color: #168b5a;
+}
+
+
+/* Navbar buttons */
+
+.intro-nav-buttons {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.intro-login-btn,
+.intro-register-btn {
+    text-decoration: none;
+
+    padding: 15px 30px;
+
+    border-radius: 8px;
+
+    font-size: 17px;
+    font-weight: 600;
+
+    transition: 0.2s ease;
+
+    box-sizing: border-box;
+}
+
+
+/* Login */
+
+.intro-login-btn {
+    background: #ffffff;
+
+    color: #168b5a;
+
+    border: 1.5px solid #168b5a;
+}
+
+.intro-login-btn:hover {
+    background: #168b5a;
+    color: #ffffff;
+}
+
+
+/* Register */
+
+.intro-register-btn {
+    background: #168b5a;
+
+    color: #ffffff;
+
+    border: 1.5px solid #168b5a;
+}
+
+.intro-register-btn:hover {
+    background: #117448;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.intro-hero {
+    width: calc(100% - 48px);
+    max-width: 1200px;
+
+    margin: 35px auto 0;
+
+    padding: 70px 60px;
+
+    background: #ffffff;
+
+    border: 1px solid #dfe3e8;
+
+    border-radius: 32px;
+
+    display: grid;
+
+    grid-template-columns: 1.05fr 0.95fr;
+
+    align-items: center;
+
+    gap: 60px;
+
+    box-sizing: border-box;
+}
+
+
+/* Hero content */
+
+.intro-content {
+    text-align: left;
+}
+
+
+/* Badge */
+
+.intro-badge {
+    display: inline-block;
+
+    padding: 13px 24px;
+
+    margin-bottom: 28px;
+
+    border-radius: 40px;
+
+    background: #eaf7f1;
+
+    border: 1px solid #b9dfcc;
+
+    color: #168b5a;
+
+    font-size: 15px;
+
+    font-weight: 700;
+}
+
+
+/* Hero heading */
+
+.intro-content h1 {
+    margin: 0;
+
+    font-size: 58px;
+
+    line-height: 1.05;
+
+    letter-spacing: -2px;
+
+    color: #111827;
+}
+
+.intro-content h1 span {
+    color: #168b5a;
+}
+
+
+/* Hero paragraph */
+
+.intro-content > p {
+    max-width: 650px;
+
+    margin: 28px 0 0;
+
+    font-size: 18px;
+
+    line-height: 1.7;
+
+    color: #64748b;
+}
+
+
+/* Hero buttons */
+
+.intro-actions {
+    display: flex;
+
+    gap: 15px;
+
+    margin-top: 32px;
+}
+
+.intro-primary-btn,
+.intro-secondary-btn {
+    display: inline-block;
+
+    padding: 15px 28px;
+
+    border-radius: 8px;
+
+    text-decoration: none;
+
+    font-size: 16px;
+
+    font-weight: 600;
+
+    transition: 0.2s ease;
+}
+
+
+/* Get Started */
+
+.intro-primary-btn {
+    background: #168b5a;
+
+    color: #ffffff;
+
+    border: 1px solid #168b5a;
+}
+
+.intro-primary-btn:hover {
+    background: #117448;
+}
+
+
+/* Login */
+
+.intro-secondary-btn {
+    background: #ffffff;
+
+    color: #168b5a;
+
+    border: 1px solid #168b5a;
+}
+
+.intro-secondary-btn:hover {
+    background: #eaf7f1;
+}
+
+
+/* =========================================================
+   AI CARD
+========================================================= */
+
+.intro-visual {
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+}
+
+.ai-card {
+    width: 100%;
+
+    max-width: 440px;
+
+    padding: 30px;
+
+    background: #111827;
+
+    border-radius: 22px;
+
+    box-shadow:
+        0 20px 45px rgba(0, 0, 0, 0.14);
+
+    box-sizing: border-box;
+}
+
+
+/* AI header */
+
+.ai-card-header {
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+}
+
+.ai-icon {
+    width: 52px;
+    height: 52px;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 14px;
+
+    background: #168b5a;
+
+    color: #ffffff;
+
+    font-size: 18px;
+
+    font-weight: 800;
+}
+
+.ai-card-header h3 {
+    margin: 0;
+
+    color: #ffffff;
+
+    font-size: 18px;
+}
+
+.ai-card-header p {
+    margin: 5px 0 0;
+
+    color: #94a3b8;
+
+    font-size: 13px;
+}
+
+
+/* Question */
+
+.ai-question {
+    margin-top: 30px;
+
+    padding: 20px;
+
+    background: #1f2937;
+
+    border-radius: 14px;
+}
+
+.ai-question span {
+    display: block;
+
+    margin-bottom: 10px;
+
+    color: #32a86e;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+}
+
+.ai-question p {
+    margin: 0;
+
+    color: #e5e7eb;
+
+    font-size: 15px;
+
+    line-height: 1.6;
+}
+
+
+/* Progress */
+
+.ai-progress {
+    margin-top: 25px;
+}
+
+.progress-label {
+    display: flex;
+
+    justify-content: space-between;
+
+    margin-bottom: 9px;
+
+    color: #cbd5e1;
+
+    font-size: 12px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 7px;
+
+    overflow: hidden;
+
+    border-radius: 20px;
+
+    background: #374151;
+}
+
+.progress-fill {
+    width: 85%;
+    height: 100%;
+
+    background: #168b5a;
+
+    border-radius: 20px;
+}
+
+
+/* Stats */
+
+.ai-stats {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 10px;
+
+    margin-top: 25px;
+}
+
+.ai-stats > div {
+    text-align: center;
+
+    padding: 13px 5px;
+
+    background: #1f2937;
+
+    border-radius: 10px;
+}
+
+.ai-stats strong {
+    display: block;
+
+    color: #32a86e;
+
+    font-size: 19px;
+}
+
+.ai-stats span {
+    display: block;
+
+    margin-top: 4px;
+
+    color: #94a3b8;
+
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   FEATURES
+========================================================= */
+
+.intro-features {
+    width: calc(100% - 48px);
+    max-width: 1200px;
+
+    margin: 35px auto 0;
+
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 20px;
+
+    box-sizing: border-box;
+}
+
+.feature {
+    padding: 32px 28px;
+
+    background: #ffffff;
+
+    border: 1px solid #dfe3e8;
+
+    border-radius: 18px;
+
+    text-align: center;
+
+    transition: 0.2s ease;
+}
+
+.feature:hover {
+    transform: translateY(-4px);
+
+    border-color: #b9dfcc;
+
+    box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.06);
+}
+
+.feature-icon {
+    width: 55px;
+    height: 55px;
+
+    margin: 0 auto 18px;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 14px;
+
+    background: #eaf7f1;
+
+    font-size: 25px;
+}
+
+.feature h3 {
+    margin: 0 0 10px;
+
+    color: #111827;
+
+    font-size: 18px;
+}
+
+.feature p {
+    margin: 0;
+
+    color: #64748b;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   HOW IT WORKS
+========================================================= */
+
+.intro-section {
+    width: calc(100% - 48px);
+    max-width: 1200px;
+
+    margin: 90px auto 0;
+
+    box-sizing: border-box;
+}
+
+.section-heading {
+    max-width: 700px;
+
+    margin: 0 auto 45px;
+
+    text-align: center;
+}
+
+.section-label {
+    display: inline-block;
+
+    margin-bottom: 12px;
+
+    color: #168b5a;
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+    letter-spacing: 2px;
+}
+
+.section-heading h2 {
+    margin: 0;
+
+    color: #111827;
+
+    font-size: 42px;
+
+    line-height: 1.2;
+}
+
+.section-heading h2 span {
+    color: #168b5a;
+}
+
+.section-heading p {
+    margin-top: 14px;
+
+    color: #64748b;
+
+    font-size: 16px;
+
+    line-height: 1.6;
+}
+
+
+/* Steps */
+
+.steps-container {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 18px;
+}
+
+.step-card {
+    padding: 28px 22px;
+
+    background: #ffffff;
+
+    border: 1px solid #dfe3e8;
+
+    border-radius: 18px;
+}
+
+.step-number {
+    margin-bottom: 18px;
+
+    color: #168b5a;
+
+    font-size: 14px;
+
+    font-weight: 800;
+}
+
+.step-card h3 {
+    margin: 0 0 10px;
+
+    color: #111827;
+
+    font-size: 17px;
+}
+
+.step-card p {
+    margin: 0;
+
+    color: #64748b;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   WHY SECTION
+========================================================= */
+
+.why-section {
+    width: calc(100% - 48px);
+    max-width: 1200px;
+
+    margin: 90px auto 0;
+
+    padding: 60px;
+
+    background: #ffffff;
+
+    border: 1px solid #dfe3e8;
+
+    border-radius: 28px;
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 70px;
+
+    box-sizing: border-box;
+}
+
+.why-content h2 {
+    margin: 0;
+
+    color: #111827;
+
+    font-size: 40px;
+
+    line-height: 1.2;
+}
+
+.why-content h2 span {
+    color: #168b5a;
+}
+
+.why-content > p {
+    margin-top: 20px;
+
+    color: #64748b;
+
+    font-size: 16px;
+
+    line-height: 1.7;
+}
+
+.why-list {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 22px;
+}
+
+.why-item {
+    display: flex;
+
+    gap: 15px;
+
+    align-items: flex-start;
+}
+
+.check {
+    width: 30px;
+    height: 30px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #eaf7f1;
+
+    color: #168b5a;
+
+    font-weight: 800;
+}
+
+.why-item h3 {
+    margin: 0 0 5px;
+
+    color: #111827;
+
+    font-size: 17px;
+}
+
+.why-item p {
+    margin: 0;
+
+    color: #64748b;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   PRACTICE AREAS
+========================================================= */
+
+.practice-section {
+    width: calc(100% - 48px);
+    max-width: 1200px;
+
+    margin: 90px auto 0;
+
+    box-sizing: border-box;
+}
+
+.practice-grid {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 18px;
+}
+
+.practice-card {
+    padding: 28px 22px;
+
+    background: #ffffff;
+
+    border: 1px solid #dfe3e8;
+
+    border-radius: 18px;
+}
+
+.practice-icon {
+    width: 50px;
+    height: 50px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 18px;
+
+    border-radius: 14px;
+
+    background: #eaf7f1;
+
+    font-size: 24px;
+}
+
+.practice-card h3 {
+    margin: 0 0 10px;
+
+    color: #111827;
+
+    font-size: 17px;
+}
+
+.practice-card p {
+    margin: 0;
+
+    color: #64748b;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   CTA
+========================================================= */
+
+.intro-cta {
+    width: calc(100% - 48px);
+    max-width: 1200px;
+
+    margin: 90px auto 0;
+
+    padding: 55px 60px;
+
+    background: #111827;
+
+    border-radius: 26px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 30px;
+
+    box-sizing: border-box;
+}
+
+.intro-cta h2 {
+    margin: 0;
+
+    color: #ffffff;
+
+    font-size: 35px;
+
+    line-height: 1.25;
+}
+
+.intro-cta h2 span {
+    color: #32a86e;
+}
+
+.intro-cta p {
+    margin: 12px 0 0;
+
+    color: #cbd5e1;
+
+    font-size: 15px;
+}
+
+.cta-button {
+    flex-shrink: 0;
+
+    padding: 15px 28px;
+
+    background: #168b5a;
+
+    color: #ffffff;
+
+    border: 1px solid #168b5a;
+
+    border-radius: 8px;
+
+    text-decoration: none;
+
+    font-weight: 600;
+}
+
+.cta-button:hover {
+    background: #117448;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.intro-footer {
+    max-width: 1200px;
+
+    margin: 70px auto 0;
+
+    padding: 0 20px 30px;
+
+    text-align: center;
+
+    box-sizing: border-box;
+}
+
+.footer-logo {
+    font-size: 24px;
+
+    font-weight: 800;
+
+    color: #111827;
+}
+
+.footer-logo span {
+    color: #168b5a;
+}
+
+.intro-footer > p {
+    color: #64748b;
+
+    font-size: 14px;
+}
+
+.footer-line {
+    width: 100%;
+
+    height: 1px;
+
+    margin: 25px 0 18px;
+
+    background: #dfe3e8;
+}
+
+.intro-footer .copyright {
+    color: #94a3b8;
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 1000px) {
+
+    .intro-hero {
+        grid-template-columns: 1fr;
+
+        text-align: center;
+    }
+
+    .intro-content {
+        text-align: center;
+    }
+
+    .intro-content > p {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .intro-actions {
+        justify-content: center;
+    }
+
+    .steps-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .practice-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .why-section {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+@media (max-width: 700px) {
+
+    .intro-navbar {
+        padding: 20px;
+
+        flex-direction: column;
+
+        gap: 20px;
+    }
+
+    .intro-logo {
+        font-size: 32px;
+    }
+
+    .intro-hero {
+        width: calc(100% - 24px);
+
+        padding: 45px 25px;
+
+        border-radius: 24px;
+    }
+
+    .intro-content h1 {
+        font-size: 42px;
+    }
+
+    .intro-content > p {
+        font-size: 16px;
+    }
+
+    .intro-features {
+        width: calc(100% - 24px);
+
+        grid-template-columns: 1fr;
+    }
+
+    .intro-section,
+    .practice-section {
+        width: calc(100% - 24px);
+    }
+
+    .steps-container,
+    .practice-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .why-section {
+        width: calc(100% - 24px);
+
+        padding: 40px 25px;
+
+        border-radius: 22px;
+    }
+
+    .intro-cta {
+        width: calc(100% - 24px);
+
+        padding: 40px 25px;
+
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+    .intro-cta h2 {
+        font-size: 29px;
+    }
+
+    .cta-button {
+        width: 100%;
+
+        text-align: center;
+    }
+}
